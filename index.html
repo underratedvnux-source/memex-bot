@@ -254,26 +254,68 @@ footer {
   border: 1px solid var(--border);
 }
 
-/* MESSAGE DE CONFIRMATION */
-
-.confirmation-message {
-  margin-top: 24px;
-  padding: 20px;
-  border: 1px solid var(--accent);
-  border-radius: 10px;
-  background: rgba(34, 211, 238, 0.08);
-  color: var(--text);
+.card.clickable {
+  cursor: pointer;
+  transition: border-color .2s, transform .2s;
 }
-
-.confirmation-message p {
-  margin: 8px 0 0;
-  color: var(--muted);
+.card.clickable:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
 }
-
-.confirmation-message .status {
+.card .more {
+  display: inline-block;
+  margin-top: 16px;
   color: var(--accent);
+  font-size: 0.9rem;
   font-weight: 600;
 }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+.modal-overlay.hidden { display: none; }
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  max-width: 640px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 36px;
+  position: relative;
+}
+.modal h3 { font-size: 1.5rem; margin-bottom: 16px; color: var(--accent); }
+.modal h4 { margin: 22px 0 8px; font-size: 1.05rem; }
+.modal p, .modal li { color: var(--muted); font-size: 0.95rem; }
+.modal ul { padding-left: 20px; }
+.modal li { margin-bottom: 6px; }
+.modal .risk {
+  margin-top: 22px;
+  padding: 14px 16px;
+  border: 1px solid #f87171;
+  border-radius: 8px;
+  background: rgba(248,113,113,.08);
+}
+.modal .risk strong { color: #f87171; }
+.modal-close {
+  position: absolute;
+  top: 14px; right: 18px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+.modal-close:hover { color: var(--text); }
 
 @media (max-width: 600px) {
   nav {
@@ -324,23 +366,34 @@ footer {
 <section class="features" id="features">
   <div class="container" style="display:contents;">
 
-    <div class="card">
+    <div class="card clickable" onclick="openFeature('sniper')">
       <h3>Sniper & Auto-buy</h3>
       <p>Détection des nouveaux tokens et achat automatique au lancement.</p>
+      <span class="more">En savoir plus →</span>
     </div>
 
-    <div class="card">
+    <div class="card clickable" onclick="openFeature('copy')">
       <h3>Copy Trading</h3>
       <p>Suivez des wallets et répliquez leurs transactions.</p>
+      <span class="more">En savoir plus →</span>
     </div>
 
-    <div class="card">
+    <div class="card clickable" onclick="openFeature('tpsl')">
       <h3>Take-profit & Stop-loss</h3>
       <p>Vente automatique selon vos seuils de profit ou de perte.</p>
+      <span class="more">En savoir plus →</span>
     </div>
 
   </div>
 </section>
+
+<!-- MODALE -->
+<div id="feature-modal" class="modal-overlay hidden" onclick="closeFeature(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeFeature()" aria-label="Fermer">&times;</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
 
 <section class="generator" id="generator">
   <div class="container">
@@ -388,15 +441,6 @@ footer {
       >
         Vérifier le paiement et débloquer
       </button>
-
-      <!-- MESSAGE AFFICHÉ APRÈS LE DÉPÔT -->
-
-      <div id="confirmation-message" class="confirmation-message hidden">
-        <div class="status">✓ Capture d'écran reçue !</div>
-        <p>
-          Veuillez patienter, votre capture d'écran est en cours d'analyse.
-        </p>
-      </div>
 
     </div>
 
@@ -446,7 +490,7 @@ footer {
 <footer>
   <div class="container">
     MemecoinBot © 2025 — Outil de génération de bots de trading.
-    Trading à haut risque.*
+    Trading à haut risque.
   </div>
 </footer>
 
@@ -496,10 +540,6 @@ function previewScreenshot(event) {
   const file = event.target.files[0];
   const preview = document.getElementById('preview');
 
-  // Masquer l'ancien message si une nouvelle capture est déposée
-  document.getElementById('confirmation-message')
-    .classList.add('hidden');
-
   if (file && file.type.startsWith('image/')) {
     preview.src = URL.createObjectURL(file);
     preview.classList.remove('hidden');
@@ -508,9 +548,8 @@ function previewScreenshot(event) {
   }
 }
 
-// PAYMENT CONFIRMATION MESSAGE
+// PAYMENT DEMO
 function confirmPayment() {
-
   const fileInput = document.getElementById('screenshot');
 
   if (!fileInput.files || fileInput.files.length === 0) {
@@ -525,17 +564,10 @@ function confirmPayment() {
     return;
   }
 
-  // Afficher le message de confirmation
-  const message = document.getElementById('confirmation-message');
+  // ATTENTION : une capture d'écran ne vérifie pas réellement un paiement.
+  alert("Capture reçue. La vérification réelle du paiement nécessite un système serveur.");
 
-  message.classList.remove('hidden');
-
-  // Faire apparaître le message à l'écran
-  message.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
-  });
-
+  // Démonstration uniquement : ne pas considérer cela comme une validation de paiement.
 }
 
 // BOT GENERATOR DEMO
@@ -563,12 +595,103 @@ function generateBot(e) {
   document.getElementById('output').textContent = code;
 }
 
+const FEATURES = {
+  sniper: `
+    <h3>Sniper & Auto-buy</h3>
+    <p>Le sniper surveille la blockchain en continu et achète un token dès qu'il devient
+    négociable, parfois quelques secondes après sa création.</p>
+
+    <h4>Comment ça fonctionne</h4>
+    <ul>
+      <li><strong>Détection :</strong> le bot écoute la création de nouveaux pools de liquidité
+      (Pump.fun, Raydium sur Solana ; Uniswap sur Ethereum ; PancakeSwap sur BSC).</li>
+      <li><strong>Filtres :</strong> il peut ignorer les tokens selon des critères (liquidité minimale,
+      autorité de mint révoquée, taxes, etc.).</li>
+      <li><strong>Achat automatique :</strong> il envoie la transaction avec le montant configuré,
+      une tolérance de slippage et des frais de priorité pour passer avant les autres.</li>
+    </ul>
+
+    <h4>Paramètres typiques</h4>
+    <ul>
+      <li>Montant par achat</li>
+      <li>Slippage maximum</li>
+      <li>Frais de priorité / gas</li>
+      <li>Liquidité minimale du pool</li>
+    </ul>
+
+    <div class="risk"><strong>Risques :</strong> la grande majorité des nouveaux memecoins perdent
+    presque toute leur valeur. Rug pulls, honeypots (impossible de revendre) et bots concurrents
+    plus rapides sont fréquents. N'investissez que ce que vous pouvez perdre.</div>
+  `,
+  copy: `
+    <h3>Copy Trading</h3>
+    <p>Le copy trading consiste à suivre l'adresse d'un ou plusieurs wallets
+    et à reproduire automatiquement leurs transactions.</p>
+
+    <h4>Comment ça fonctionne</h4>
+    <ul>
+      <li><strong>Sélection :</strong> vous indiquez les adresses de wallets à suivre.</li>
+      <li><strong>Surveillance :</strong> le bot détecte chaque achat ou vente de ces wallets.</li>
+      <li><strong>Réplication :</strong> il exécute la même opération avec votre propre montant
+      (fixe ou proportionnel à celui du wallet suivi).</li>
+    </ul>
+
+    <h4>Paramètres typiques</h4>
+    <ul>
+      <li>Liste des wallets suivis</li>
+      <li>Montant fixe ou ratio par trade</li>
+      <li>Filtres (ignorer certains tokens, plafond par position)</li>
+      <li>Slippage maximum</li>
+    </ul>
+
+    <div class="risk"><strong>Risques :</strong> vous entrez toujours après le wallet copié, donc à un
+    prix moins bon. Un wallet performant dans le passé ne garantit rien, et certains
+    sont des initiés qui vendent pendant que vous achetez.</div>
+  `,
+  tpsl: `
+    <h3>Take-profit & Stop-loss</h3>
+    <p>Ces deux ordres automatisent vos sorties de position pour ne pas
+    dépendre de votre présence devant l'écran.</p>
+
+    <h4>Définitions</h4>
+    <ul>
+      <li><strong>Take-profit :</strong> vente automatique quand le prix atteint un gain cible
+      (ex. +100 %). Il permet de sécuriser les profits.</li>
+      <li><strong>Stop-loss :</strong> vente automatique quand le prix tombe sous un seuil
+      (ex. −30 %). Il limite les pertes.</li>
+      <li><strong>Trailing stop :</strong> le seuil de stop-loss suit le prix à la hausse
+      et se déclenche si le prix recule d'un certain pourcentage depuis son plus haut.</li>
+      <li><strong>Ventes partielles :</strong> vendre par paliers (ex. 50 % à x2, le reste à x5).</li>
+    </ul>
+
+    <h4>Exemple</h4>
+    <p>Achat à 100 $ avec TP à +100 % et SL à −30 % : le bot vend à 200 $ si le prix monte,
+    ou à 70 $ si le prix baisse, selon ce qui arrive en premier.</p>
+
+    <div class="risk"><strong>Risques :</strong> sur les memecoins, le prix peut chuter de 90 %
+    en quelques secondes. Le stop-loss ne garantit pas le prix de sortie (slippage),
+    et si la liquidité disparaît ou si le token est un honeypot, la vente peut échouer.</div>
+  `
+};
+
+function openFeature(key) {
+  document.getElementById('modal-content').innerHTML = FEATURES[key];
+  document.getElementById('feature-modal').classList.remove('hidden');
+}
+
+function closeFeature(event) {
+  // ferme au clic sur le fond sombre ou sur la croix
+  if (!event || event.target.id === 'feature-modal' || event.currentTarget.classList?.contains('modal-close')) {
+    document.getElementById('feature-modal').classList.add('hidden');
+  }
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('feature-modal').classList.add('hidden');
+});
+
 </script>
 
 </body>
 </html>
 
-</script>
-
-</body>
-</html>
