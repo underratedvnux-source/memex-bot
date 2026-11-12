@@ -1,0 +1,571 @@
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MemecoinBot – Créez vos bots de trading memecoins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0a0a0a;
+  --card: #141414;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --accent: #22d3ee;
+  --accent-hover: #06b6d4;
+  --border: #262626;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+header {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--accent);
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 28px;
+  font-size: 0.95rem;
+}
+
+nav a:hover {
+  color: var(--text);
+}
+
+nav .admin-link {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.hero {
+  padding: 120px 0 80px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--muted);
+  max-width: 620px;
+  margin: 0 auto 40px;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #000;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 80px 0;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.generator {
+  padding: 80px 0;
+}
+
+.generator h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+label {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+select, input {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+pre {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  color: #a3e635;
+  white-space: pre-wrap;
+}
+
+footer {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+.payment-box {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+}
+
+.payment-box h3 {
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+
+.payment-box p {
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+.address {
+  background: #0a0a0a;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  word-break: break-all;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.hidden {
+  display: none;
+}
+
+.file-upload {
+  margin: 20px 0;
+  text-align: left;
+}
+
+.file-upload label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.file-upload input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  background: var(--card);
+  border: 1px dashed var(--accent);
+  color: var(--text);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.preview {
+  margin-top: 12px;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+/* MESSAGE DE CONFIRMATION */
+
+.confirmation-message {
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: rgba(34, 211, 238, 0.08);
+  color: var(--text);
+}
+
+.confirmation-message p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.confirmation-message .status {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  nav a {
+    margin-left: 12px;
+    font-size: 0.8rem;
+  }
+
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">MemecoinBot</div>
+
+      <div>
+        <a href="#features">Fonctionnalités</a>
+        <a href="#generator">Générateur</a>
+        <a href="#" class="admin-link" onclick="adminLogin(event)">ADMIN</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>Créez vos bots de trading memecoins</h1>
+    <p>
+      Générez en quelques secondes des bots prêts à sniper,
+      copier les whales et trader automatiquement sur Solana,
+      Ethereum et Pump.fun.
+    </p>
+    <a href="#generator" class="btn">Générer mon bot</a>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container" style="display:contents;">
+
+    <div class="card">
+      <h3>Sniper & Auto-buy</h3>
+      <p>Détection des nouveaux tokens et achat automatique au lancement.</p>
+    </div>
+
+    <div class="card">
+      <h3>Copy Trading</h3>
+      <p>Suivez des wallets et répliquez leurs transactions.</p>
+    </div>
+
+    <div class="card">
+      <h3>Take-profit & Stop-loss</h3>
+      <p>Vente automatique selon vos seuils de profit ou de perte.</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="generator" id="generator">
+  <div class="container">
+
+    <h2>Générateur de bot</h2>
+
+    <div id="payment-section" class="payment-box">
+
+      <h3>Paiement requis – 39,99 $</h3>
+
+      <p>
+        Pour débloquer le générateur, envoyez l'équivalent de
+        39,99 USD en SOL à l'adresse ci-dessous.
+      </p>
+
+      <div class="address" id="sol-address">
+        4Bb23ATUa6Wo6uaDtpeTrMkMyYkb47Zr4Q3AhbpgP3cX
+      </div>
+
+      <button type="button" class="btn" onclick="copyAddress()">
+        Copier l'adresse
+      </button>
+
+      <br><br>
+
+      <div class="file-upload">
+        <label for="screenshot">
+          Déposez une capture d'écran de votre transaction SOL :
+        </label>
+
+        <input
+          type="file"
+          id="screenshot"
+          accept="image/*"
+          onchange="previewScreenshot(event)"
+        >
+
+        <img id="preview" class="preview hidden" alt="Aperçu">
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-secondary"
+        onclick="confirmPayment()"
+      >
+        Vérifier le paiement et débloquer
+      </button>
+
+      <!-- MESSAGE AFFICHÉ APRÈS LE DÉPÔT -->
+
+      <div id="confirmation-message" class="confirmation-message hidden">
+        <div class="status">✓ Capture d'écran reçue !</div>
+        <p>
+          Veuillez patienter, votre capture d'écran est en cours d'analyse.
+        </p>
+      </div>
+
+    </div>
+
+    <div id="generator-section" class="hidden">
+
+      <form onsubmit="generateBot(event)">
+
+        <label>Blockchain</label>
+
+        <select id="blockchain">
+          <option value="solana">Solana / Pump.fun</option>
+          <option value="ethereum">Ethereum / Uniswap</option>
+          <option value="bsc">BSC</option>
+        </select>
+
+        <label>Type de bot</label>
+
+        <select id="bottype">
+          <option value="sniper">Sniper</option>
+          <option value="copy">Copy Trading</option>
+          <option value="full">Full Auto</option>
+        </select>
+
+        <label>Montant (SOL/ETH)</label>
+
+        <input
+          type="number"
+          id="amount"
+          value="0.5"
+          min="0.1"
+          step="0.1"
+        >
+
+        <button type="submit" class="btn">
+          Générer le code
+        </button>
+
+      </form>
+
+      <pre id="output">Le code de votre bot apparaîtra ici.</pre>
+
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    MemecoinBot © 2025 — Outil de génération de bots de trading.
+    Trading à haut risque.
+  </div>
+</footer>
+
+<script>
+
+// ADMIN ACCESS
+function adminLogin(event) {
+  event.preventDefault();
+
+  const password = prompt(
+    "Accès administrateur : entrez le mot de passe"
+  );
+
+  if (password === "AdminMemeX") {
+
+    document.getElementById('payment-section')
+      .classList.add('hidden');
+
+    document.getElementById('generator-section')
+      .classList.remove('hidden');
+
+    document.getElementById('generator')
+      .scrollIntoView({ behavior: 'smooth' });
+
+    alert("Accès administrateur autorisé !");
+
+  } else if (password !== null) {
+
+    alert("Mot de passe incorrect !");
+
+  }
+}
+
+// COPY SOL ADDRESS
+function copyAddress() {
+  const addr = document.getElementById('sol-address').textContent.trim();
+
+  navigator.clipboard.writeText(addr).then(() => {
+    alert('Adresse copiée !');
+  }).catch(() => {
+    alert("Impossible de copier l'adresse.");
+  });
+}
+
+// SCREENSHOT PREVIEW
+function previewScreenshot(event) {
+  const file = event.target.files[0];
+  const preview = document.getElementById('preview');
+
+  // Masquer l'ancien message si une nouvelle capture est déposée
+  document.getElementById('confirmation-message')
+    .classList.add('hidden');
+
+  if (file && file.type.startsWith('image/')) {
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove('hidden');
+  } else {
+    preview.classList.add('hidden');
+  }
+}
+
+// PAYMENT CONFIRMATION MESSAGE
+function confirmPayment() {
+
+  const fileInput = document.getElementById('screenshot');
+
+  if (!fileInput.files || fileInput.files.length === 0) {
+    alert("Veuillez déposer une capture d'écran de la transaction.");
+    return;
+  }
+
+  const file = fileInput.files[0];
+
+  if (!file.type.startsWith('image/')) {
+    alert("Le fichier doit être une image.");
+    return;
+  }
+
+  // Afficher le message de confirmation
+  const message = document.getElementById('confirmation-message');
+
+  message.classList.remove('hidden');
+
+  // Faire apparaître le message à l'écran
+  message.scrollIntoView({
+    behavior: 'smooth',
+    block: 'center'
+  });
+
+}
+
+// BOT GENERATOR DEMO
+function generateBot(e) {
+  e.preventDefault();
+
+  const chain = document.getElementById('blockchain').value;
+  const type = document.getElementById('bottype').value;
+  const amount = document.getElementById('amount').value;
+
+  let code = `// Bot ${type} – ${chain}\n`;
+  code += `// Montant configuré : ${amount}\n\n`;
+
+  if (chain === 'solana') {
+    code += `// Configuration Solana\n`;
+    code += `// Paramètres de surveillance des tokens\n`;
+    code += `// Gestion des limites et des risques\n`;
+    code += `// Simulation des ordres et des seuils de vente\n`;
+  } else {
+    code += `// Configuration ${chain}\n`;
+    code += `// Paramètres de surveillance\n`;
+    code += `// Gestion des risques et simulation des ordres\n`;
+  }
+
+  document.getElementById('output').textContent = code;
+}
+
+</script>
+
+</body>
+</html>
