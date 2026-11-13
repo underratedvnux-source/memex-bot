@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MemecoinBot – Créez vos bots de trading memecoins</title>
+<title>MemecoinBot – Générateur de bots de trading memecoins</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -17,320 +17,72 @@
   --accent-hover: #06b6d4;
   --border: #262626;
 }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+header { padding: 20px 0; border-bottom: 1px solid var(--border); }
+nav { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-weight: 700; font-size: 1.25rem; color: var(--accent); user-select: none; }
+nav a { color: var(--muted); text-decoration: none; margin-left: 28px; font-size: 0.95rem; }
+nav a:hover { color: var(--text); }
+.hero { padding: 120px 0 80px; text-align: center; }
+.hero h1 { font-size: 3.2rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.15; }
+.hero p { font-size: 1.2rem; color: var(--muted); max-width: 620px; margin: 0 auto 40px; }
+.btn { display: inline-block; background: var(--accent); color: #000; padding: 14px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; font-size: 1rem; }
+.btn:hover { background: var(--accent-hover); }
+.btn:disabled { opacity: .5; cursor: wait; }
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; padding: 80px 0 24px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; }
+.card h3 { font-size: 1.15rem; margin-bottom: 12px; }
+.card p { color: var(--muted); font-size: 0.95rem; }
+.note { text-align: center; color: var(--muted); font-size: 0.9rem; padding-bottom: 60px; }
+.generator { padding: 80px 0; }
+.generator h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; }
+form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+label { font-size: 0.9rem; color: var(--muted); }
+select, input { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 12px 16px; border-radius: 8px; font-size: 1rem; }
+pre { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 32px; overflow-x: auto; font-size: 0.85rem; color: #a3e635; white-space: pre-wrap; }
+footer { padding: 40px 0; text-align: center; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+.payment-box { max-width: 520px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; text-align: center; }
+.payment-box h3 { font-size: 1.4rem; margin-bottom: 16px; }
+.payment-box p { color: var(--muted); margin-bottom: 24px; }
+.address { background: #0a0a0a; border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 0.9rem; word-break: break-all; margin-bottom: 20px; color: var(--accent); }
+.hidden { display: none; }
+.field-group { display: flex; flex-direction: column; gap: 16px; }
+.sig-box { margin: 24px 0 16px; text-align: left; }
+.sig-box label { display: block; margin-bottom: 8px; }
+.sig-box input { width: 100%; font-family: monospace; font-size: 0.85rem; border: 1px dashed var(--accent); }
+.status { margin-top: 18px; min-height: 1.4em; font-size: 0.95rem; color: var(--muted); }
+.status.ok { color: #4ade80; }
+.status.err { color: #f87171; }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.5;
-}
-
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-header {
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: var(--accent);
-}
-
-nav a {
-  color: var(--muted);
-  text-decoration: none;
-  margin-left: 28px;
-  font-size: 0.95rem;
-}
-
-nav a:hover {
-  color: var(--text);
-}
-
-nav .admin-link {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.hero {
-  padding: 120px 0 80px;
-  text-align: center;
-}
-
-.hero h1 {
-  font-size: 3.2rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin-bottom: 16px;
-  line-height: 1.15;
-}
-
-.hero p {
-  font-size: 1.2rem;
-  color: var(--muted);
-  max-width: 620px;
-  margin: 0 auto 40px;
-}
-
-.btn {
-  display: inline-block;
-  background: var(--accent);
-  color: #000;
-  padding: 14px 32px;
-  border-radius: 8px;
-  font-weight: 600;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.btn:hover {
-  background: var(--accent-hover);
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 1px solid var(--accent);
-  color: var(--accent);
-}
-
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 80px 0;
-}
-
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 32px;
-}
-
-.card h3 {
-  font-size: 1.15rem;
-  margin-bottom: 12px;
-}
-
-.card p {
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-.generator {
-  padding: 80px 0;
-}
-
-.generator h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 40px;
-}
-
-form {
-  max-width: 500px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-label {
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-select, input {
-  background: var(--card);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 1rem;
-}
-
-pre {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  margin-top: 32px;
-  overflow-x: auto;
-  font-size: 0.85rem;
-  color: #a3e635;
-  white-space: pre-wrap;
-}
-
-footer {
-  padding: 40px 0;
-  text-align: center;
-  color: var(--muted);
-  font-size: 0.85rem;
-  border-top: 1px solid var(--border);
-}
-
-.payment-box {
-  max-width: 520px;
-  margin: 0 auto;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 40px;
-  text-align: center;
-}
-
-.payment-box h3 {
-  font-size: 1.4rem;
-  margin-bottom: 16px;
-}
-
-.payment-box p {
-  color: var(--muted);
-  margin-bottom: 24px;
-}
-
-.address {
-  background: #0a0a0a;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  font-family: monospace;
-  font-size: 0.9rem;
-  word-break: break-all;
-  margin-bottom: 20px;
-  color: var(--accent);
-}
-
-.hidden {
-  display: none;
-}
-
-.file-upload {
-  margin: 20px 0;
-  text-align: left;
-}
-
-.file-upload label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-  color: var(--muted);
-}
-
-.file-upload input[type="file"] {
-  width: 100%;
-  padding: 10px;
-  background: var(--card);
-  border: 1px dashed var(--accent);
-  color: var(--text);
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.preview {
-  margin-top: 12px;
-  max-width: 100%;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
-
-.card.clickable {
-  cursor: pointer;
-  transition: border-color .2s, transform .2s;
-}
-.card.clickable:hover {
-  border-color: var(--accent);
-  transform: translateY(-3px);
-}
-.card .more {
-  display: inline-block;
-  margin-top: 16px;
-  color: var(--accent);
-  font-size: 0.9rem;
-  font-weight: 600;
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 1000;
-}
+/* Cartes cliquables + modale */
+.card.clickable { cursor: pointer; transition: border-color .2s, transform .2s; }
+.card.clickable:hover { border-color: var(--accent); transform: translateY(-3px); }
+.card .more { display: inline-block; margin-top: 16px; color: var(--accent); font-size: 0.9rem; font-weight: 600; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.75); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
 .modal-overlay.hidden { display: none; }
-
-.modal {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  max-width: 640px;
-  width: 100%;
-  max-height: 85vh;
-  overflow-y: auto;
-  padding: 36px;
-  position: relative;
-}
+.field-group { display: flex; flex-direction: column; gap: 16px; }
+.modal { background: var(--card); border: 1px solid var(--border); border-radius: 14px; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 36px; position: relative; }
 .modal h3 { font-size: 1.5rem; margin-bottom: 16px; color: var(--accent); }
 .modal h4 { margin: 22px 0 8px; font-size: 1.05rem; }
 .modal p, .modal li { color: var(--muted); font-size: 0.95rem; }
 .modal ul { padding-left: 20px; }
 .modal li { margin-bottom: 6px; }
-.modal .risk {
-  margin-top: 22px;
-  padding: 14px 16px;
-  border: 1px solid #f87171;
-  border-radius: 8px;
-  background: rgba(248,113,113,.08);
-}
+.modal .risk { margin-top: 22px; padding: 14px 16px; border: 1px solid #f87171; border-radius: 8px; background: rgba(248,113,113,.08); }
 .modal .risk strong { color: #f87171; }
-.modal-close {
-  position: absolute;
-  top: 14px; right: 18px;
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 1.8rem;
-  cursor: pointer;
-}
+.modal-close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: var(--muted); font-size: 1.8rem; cursor: pointer; }
 .modal-close:hover { color: var(--text); }
 
+.code-modal { max-width: 420px; text-align: center; }
+.code-modal h3 { margin-bottom: 8px; }
+.code-modal p { margin-bottom: 20px; }
+.code-modal input { width: 100%; margin-bottom: 16px; text-align: center; }
+
 @media (max-width: 600px) {
-  nav {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  nav a {
-    margin-left: 12px;
-    font-size: 0.8rem;
-  }
-
-  .hero h1 {
-    font-size: 2.2rem;
-  }
+  nav { flex-wrap: wrap; gap: 12px; }
+  nav a { margin-left: 12px; font-size: 0.8rem; }
+  .hero h1 { font-size: 2.2rem; }
 }
 </style>
 </head>
@@ -340,12 +92,10 @@ footer {
 <header>
   <div class="container">
     <nav>
-      <div class="logo">MemecoinBot</div>
-
+      <div class="logo" onclick="openCode()">MemecoinBot</div>
       <div>
         <a href="#features">Fonctionnalités</a>
         <a href="#generator">Générateur</a>
-        <a href="#" class="admin-link" onclick="adminLogin(event)">ADMIN</a>
       </div>
     </nav>
   </div>
@@ -353,11 +103,10 @@ footer {
 
 <section class="hero">
   <div class="container">
-    <h1>Créez vos bots de trading memecoins</h1>
+    <h1>Générez votre bot de trading memecoins</h1>
     <p>
-      Générez en quelques secondes des bots prêts à sniper,
-      copier les whales et trader automatiquement sur Solana,
-      Ethereum et Pump.fun.
+      Sniper, copy trading et take-profit / stop-loss : générez votre bot
+      en quelques secondes, en mode simulation.
     </p>
     <a href="#generator" class="btn">Générer mon bot</a>
   </div>
@@ -386,12 +135,26 @@ footer {
 
   </div>
 </section>
+<p class="note container">Les bots générés fonctionnent en mode simulation : aucun ordre réel n'est envoyé et aucune clé privée n'est demandée.</p>
 
 <!-- MODALE -->
 <div id="feature-modal" class="modal-overlay hidden" onclick="closeFeature(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeFeature()" aria-label="Fermer">&times;</button>
     <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- FENÊTRE DE CODE D'ACCÈS -->
+<div id="code-modal" class="modal-overlay hidden" onclick="closeCode(event)">
+  <div class="modal code-modal">
+    <button class="modal-close" onclick="closeCode()" aria-label="Fermer">&times;</button>
+    <h3>Accès privé</h3>
+    <p>Entrez votre code d'accès.</p>
+    <input type="password" id="access-code" placeholder="Code d'accès" autocomplete="off"
+           onkeydown="if(event.key==='Enter') submitCode()">
+    <button type="button" class="btn" id="code-btn" onclick="submitCode()">Valider</button>
+    <div id="code-status" class="status"></div>
   </div>
 </div>
 
@@ -405,42 +168,25 @@ footer {
       <h3>Paiement requis – 29,99 $</h3>
 
       <p>
-        Pour débloquer le générateur, envoyez l'équivalent de
-        29,99 USD en SOL à l'adresse ci-dessous.
+        Envoyez l'équivalent de 29,99 USD en SOL à l'adresse ci-dessous,
+        puis collez la <strong>signature de la transaction</strong>
+        (visible dans votre wallet ou sur Solscan).
       </p>
 
-      <div class="address" id="sol-address">
-        4Bb23ATUa6Wo6uaDtpeTrMkMyYkb47Zr4Q3AhbpgP3cX
+      <div class="address" id="sol-address">4Bb23ATUa6Wo6uaDtpeTrMkMyYkb47Zr4Q3AhbpgP3cX</div>
+
+      <button type="button" class="btn" onclick="copyAddress()">Copier l'adresse</button>
+
+      <div class="sig-box">
+        <label for="signature">Signature de la transaction :</label>
+        <input type="text" id="signature" placeholder="Ex : 5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnb..." autocomplete="off" spellcheck="false">
       </div>
 
-      <button type="button" class="btn" onclick="copyAddress()">
-        Copier l'adresse
-      </button>
-
-      <br><br>
-
-      <div class="file-upload">
-        <label for="screenshot">
-          Déposez une capture d'écran de votre transaction SOL :
-        </label>
-
-        <input
-          type="file"
-          id="screenshot"
-          accept="image/*"
-          onchange="previewScreenshot(event)"
-        >
-
-        <img id="preview" class="preview hidden" alt="Aperçu">
-      </div>
-
-      <button
-        type="button"
-        class="btn btn-secondary"
-        onclick="confirmPayment()"
-      >
+      <button type="button" class="btn" id="verify-btn" onclick="verifyPayment()">
         Vérifier le paiement et débloquer
       </button>
+
+      <div id="payment-status" class="status"></div>
 
     </div>
 
@@ -448,36 +194,42 @@ footer {
 
       <form onsubmit="generateBot(event)">
 
-        <label>Blockchain</label>
-
-        <select id="blockchain">
+        <label for="blockchain">Blockchain</label>
+        <select id="blockchain" onchange="updateForm()">
           <option value="solana">Solana / Pump.fun</option>
           <option value="ethereum">Ethereum / Uniswap</option>
-          <option value="bsc">BSC</option>
+          <option value="bsc">BSC / PancakeSwap</option>
         </select>
 
-        <label>Type de bot</label>
-
-        <select id="bottype">
-          <option value="sniper">Sniper</option>
-          <option value="copy">Copy Trading</option>
-          <option value="full">Full Auto</option>
+        <label for="bottype">Type de bot</label>
+        <select id="bottype" onchange="updateForm()">
+          <option value="sniper">Sniper (détecte les nouveaux tokens)</option>
+          <option value="copy">Copy Trading (Solana)</option>
+          <option value="full">Full Auto (sniper + take-profit / stop-loss)</option>
         </select>
 
-        <label>Montant (SOL/ETH)</label>
+        <label for="amount" id="amount-label">Montant simulé par trade (SOL)</label>
+        <input type="number" id="amount" value="0.5" min="0.01" step="0.01">
 
-        <input
-          type="number"
-          id="amount"
-          value="0.5"
-          min="0.1"
-          step="0.1"
-        >
+        <div id="tpsl-fields" class="hidden field-group">
+          <label for="tp">Take-profit (% de gain)</label>
+          <input type="number" id="tp" value="100" min="1" step="1">
+          <label for="sl">Stop-loss (% de perte)</label>
+          <input type="number" id="sl" value="30" min="1" max="99" step="1">
+        </div>
 
-        <button type="submit" class="btn">
-          Générer le code
-        </button>
+        <div id="sniper-fields" class="field-group">
+          <label for="minliq">Liquidité minimale du token ($)</label>
+          <input type="number" id="minliq" value="5000" min="0" step="100">
+        </div>
 
+        <div id="copy-fields" class="hidden field-group">
+          <label for="wallet">Adresse du wallet Solana à suivre</label>
+          <input type="text" id="wallet" placeholder="Adresse du wallet" autocomplete="off" spellcheck="false">
+        </div>
+
+        <button type="submit" class="btn">Générer le code</button>
+        <div id="gen-status" class="status"></div>
       </form>
 
       <pre id="output">Le code de votre bot apparaîtra ici.</pre>
@@ -489,188 +241,394 @@ footer {
 
 <footer>
   <div class="container">
-    MemecoinBot © 2025 — Outil de génération de bots de trading.
-    Trading à haut risque.
+    MemecoinBot © 2026 — Outil de génération de bots de trading.
+    Trading à haut risque : vous pouvez perdre la totalité de votre capital.
   </div>
 </footer>
 
 <script>
+// ====== CONFIG ======
+const RECIPIENT = '4Bb23ATUa6Wo6uaDtpeTrMkMyYkb47Zr4Q3AhbpgP3cX';
+const PRICE_USD = 29.99;
+const RPC_URL = 'https://api.mainnet-beta.solana.com'; // remplace par un RPC gratuit (Helius, QuickNode) si limité
+const TOLERANCE = 0.03;            // marge de 3 % sur le cours du SOL
+const MAX_AGE_SEC = 24 * 3600;     // transaction de moins de 24 h
+const ACCESS_HOURS = 24;
+const ACCESS_HASH = '20e6b131c5473668e5330cf99a1a26d9df530d9b7be18ba5d435b82f08d7039c'; // SHA-256 du code d'accès
+const ACCESS_KEY = 'mb_access', USED_KEY = 'mb_used';
 
-// ADMIN ACCESS
-function adminLogin(event) {
-  event.preventDefault();
-
-  const password = prompt(
-    "Accès administrateur : entrez le mot de passe"
-  );
-
-  if (password === "AdminMemeX") {
-
-    document.getElementById('payment-section')
-      .classList.add('hidden');
-
-    document.getElementById('generator-section')
-      .classList.remove('hidden');
-
-    document.getElementById('generator')
-      .scrollIntoView({ behavior: 'smooth' });
-
-    alert("Accès administrateur autorisé !");
-
-  } else if (password !== null) {
-
-    alert("Mot de passe incorrect !");
-
+// ====== OUTILS ======
+function sha256(str) {
+  const enc = new TextEncoder().encode(str);
+  const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  const primes = [];
+  for (let n = 2; primes.length < 64; n++) if (primes.every(p => n % p)) primes.push(n);
+  const frac = x => Math.floor((x - Math.floor(x)) * 4294967296);
+  const K = primes.map(p => frac(Math.cbrt(p)));
+  let H = primes.slice(0, 8).map(p => frac(Math.sqrt(p)));
+  const l = enc.length, nb = ((l + 9 + 63) >> 6) << 6;
+  const buf = new Uint8Array(nb); buf.set(enc); buf[l] = 0x80;
+  const dv = new DataView(buf.buffer);
+  dv.setUint32(nb - 4, (l * 8) >>> 0); dv.setUint32(nb - 8, Math.floor(l * 8 / 4294967296));
+  for (let o = 0; o < nb; o += 64) {
+    const w = new Uint32Array(64);
+    for (let i = 0; i < 16; i++) w[i] = dv.getUint32(o + i * 4);
+    for (let i = 16; i < 64; i++) {
+      const s0 = rotr(w[i-15], 7) ^ rotr(w[i-15], 18) ^ (w[i-15] >>> 3);
+      const s1 = rotr(w[i-2], 17) ^ rotr(w[i-2], 19) ^ (w[i-2] >>> 10);
+      w[i] = (w[i-16] + s0 + w[i-7] + s1) | 0;
+    }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let i = 0; i < 64; i++) {
+      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+      const t1 = (h + S1 + ((e & f) ^ (~e & g)) + K[i] + w[i]) | 0;
+      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+      const t2 = (S0 + ((a & b) ^ (a & c) ^ (b & c))) | 0;
+      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
+    }
+    const v = [a, b, c, d, e, f, g, h];
+    H = H.map((x, i) => (x + v[i]) | 0);
   }
+  return H.map(x => (x >>> 0).toString(16).padStart(8, '0')).join('');
 }
 
-// COPY SOL ADDRESS
+function hasAccess() { try { return Number(localStorage.getItem(ACCESS_KEY)) > Date.now(); } catch { return false; } }
+function grantAccess() { try { localStorage.setItem(ACCESS_KEY, String(Date.now() + ACCESS_HOURS * 3600 * 1000)); } catch {} }
+function clearAccess() { try { localStorage.removeItem(ACCESS_KEY); } catch {} }
+function usedSigs() { try { return JSON.parse(localStorage.getItem(USED_KEY) || '[]'); } catch { return []; } }
+function markUsed(sig) { try { localStorage.setItem(USED_KEY, JSON.stringify([...usedSigs(), sig])); } catch {} }
+
+function showGenerator(show) {
+  document.getElementById('payment-section').classList.toggle('hidden', show);
+  document.getElementById('generator-section').classList.toggle('hidden', !show);
+}
+function setStatus(id, text, cls) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'status' + (cls ? ' ' + cls : '');
+}
+
+if (hasAccess()) showGenerator(true);
+document.addEventListener('DOMContentLoaded', updateForm);
+
+// ====== ACCÈS PRIVÉ (clic sur le logo) ======
+function openCode() {
+  document.getElementById('access-code').value = '';
+  setStatus('code-status', '');
+  document.getElementById('code-modal').classList.remove('hidden');
+  setTimeout(() => document.getElementById('access-code').focus(), 50);
+}
+function closeCode(event) {
+  if (!event || event.target.id === 'code-modal') document.getElementById('code-modal').classList.add('hidden');
+}
+function submitCode() {
+  const code = document.getElementById('access-code').value;
+  if (!code) { setStatus('code-status', 'Entrez le code.', 'err'); return; }
+  if (sha256(code) !== ACCESS_HASH) { setStatus('code-status', 'Code incorrect.', 'err'); return; }
+  grantAccess();
+  showGenerator(true);
+  document.getElementById('code-modal').classList.add('hidden');
+  document.getElementById('generator').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ====== PAIEMENT : vérification de la transaction directement sur Solana ======
 function copyAddress() {
-  const addr = document.getElementById('sol-address').textContent.trim();
+  navigator.clipboard.writeText(RECIPIENT)
+    .then(() => alert('Adresse copiée !'))
+    .catch(() => alert("Impossible de copier l'adresse."));
+}
 
-  navigator.clipboard.writeText(addr).then(() => {
-    alert('Adresse copiée !');
-  }).catch(() => {
-    alert("Impossible de copier l'adresse.");
+async function rpc(method, params) {
+  const r = await fetch(RPC_URL, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params })
   });
+  const j = await r.json();
+  if (j.error) throw new Error(j.error.message);
+  return j.result;
 }
 
-// SCREENSHOT PREVIEW
-function previewScreenshot(event) {
-  const file = event.target.files[0];
-  const preview = document.getElementById('preview');
+async function verifyPayment() {
+  const sig = document.getElementById('signature').value.trim();
+  const btn = document.getElementById('verify-btn');
+  if (!/^[1-9A-HJ-NP-Za-km-z]{80,90}$/.test(sig)) { setStatus('payment-status', 'Signature de transaction invalide.', 'err'); return; }
+  if (usedSigs().includes(sig)) { setStatus('payment-status', 'Cette transaction a déjà été utilisée sur cet appareil.', 'err'); return; }
 
-  if (file && file.type.startsWith('image/')) {
-    preview.src = URL.createObjectURL(file);
-    preview.classList.remove('hidden');
-  } else {
-    preview.classList.add('hidden');
+  btn.disabled = true;
+  setStatus('payment-status', 'Vérification sur la blockchain en cours…');
+  try {
+    const tx = await rpc('getTransaction', [sig, { encoding: 'jsonParsed', maxSupportedTransactionVersion: 0, commitment: 'confirmed' }]);
+    if (!tx) throw new Error('Transaction introuvable (attendez la confirmation puis réessayez).');
+    if (tx.meta.err) throw new Error('La transaction a échoué.');
+    if (tx.blockTime && Date.now() / 1000 - tx.blockTime > MAX_AGE_SEC) throw new Error('Transaction trop ancienne (plus de 24 h).');
+
+    const keys = tx.transaction.message.accountKeys.map(k => k.pubkey || k);
+    const i = keys.indexOf(RECIPIENT);
+    if (i === -1) throw new Error("Le destinataire ne correspond pas à l'adresse indiquée.");
+    const received = tx.meta.postBalances[i] - tx.meta.preBalances[i];
+
+    const pr = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
+    const price = (await pr.json()).solana.usd;
+    const required = Math.floor((PRICE_USD / price) * 1e9 * (1 - TOLERANCE));
+    if (received < required) {
+      throw new Error('Montant insuffisant : reçu ' + (received / 1e9).toFixed(4) + ' SOL, attendu environ ' + (required / 1e9).toFixed(4) + ' SOL.');
+    }
+
+    markUsed(sig);
+    grantAccess();
+    setStatus('payment-status', '✓ Paiement confirmé !', 'ok');
+    showGenerator(true);
+    document.getElementById('generator').scrollIntoView({ behavior: 'smooth' });
+  } catch (e) {
+    setStatus('payment-status', e.message || 'Vérification impossible, réessayez.', 'err');
+  } finally {
+    btn.disabled = false;
   }
 }
 
-// PAYMENT DEMO
-function confirmPayment() {
-  const fileInput = document.getElementById('screenshot');
+// ====== GÉNÉRATEUR ======
+const UNITS = { solana: 'SOL', ethereum: 'ETH', bsc: 'BNB' };
 
-  if (!fileInput.files || fileInput.files.length === 0) {
-    alert("Veuillez déposer une capture d'écran de la transaction.");
-    return;
-  }
-
-  const file = fileInput.files[0];
-
-  if (!file.type.startsWith('image/')) {
-    alert("Le fichier doit être une image.");
-    return;
-  }
-
-  // ATTENTION : une capture d'écran ne vérifie pas réellement un paiement.
-  alert("Capture reçue. La vérification réelle du paiement nécessite un système serveur.");
-
-  // Démonstration uniquement : ne pas considérer cela comme une validation de paiement.
+function updateForm() {
+  const chain = document.getElementById('blockchain').value;
+  const type = document.getElementById('bottype').value;
+  const copy = document.getElementById('bottype').querySelector('option[value="copy"]');
+  copy.disabled = chain !== 'solana';
+  if (chain !== 'solana' && type === 'copy') document.getElementById('bottype').value = 'sniper';
+  const t = document.getElementById('bottype').value;
+  document.getElementById('amount-label').textContent = 'Montant simulé par trade (' + UNITS[chain] + ')';
+  document.getElementById('sniper-fields').classList.toggle('hidden', t === 'copy');
+  document.getElementById('copy-fields').classList.toggle('hidden', t !== 'copy');
+  document.getElementById('tpsl-fields').classList.toggle('hidden', t === 'sniper');
 }
 
-// BOT GENERATOR DEMO
 function generateBot(e) {
   e.preventDefault();
+  if (!hasAccess()) { clearAccess(); showGenerator(false); setStatus('payment-status', 'Accès expiré : un nouveau paiement est nécessaire.', 'err'); return; }
 
   const chain = document.getElementById('blockchain').value;
   const type = document.getElementById('bottype').value;
-  const amount = document.getElementById('amount').value;
+  const amount = Number(document.getElementById('amount').value);
+  const tp = Number(document.getElementById('tp').value);
+  const sl = Number(document.getElementById('sl').value);
+  const minLiq = Number(document.getElementById('minliq').value);
+  const wallet = document.getElementById('wallet').value.trim();
 
-  let code = `// Bot ${type} – ${chain}\n`;
-  code += `// Montant configuré : ${amount}\n\n`;
-
-  if (chain === 'solana') {
-    code += `// Configuration Solana\n`;
-    code += `// Paramètres de surveillance des tokens\n`;
-    code += `// Gestion des limites et des risques\n`;
-    code += `// Simulation des ordres et des seuils de vente\n`;
-  } else {
-    code += `// Configuration ${chain}\n`;
-    code += `// Paramètres de surveillance\n`;
-    code += `// Gestion des risques et simulation des ordres\n`;
+  if (![amount, tp, sl, minLiq].every(Number.isFinite) || amount <= 0 || tp <= 0 || sl <= 0 || sl >= 100 || minLiq < 0) {
+    setStatus('gen-status', 'Paramètres invalides.', 'err'); return;
+  }
+  if (type === 'copy' && !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(wallet)) {
+    setStatus('gen-status', "Adresse de wallet Solana invalide.", 'err'); return;
   }
 
-  document.getElementById('output').textContent = code;
+  document.getElementById('output').textContent = botCode(chain, type, amount, tp, sl, minLiq, wallet);
+  setStatus('gen-status', '✓ Code généré. Enregistrez-le dans bot.py, faites « pip install requests », puis « python bot.py ».', 'ok');
 }
 
+function botCode(chain, type, amount, tp, sl, minLiq, wallet) {
+  return `#!/usr/bin/env python3
+"""Bot de trading memecoins - MODE SIMULATION (aucun ordre reel n'est envoye).
+Mode : ${type} | Blockchain : ${chain}
+Prix et nouveaux tokens : API DexScreener. Copy trading : RPC Solana.
+Installation : pip install requests   |   Lancement : python bot.py
+"""
+import time
+import requests
+
+CHAIN = "${chain}"
+MODE = "${type}"              # sniper = detecte et suit | full = sniper + TP/SL | copy = copie un wallet
+AMOUNT = ${amount}            # montant simule par trade
+TAKE_PROFIT = ${tp}           # % de gain pour vendre
+STOP_LOSS = ${sl}             # % de perte pour vendre
+MIN_LIQUIDITY_USD = ${minLiq}
+WALLET = "${type === 'copy' ? wallet : ''}"
+POLL_SECONDS = 10
+RPC = "https://api.mainnet-beta.solana.com"
+DEX = "https://api.dexscreener.com"
+IGNORED_MINTS = {
+    "So11111111111111111111111111111111111111112",
+    "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
+}
+
+positions = {}    # adresse -> {symbol, entry}
+seen = set()
+total_pnl = 0.0
+
+
+def get_json(url, **kwargs):
+    r = requests.get(url, timeout=15, **kwargs)
+    r.raise_for_status()
+    return r.json()
+
+
+def token_info(address):
+    """Retourne (prix_usd, liquidite_usd, symbole) de la meilleure paire sur la blockchain choisie."""
+    pairs = get_json(f"{DEX}/latest/dex/tokens/{address}").get("pairs") or []
+    pairs = [p for p in pairs if p.get("chainId") == CHAIN and p.get("priceUsd")]
+    if not pairs:
+        return None
+    best = max(pairs, key=lambda p: (p.get("liquidity") or {}).get("usd", 0))
+    return float(best["priceUsd"]), (best.get("liquidity") or {}).get("usd", 0), best["baseToken"]["symbol"]
+
+
+def open_position(address, reason):
+    if address in positions or address in IGNORED_MINTS:
+        return
+    info = token_info(address)
+    if not info:
+        return
+    price, liquidity, symbol = info
+    if liquidity < MIN_LIQUIDITY_USD:
+        print(f"[IGNORE] {symbol} : liquidite {liquidity:.0f} $ < {MIN_LIQUIDITY_USD} $")
+        return
+    positions[address] = {"symbol": symbol, "entry": price}
+    print(f"[ACHAT SIMULE] {symbol} ({reason}) : {AMOUNT} @ {price:.10f} $ | liquidite {liquidity:.0f} $")
+
+
+def close_position(address, reason, change):
+    global total_pnl
+    pos = positions.pop(address)
+    gain = AMOUNT * change / 100
+    total_pnl += gain
+    print(f"[VENTE SIMULEE] {pos['symbol']} ({reason}) : {change:+.1f} % | PnL total simule : {total_pnl:+.4f}")
+
+
+def check_positions():
+    for address in list(positions):
+        try:
+            info = token_info(address)
+        except Exception as e:
+            print("Erreur prix :", e)
+            continue
+        if not info:
+            continue
+        change = (info[0] / positions[address]["entry"] - 1) * 100
+        print(f"  {positions[address]['symbol']} : {change:+.1f} %")
+        if MODE in ("full", "copy"):
+            if change >= TAKE_PROFIT:
+                close_position(address, "take-profit", change)
+            elif change <= -STOP_LOSS:
+                close_position(address, "stop-loss", change)
+
+
+def scan_new_tokens():
+    profiles = get_json(f"{DEX}/token-profiles/latest/v1")
+    for p in profiles:
+        address = p.get("tokenAddress")
+        if p.get("chainId") == CHAIN and address and address not in seen:
+            seen.add(address)
+            open_position(address, "nouveau token")
+
+
+last_sig = None
+
+
+def scan_wallet():
+    """Copy trading (Solana) : detecte les achats et ventes du wallet suivi."""
+    global last_sig
+    params = {"limit": 5}
+    if last_sig:
+        params["until"] = last_sig
+    body = {"jsonrpc": "2.0", "id": 1, "method": "getSignaturesForAddress", "params": [WALLET, params]}
+    sigs = requests.post(RPC, json=body, timeout=15).json().get("result") or []
+    if not sigs:
+        return
+    new_last = sigs[0]["signature"]
+    if last_sig is None:
+        last_sig = new_last           # premier passage : on ignore l'historique
+        print("Wallet suivi, en attente de nouvelles transactions...")
+        return
+    last_sig = new_last
+    for s in reversed(sigs):
+        body = {"jsonrpc": "2.0", "id": 1, "method": "getTransaction",
+                "params": [s["signature"], {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}]}
+        tx = requests.post(RPC, json=body, timeout=15).json().get("result")
+        if not tx or tx["meta"]["err"]:
+            continue
+        pre, post = {}, {}
+        for b in tx["meta"].get("preTokenBalances", []):
+            if b.get("owner") == WALLET:
+                pre[b["mint"]] = float(b["uiTokenAmount"].get("uiAmount") or 0)
+        for b in tx["meta"].get("postTokenBalances", []):
+            if b.get("owner") == WALLET:
+                post[b["mint"]] = float(b["uiTokenAmount"].get("uiAmount") or 0)
+        for mint in set(pre) | set(post):
+            if mint in IGNORED_MINTS:
+                continue
+            delta = post.get(mint, 0) - pre.get(mint, 0)
+            if delta > 0:
+                open_position(mint, "copie d'un achat")
+            elif delta < 0 and mint in positions:
+                info = token_info(mint)
+                if info:
+                    close_position(mint, "copie d'une vente", (info[0] / positions[mint]["entry"] - 1) * 100)
+
+
+def main():
+    print(f"Bot {MODE} sur {CHAIN} - SIMULATION. Ctrl+C pour arreter.")
+    while True:
+        try:
+            if MODE == "copy":
+                scan_wallet()
+            else:
+                scan_new_tokens()
+            check_positions()
+        except Exception as e:
+            print("Erreur :", e)
+        time.sleep(POLL_SECONDS)
+
+
+if __name__ == "__main__":
+    main()
+`;
+}
+
+// FENÊTRES D'EXPLICATIONS
 const FEATURES = {
   sniper: `
     <h3>Sniper & Auto-buy</h3>
     <p>Le sniper surveille la blockchain en continu et achète un token dès qu'il devient
     négociable, parfois quelques secondes après sa création.</p>
-
     <h4>Comment ça fonctionne</h4>
     <ul>
-      <li><strong>Détection :</strong> le bot écoute la création de nouveaux pools de liquidité
-      (Pump.fun, Raydium sur Solana ; Uniswap sur Ethereum ; PancakeSwap sur BSC).</li>
-      <li><strong>Filtres :</strong> il peut ignorer les tokens selon des critères (liquidité minimale,
-      autorité de mint révoquée, taxes, etc.).</li>
-      <li><strong>Achat automatique :</strong> il envoie la transaction avec le montant configuré,
-      une tolérance de slippage et des frais de priorité pour passer avant les autres.</li>
+      <li><strong>Détection :</strong> le bot écoute la création de nouveaux pools de liquidité (Pump.fun, Raydium sur Solana).</li>
+      <li><strong>Filtres :</strong> il peut ignorer les tokens selon des critères (liquidité minimale, autorité de mint révoquée, taxes).</li>
+      <li><strong>Achat automatique :</strong> il envoie la transaction avec le montant configuré, un slippage maximum et des frais de priorité.</li>
     </ul>
-
     <h4>Paramètres typiques</h4>
-    <ul>
-      <li>Montant par achat</li>
-      <li>Slippage maximum</li>
-      <li>Frais de priorité / gas</li>
-      <li>Liquidité minimale du pool</li>
-    </ul>
-
-    <div class="risk"><strong>Risques :</strong> la grande majorité des nouveaux memecoins perdent
-    presque toute leur valeur. Rug pulls, honeypots (impossible de revendre) et bots concurrents
-    plus rapides sont fréquents. N'investissez que ce que vous pouvez perdre.</div>
+    <ul><li>Montant par achat</li><li>Slippage maximum</li><li>Frais de priorité</li><li>Liquidité minimale du pool</li></ul>
+    <div class="risk"><strong>Risques :</strong> la grande majorité des nouveaux memecoins perdent presque toute leur valeur.
+    Rug pulls, honeypots et bots concurrents plus rapides sont fréquents. N'investissez que ce que vous pouvez perdre.</div>
   `,
   copy: `
     <h3>Copy Trading</h3>
-    <p>Le copy trading consiste à suivre l'adresse d'un ou plusieurs wallets
-    et à reproduire automatiquement leurs transactions.</p>
-
+    <p>Le copy trading consiste à suivre l'adresse d'un ou plusieurs wallets et à reproduire automatiquement leurs transactions.</p>
     <h4>Comment ça fonctionne</h4>
     <ul>
       <li><strong>Sélection :</strong> vous indiquez les adresses de wallets à suivre.</li>
       <li><strong>Surveillance :</strong> le bot détecte chaque achat ou vente de ces wallets.</li>
-      <li><strong>Réplication :</strong> il exécute la même opération avec votre propre montant
-      (fixe ou proportionnel à celui du wallet suivi).</li>
+      <li><strong>Réplication :</strong> il exécute la même opération avec votre propre montant (fixe ou proportionnel).</li>
     </ul>
-
     <h4>Paramètres typiques</h4>
-    <ul>
-      <li>Liste des wallets suivis</li>
-      <li>Montant fixe ou ratio par trade</li>
-      <li>Filtres (ignorer certains tokens, plafond par position)</li>
-      <li>Slippage maximum</li>
-    </ul>
-
-    <div class="risk"><strong>Risques :</strong> vous entrez toujours après le wallet copié, donc à un
-    prix moins bon. Un wallet performant dans le passé ne garantit rien, et certains
-    sont des initiés qui vendent pendant que vous achetez.</div>
+    <ul><li>Liste des wallets suivis</li><li>Montant fixe ou ratio par trade</li><li>Filtres et plafond par position</li><li>Slippage maximum</li></ul>
+    <div class="risk"><strong>Risques :</strong> vous entrez toujours après le wallet copié, donc à un prix moins bon.
+    Un wallet performant dans le passé ne garantit rien.</div>
   `,
   tpsl: `
     <h3>Take-profit & Stop-loss</h3>
-    <p>Ces deux ordres automatisent vos sorties de position pour ne pas
-    dépendre de votre présence devant l'écran.</p>
-
+    <p>Ces deux ordres automatisent vos sorties de position pour ne pas dépendre de votre présence devant l'écran.</p>
     <h4>Définitions</h4>
     <ul>
-      <li><strong>Take-profit :</strong> vente automatique quand le prix atteint un gain cible
-      (ex. +100 %). Il permet de sécuriser les profits.</li>
-      <li><strong>Stop-loss :</strong> vente automatique quand le prix tombe sous un seuil
-      (ex. −30 %). Il limite les pertes.</li>
-      <li><strong>Trailing stop :</strong> le seuil de stop-loss suit le prix à la hausse
-      et se déclenche si le prix recule d'un certain pourcentage depuis son plus haut.</li>
+      <li><strong>Take-profit :</strong> vente automatique quand le prix atteint un gain cible (ex. +100 %).</li>
+      <li><strong>Stop-loss :</strong> vente automatique quand le prix tombe sous un seuil (ex. −30 %).</li>
+      <li><strong>Trailing stop :</strong> le seuil suit le prix à la hausse.</li>
       <li><strong>Ventes partielles :</strong> vendre par paliers (ex. 50 % à x2, le reste à x5).</li>
     </ul>
-
     <h4>Exemple</h4>
-    <p>Achat à 100 $ avec TP à +100 % et SL à −30 % : le bot vend à 200 $ si le prix monte,
-    ou à 70 $ si le prix baisse, selon ce qui arrive en premier.</p>
-
-    <div class="risk"><strong>Risques :</strong> sur les memecoins, le prix peut chuter de 90 %
-    en quelques secondes. Le stop-loss ne garantit pas le prix de sortie (slippage),
-    et si la liquidité disparaît ou si le token est un honeypot, la vente peut échouer.</div>
+    <p>Achat à 100 $ avec TP à +100 % et SL à −30 % : le bot vend à 200 $ si le prix monte, ou à 70 $ s'il baisse.</p>
+    <div class="risk"><strong>Risques :</strong> sur les memecoins, le prix peut chuter de 90 % en quelques secondes.
+    Le stop-loss ne garantit pas le prix de sortie, et si la liquidité disparaît la vente peut échouer.</div>
   `
 };
 
@@ -678,18 +636,17 @@ function openFeature(key) {
   document.getElementById('modal-content').innerHTML = FEATURES[key];
   document.getElementById('feature-modal').classList.remove('hidden');
 }
-
 function closeFeature(event) {
-  // ferme au clic sur le fond sombre ou sur la croix
-  if (!event || event.target.id === 'feature-modal' || event.currentTarget.classList?.contains('modal-close')) {
+  if (!event || event.target.id === 'feature-modal') {
     document.getElementById('feature-modal').classList.add('hidden');
   }
 }
-
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.getElementById('feature-modal').classList.add('hidden');
+  if (e.key === 'Escape') {
+    document.getElementById('feature-modal').classList.add('hidden');
+    document.getElementById('code-modal').classList.add('hidden');
+  }
 });
-
 </script>
 
 </body>
