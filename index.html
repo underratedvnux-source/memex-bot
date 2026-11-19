@@ -113,8 +113,8 @@ details input{width:100%;margin:8px 0;padding:10px 12px;border-radius:9px;border
 <details>
 <summary>Advanced</summary>
 <label for="rpc">Solana RPC URL</label>
-<input id="rpc" type="text" value="https://api.mainnet-beta.solana.com" spellcheck="false">
-<p>The public RPC is sometimes rate-limited. If you get an error, paste a personal RPC URL (Helius, QuickNode, etc.).</p>
+<input id="rpc" type="text" value="" placeholder="https://… (optional)" spellcheck="false">
+<p>Leave empty to use free public servers. If you get an error, paste a personal RPC URL (a free Helius key works well).</p>
 <label for="manual">Can’t connect Phantom? Analyze a public address instead</label>
 <input id="manual" type="text" placeholder="Your Solana public address" spellcheck="false" autocomplete="off">
 <button class="alt" id="manualgo" type="button">Analyze this address</button>
@@ -142,16 +142,25 @@ function tierOf(a){if(a>=MAX)return "Legendary Aura";var t=tiers[0][1];tiers.for
 function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function part(v,full){return Math.max(0,Math.min(1,v/full))}
 
-async function rpc(method,params){
-var url=$("rpc").value.trim()||"https://api.mainnet-beta.solana.com";
-for(var t=0;t<4;t++){
+var ENDPOINTS=["https://solana-rpc.publicnode.com","https://solana.drpc.org","https://api.mainnet-beta.solana.com"];
+var okIdx=0;
+async function rpcOne(url,method,params){
+for(var t=0;t<3;t++){
 var r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:method,params:params})});
-if(r.status===429){await sleep(800*(t+1));continue}
+if(r.status===429){await sleep(700*(t+1));continue}
 if(!r.ok)throw new Error("HTTP "+r.status);
 var j=await r.json();
 if(j.error)throw new Error(j.error.message);
 return j.result}
-throw new Error("rate limit reached")}
+throw new Error("HTTP 429")}
+async function rpc(method,params){
+var custom=$("rpc").value.trim();
+var list=custom?[custom]:ENDPOINTS.slice(okIdx).concat(ENDPOINTS.slice(0,okIdx));
+var lastErr;
+for(var i=0;i<list.length;i++){
+try{var res=await rpcOne(list[i],method,params);if(!custom)okIdx=ENDPOINTS.indexOf(list[i]);return res}
+catch(e){lastErr=e}}
+throw lastErr}
 
 async function tokenAccounts(pid){
 try{var r=await rpc("getTokenAccountsByOwner",[addr,{programId:pid},{encoding:"jsonParsed"}]);return r.value||[]}
