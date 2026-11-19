@@ -159,11 +159,11 @@ throw new Error("HTTP 429")}
 async function rpc(method,params){
 var custom=$("rpc").value.trim();
 var list=custom?[custom]:ENDPOINTS.slice(okIdx).concat(ENDPOINTS.slice(0,okIdx));
-var lastErr;
+var errs=[];
 for(var i=0;i<list.length;i++){
 try{var res=await rpcOne(list[i],method,params);if(!custom)okIdx=ENDPOINTS.indexOf(list[i]);return res}
-catch(e){lastErr=e}}
-throw lastErr}
+catch(e){var h=list[i];try{h=new URL(list[i]).hostname}catch(x){}errs.push(h+" → "+(e.message||e))}}
+throw new Error(errs.join(" | "))}
 
 async function tokenAccounts(pid){
 try{var r=await rpc("getTokenAccountsByOwner",[addr,{programId:pid},{encoding:"jsonParsed"}]);return r.value||[]}
@@ -275,4 +275,3 @@ if(p){try{p.connect({onlyIfTrusted:true}).then(function(r){start(r.publicKey.toS
 </script>
 </body>
 </html>
-
