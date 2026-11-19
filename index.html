@@ -1,654 +1,265 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MemeXbot – Générateur de bots de trading memecoins</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Solaura – the aura of your Phantom wallet</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&display=swap">
 <style>
-:root {
-  --bg: #0a0a0a;
-  --card: #141414;
-  --text: #f5f5f5;
-  --muted: #a3a3a3;
-  --accent: #22d3ee;
-  --accent-hover: #06b6d4;
-  --border: #262626;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; }
-.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-header { padding: 20px 0; border-bottom: 1px solid var(--border); }
-nav { display: flex; justify-content: space-between; align-items: center; }
-.logo { font-weight: 700; font-size: 1.25rem; color: var(--accent); user-select: none; }
-nav a { color: var(--muted); text-decoration: none; margin-left: 28px; font-size: 0.95rem; }
-nav a:hover { color: var(--text); }
-.hero { padding: 120px 0 80px; text-align: center; }
-.hero h1 { font-size: 3.2rem; font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.15; }
-.hero p { font-size: 1.2rem; color: var(--muted); max-width: 620px; margin: 0 auto 40px; }
-.btn { display: inline-block; background: var(--accent); color: #000; padding: 14px 32px; border-radius: 8px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; font-size: 1rem; }
-.btn:hover { background: var(--accent-hover); }
-.btn:disabled { opacity: .5; cursor: wait; }
-.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; padding: 80px 0 24px; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px; }
-.card h3 { font-size: 1.15rem; margin-bottom: 12px; }
-.card p { color: var(--muted); font-size: 0.95rem; }
-.note { text-align: center; color: var(--muted); font-size: 0.9rem; padding-bottom: 60px; }
-.generator { padding: 80px 0; }
-.generator h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; }
-form { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-label { font-size: 0.9rem; color: var(--muted); }
-select, input { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 12px 16px; border-radius: 8px; font-size: 1rem; }
-pre { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 32px; overflow-x: auto; font-size: 0.85rem; color: #a3e635; white-space: pre-wrap; }
-footer { padding: 40px 0; text-align: center; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
-.payment-box { max-width: 520px; margin: 0 auto; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 40px; text-align: center; }
-.payment-box h3 { font-size: 1.4rem; margin-bottom: 16px; }
-.payment-box p { color: var(--muted); margin-bottom: 24px; }
-.address { background: #0a0a0a; border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 0.9rem; word-break: break-all; margin-bottom: 20px; color: var(--accent); }
-.hidden { display: none; }
-.field-group { display: flex; flex-direction: column; gap: 16px; }
-.sig-box { margin: 24px 0 16px; text-align: left; }
-.sig-box label { display: block; margin-bottom: 8px; }
-.sig-box input { width: 100%; font-family: monospace; font-size: 0.85rem; border: 1px dashed var(--accent); }
-.status { margin-top: 18px; min-height: 1.4em; font-size: 0.95rem; color: var(--muted); }
-.status.ok { color: #4ade80; }
-.status.err { color: #f87171; }
-
-/* Cartes cliquables + modale */
-.card.clickable { cursor: pointer; transition: border-color .2s, transform .2s; }
-.card.clickable:hover { border-color: var(--accent); transform: translateY(-3px); }
-.card .more { display: inline-block; margin-top: 16px; color: var(--accent); font-size: 0.9rem; font-weight: 600; }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.75); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 1000; }
-.modal-overlay.hidden { display: none; }
-.field-group { display: flex; flex-direction: column; gap: 16px; }
-.modal { background: var(--card); border: 1px solid var(--border); border-radius: 14px; max-width: 640px; width: 100%; max-height: 85vh; overflow-y: auto; padding: 36px; position: relative; }
-.modal h3 { font-size: 1.5rem; margin-bottom: 16px; color: var(--accent); }
-.modal h4 { margin: 22px 0 8px; font-size: 1.05rem; }
-.modal p, .modal li { color: var(--muted); font-size: 0.95rem; }
-.modal ul { padding-left: 20px; }
-.modal li { margin-bottom: 6px; }
-.modal .risk { margin-top: 22px; padding: 14px 16px; border: 1px solid #f87171; border-radius: 8px; background: rgba(248,113,113,.08); }
-.modal .risk strong { color: #f87171; }
-.modal-close { position: absolute; top: 14px; right: 18px; background: none; border: none; color: var(--muted); font-size: 1.8rem; cursor: pointer; }
-.modal-close:hover { color: var(--text); }
-
-.code-modal { max-width: 420px; text-align: center; }
-.code-modal h3 { margin-bottom: 8px; }
-.code-modal p { margin-bottom: 20px; }
-.code-modal input { width: 100%; margin-bottom: 16px; text-align: center; }
-
-@media (max-width: 600px) {
-  nav { flex-wrap: wrap; gap: 12px; }
-  nav a { margin-left: 12px; font-size: 0.8rem; }
-  .hero h1 { font-size: 2.2rem; }
-}
+:root{--ink:#f1f0fb;--mute:#a29ec6;--line:rgba(255,255,255,.14);--k:.3}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#06050f;color:var(--ink);font-family:Sora,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+body{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
+.bg{position:fixed;inset:-20% -15%;filter:blur(70px);opacity:calc(.2 + .65*var(--k));transition:opacity .8s;pointer-events:none;z-index:0}
+.bg i{position:absolute;display:block;border-radius:50%;animation:drift 16s ease-in-out infinite alternate}
+.bg i:nth-child(1){width:50%;height:42%;left:4%;top:10%;background:#3ef0c4}
+.bg i:nth-child(2){width:48%;height:48%;right:2%;top:0;background:#8b5cf6;animation-delay:-6s}
+.bg i:nth-child(3){width:58%;height:38%;left:24%;bottom:6%;background:#f43f9a;animation-delay:-10s}
+@keyframes drift{to{transform:translate(9%,10%) scale(1.15)}}
+@media(prefers-reduced-motion:reduce){.bg i,.spin{animation:none}}
+.wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:24px 20px 48px;min-height:100vh;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:10px;font-weight:800}
+.dot{width:22px;height:22px;border-radius:50%;background:conic-gradient(#3ef0c4,#8b5cf6,#f43f9a,#3ef0c4)}
+main{flex:1;display:grid;align-items:center}
+section[hidden]{display:none}
+.hero{text-align:center;padding:28px 0}
+h1{margin:0;font-size:clamp(3rem,14vw,6rem);font-weight:800;letter-spacing:-.05em;line-height:.95;background:linear-gradient(100deg,#3ef0c4,#8b7bff 50%,#f43f9a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin:18px auto 30px;max-width:44ch;color:var(--mute);font-size:1.05rem}
+.glass{background:rgba(20,17,43,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:20px;padding:26px 22px}
+button{font:inherit;font-weight:600;border:0;border-radius:12px;padding:14px 22px;cursor:pointer;background:#ab9ff2;color:#1b0f4a}
+button.cta{display:inline-flex;align-items:center;gap:10px;font-size:1.05rem;padding:16px 28px;background:linear-gradient(135deg,#ab9ff2,#7c5cff);color:#fff;box-shadow:0 10px 40px -8px rgba(124,92,255,.85)}
+button.alt{background:transparent;color:var(--ink);border:1px solid var(--line);padding:11px 16px;font-size:.86rem}
+button:disabled{opacity:.6;cursor:wait}
+button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #ab9ff2;outline-offset:2px}
+.note{font-size:.8rem;color:var(--mute);margin:18px auto 0;max-width:52ch}
+#msg{margin:16px auto 0;max-width:52ch;font-size:.88rem;color:#ffb4c8}
+#msg a,.note a{color:#ab9ff2}
+.load{text-align:center}
+.spin{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;border:4px solid rgba(255,255,255,.12);border-top-color:#8b7bff;animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.gauge{position:relative;width:min(300px,76vw);aspect-ratio:1;margin:0 auto}
+.gauge svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.gauge .bgc{stroke:rgba(255,255,255,.1)}
+.gauge .fg{filter:drop-shadow(0 0 calc(4px + 14px*var(--k)) rgba(139,124,255,.9))}
+.mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.pts{font-size:clamp(2.2rem,9vw,3.2rem);font-weight:800;letter-spacing:-.03em;line-height:1}
+.max{font-size:.8rem;color:var(--mute);margin-top:6px}
+.tier{text-align:center;margin:18px 0 2px;font-size:1.2rem;font-weight:600}
+.addr{text-align:center;font-size:.78rem;color:var(--mute)}
+.badge{display:none;margin:8px auto 0;width:max-content;padding:3px 12px;border-radius:99px;background:linear-gradient(90deg,#f7d56a,#f43f9a);color:#1a0b2e;font-weight:800;font-size:.8rem}
+.full .badge{display:block}
+.ladder{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+@media(min-width:560px){.ladder{grid-template-columns:repeat(6,1fr)}}
+.ladder li{font-size:.7rem;text-align:center;padding:7px 4px;border-radius:9px;border:1px solid var(--line);color:#8f8bb5}
+.ladder li b{display:block;font-size:.72rem}
+.ladder li.on{color:#fff;border-color:#8b7bff;background:rgba(139,123,255,.22)}
+.bars{display:grid;gap:12px;margin-top:22px}
+.bar{display:grid;grid-template-columns:128px 1fr 88px;gap:10px;align-items:center;font-size:.8rem}
+.bar small{display:block;color:var(--mute);font-size:.72rem}
+.bar em{font-style:normal;text-align:right}
+.track{height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#3ef0c4,#8b5cf6,#f43f9a);transition:width .7s}
+.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+details{margin-top:26px;font-size:.8rem;color:var(--mute)}
+summary{cursor:pointer;width:max-content}
+details input{width:100%;margin:8px 0;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:rgba(0,0,0,.3);color:var(--ink);font:inherit}
 </style>
 </head>
-
 <body>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="wrap">
+<div class="top"><svg width="30" height="24" viewBox="0 0 397.7 311.7" role="img" aria-label="Solana logo"><defs><linearGradient id="sol" x1="360" y1="-38" x2="141" y2="347" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00ffa3"/><stop offset="1" stop-color="#dc1fff"/></linearGradient></defs><path fill="url(#sol)" d="M64.6,237.9c2.4-2.4,5.7-3.8,9.2-3.8h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,237.9z"/><path fill="url(#sol)" d="M64.6,3.8C67.1,1.4,70.4,0,73.8,0h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,3.8z"/><path fill="url(#sol)" d="M333.1,120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8,0-8.7,7-4.6,11.1l62.7,62.7c2.4,2.4,5.7,3.8,9.2,3.8h317.4c5.8,0,8.7-7,4.6-11.1L333.1,120.1z"/></svg>Solaura</div>
+<main>
 
-<header>
-  <div class="container">
-    <nav>
-      <div class="logo" onclick="openCode()">MemeXbot</div>
-      <div>
-        <a href="#features">Fonctionnalités</a>
-        <a href="#generator">Générateur</a>
-      </div>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="container">
-    <h1>Générez votre bot de trading memecoins</h1>
-    <p>
-      Sniper, copy trading et take-profit / stop-loss : générez votre bot
-      en quelques secondes.
-    </p>
-    <a href="#generator" class="btn">Générer mon bot</a>
-  </div>
+<section id="home" class="hero">
+<h1>Solaura</h1>
+<p class="lead">Connect your Phantom wallet and discover your aura, calculated directly from the Solana blockchain.</p>
+<button class="cta" id="connect" type="button">
+<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 2C7 2 3.5 5.8 3.5 10.5V20c0 .8.9 1.2 1.5.7l1.8-1.5 1.9 1.6c.4.3.9.3 1.3 0L12 19.2l1.9 1.6c.4.3.9.3 1.3 0l1.9-1.6 1.8 1.5c.6.5 1.5.1 1.5-.7v-9.5C20.5 5.8 17 2 12 2Z"/><circle cx="9" cy="10.5" r="1.5" fill="#6d4cff"/><circle cx="15" cy="10.5" r="1.5" fill="#6d4cff"/></svg>
+<span id="clabel">Connect Phantom</span></button>
+<div id="msg" role="alert"></div>
+<p class="note">Solaura only reads your public address and public on-chain data. No signature, no transaction, never your private key.</p>
 </section>
 
-<section class="features" id="features">
-  <div class="container" style="display:contents;">
-
-    <div class="card clickable" onclick="openFeature('sniper')">
-      <h3>Sniper & Auto-buy</h3>
-      <p>Détection des nouveaux tokens et achat automatique au lancement.</p>
-      <span class="more">En savoir plus →</span>
-    </div>
-
-    <div class="card clickable" onclick="openFeature('copy')">
-      <h3>Copy Trading</h3>
-      <p>Suivez des wallets et répliquez leurs transactions.</p>
-      <span class="more">En savoir plus →</span>
-    </div>
-
-    <div class="card clickable" onclick="openFeature('tpsl')">
-      <h3>Take-profit & Stop-loss</h3>
-      <p>Vente automatique selon vos seuils de profit ou de perte.</p>
-      <span class="more">En savoir plus →</span>
-    </div>
-
-  </div>
+<section id="load" class="glass load" hidden aria-live="polite">
+<div class="spin"></div>
+<div id="step" style="font-weight:600">Reading your wallet…</div>
+<p class="note">Solaura is querying the Solana blockchain.</p>
 </section>
-<p class="note container"></p>
 
-<!-- MODALE -->
-<div id="feature-modal" class="modal-overlay hidden" onclick="closeFeature(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeFeature()" aria-label="Fermer">&times;</button>
-    <div id="modal-content"></div>
-  </div>
+<section id="res" class="glass" hidden aria-live="polite">
+<div class="gauge" role="img" aria-label="Aura gauge">
+<svg viewBox="0 0 220 220">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ef0c4"/><stop offset=".55" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f43f9a"/></linearGradient></defs>
+<circle class="bgc" cx="110" cy="110" r="96" fill="none" stroke-width="12"/>
+<circle class="fg" id="ring" cx="110" cy="110" r="96" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="603.2" stroke-dashoffset="603.2"/>
+</svg>
+<div class="mid"><div class="pts" id="pts">0</div><div class="max">out of 10,000</div></div>
 </div>
-
-<!-- FENÊTRE DE CODE D'ACCÈS -->
-<div id="code-modal" class="modal-overlay hidden" onclick="closeCode(event)">
-  <div class="modal code-modal">
-    <button class="modal-close" onclick="closeCode()" aria-label="Fermer">&times;</button>
-    <h3>Accès privé</h3>
-    <p>Entrez votre code d'accès.</p>
-    <input type="password" id="access-code" placeholder="Code d'accès" autocomplete="off"
-           onkeydown="if(event.key==='Enter') submitCode()">
-    <button type="button" class="btn" id="code-btn" onclick="submitCode()">Valider</button>
-    <div id="code-status" class="status"></div>
-  </div>
+<div class="tier" id="tier"></div>
+<div class="badge">Maximum aura reached</div>
+<div class="addr" id="shown"></div>
+<ul class="ladder" id="ladder"></ul>
+<div class="bars" id="bars"></div>
+<div class="acts">
+<button id="copy" type="button" class="cta" style="padding:12px 22px;font-size:.92rem">Copy my aura</button>
+<button id="again" type="button" class="alt">Recalculate</button>
+<button id="off" type="button" class="alt">Disconnect</button>
 </div>
-
-<section class="generator" id="generator">
-  <div class="container">
-
-    <h2>Générateur de bot</h2>
-
-    <div id="payment-section" class="payment-box">
-
-      <h3>Paiement requis – 29,99 $</h3>
-
-      <p>
-        Envoyez l'équivalent de 29,99 USD en SOL à l'adresse ci-dessous,
-        puis collez la <strong>signature de la transaction</strong>
-        (visible dans votre wallet ou sur Solscan).
-      </p>
-
-      <div class="address" id="sol-address">4Bb23ATUa6Wo6uaDtpeTrMkMyYkb47Zr4Q3AhbpgP3cX</div>
-
-      <button type="button" class="btn" onclick="copyAddress()">Copier l'adresse</button>
-
-      <div class="sig-box">
-        <label for="signature">Signature de la transaction :</label>
-        <input type="text" id="signature" placeholder="Ex : 5VERv8NMvzbJMEkV8xnrLkEaWRtSz9CosKDYjCJjBRnb..." autocomplete="off" spellcheck="false">
-      </div>
-
-      <button type="button" class="btn" id="verify-btn" onclick="verifyPayment()">
-        Vérifier le paiement et débloquer
-      </button>
-
-      <div id="payment-status" class="status"></div>
-
-    </div>
-
-    <div id="generator-section" class="hidden">
-
-      <form onsubmit="generateBot(event)">
-
-        <label for="blockchain">Blockchain</label>
-        <select id="blockchain" onchange="updateForm()">
-          <option value="solana">Solana / Pump.fun</option>
-          <option value="ethereum">Ethereum / Uniswap</option>
-          <option value="bsc">BSC / PancakeSwap</option>
-        </select>
-
-        <label for="bottype">Type de bot</label>
-        <select id="bottype" onchange="updateForm()">
-          <option value="sniper">Sniper (détecte les nouveaux tokens)</option>
-          <option value="copy">Copy Trading (Solana)</option>
-          <option value="full">Full Auto (sniper + take-profit / stop-loss)</option>
-        </select>
-
-        <label for="amount" id="amount-label">Montant simulé par trade (SOL)</label>
-        <input type="number" id="amount" value="0.5" min="0.01" step="0.01">
-
-        <div id="tpsl-fields" class="hidden field-group">
-          <label for="tp">Take-profit (% de gain)</label>
-          <input type="number" id="tp" value="100" min="1" step="1">
-          <label for="sl">Stop-loss (% de perte)</label>
-          <input type="number" id="sl" value="30" min="1" max="99" step="1">
-        </div>
-
-        <div id="sniper-fields" class="field-group">
-          <label for="minliq">Liquidité minimale du token ($)</label>
-          <input type="number" id="minliq" value="5000" min="0" step="100">
-        </div>
-
-        <div id="copy-fields" class="hidden field-group">
-          <label for="wallet">Adresse du wallet Solana à suivre</label>
-          <input type="text" id="wallet" placeholder="Adresse du wallet" autocomplete="off" spellcheck="false">
-        </div>
-
-        <button type="submit" class="btn">Générer le code</button>
-        <div id="gen-status" class="status"></div>
-      </form>
-
-      <pre id="output">Le code de votre bot apparaîtra ici.</pre>
-
-    </div>
-
-  </div>
+<p class="note" id="cmsg" style="text-align:center"></p>
 </section>
 
-<footer>
-  <div class="container">
-    MemeXbot © 2026 — Outil de génération de bots de trading.
-    Trading à haut risque : vous pouvez perdre la totalité de votre capital.
-  </div>
-</footer>
+</main>
+<details>
+<summary>Advanced</summary>
+<label for="rpc">Solana RPC URL</label>
+<input id="rpc" type="text" value="https://api.mainnet-beta.solana.com" spellcheck="false">
+<p>The public RPC is sometimes rate-limited. If you get an error, paste a personal RPC URL (Helius, QuickNode, etc.).</p>
+<label for="manual">Can’t connect Phantom? Analyze a public address instead</label>
+<input id="manual" type="text" placeholder="Your Solana public address" spellcheck="false" autocomplete="off">
+<button class="alt" id="manualgo" type="button">Analyze this address</button>
+</details>
+</div>
 
 <script>
-// ====== CONFIG ======
-const RECIPIENT = '4Bb23ATUa6Wo6uaDtpeTrMkMyYkb47Zr4Q3AhbpgP3cX';
-const PRICE_USD = 29.99;
-const RPC_URL = 'https://api.mainnet-beta.solana.com'; // remplace par un RPC gratuit (Helius, QuickNode) si limité
-const TOLERANCE = 0.03;            // marge de 3 % sur le cours du SOL
-const MAX_AGE_SEC = 24 * 3600;     // transaction de moins de 24 h
-const ACCESS_HOURS = 24;
-const ACCESS_HASH = '20e6b131c5473668e5330cf99a1a26d9df530d9b7be18ba5d435b82f08d7039c'; // SHA-256 du code d'accès
-const ACCESS_KEY = 'mb_access', USED_KEY = 'mb_used';
+(function(){
+var $=function(i){return document.getElementById(i)};
+var MAX=10000,C=603.2;
+var TOKEN="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",TOKEN22="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb";
+var tiers=[[0,"Aura NPC"],[1000,"Spark"],[3000,"Glow"],[5000,"Rising"],[7000,"Whale"],[9000,"Mythic"]];
+var fmt=function(n,d){return Number(n).toLocaleString("en-US",{maximumFractionDigits:d||0})};
+var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+var raf,last="",busy=false,addr="";
+function prov(){var p=(window.phantom&&window.phantom.solana)||window.solana;return p&&p.isPhantom?p:null}
+function waitProv(ms){return new Promise(function(res){
+var p=prov();if(p)return res(p);
+var t0=Date.now(),iv=setInterval(function(){var q=prov();if(q||Date.now()-t0>ms){clearInterval(iv);res(q)}},100)})}
+function view(id){["home","load","res"].forEach(function(s){$(s).hidden=s!==id})}
+function msg(h){$("msg").innerHTML=h}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function tierOf(a){if(a>=MAX)return "Legendary Aura";var t=tiers[0][1];tiers.forEach(function(x){if(a>=x[0])t=x[1]});return t}
+function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function part(v,full){return Math.max(0,Math.min(1,v/full))}
 
-// ====== OUTILS ======
-function sha256(str) {
-  const enc = new TextEncoder().encode(str);
-  const rotr = (x, n) => (x >>> n) | (x << (32 - n));
-  const primes = [];
-  for (let n = 2; primes.length < 64; n++) if (primes.every(p => n % p)) primes.push(n);
-  const frac = x => Math.floor((x - Math.floor(x)) * 4294967296);
-  const K = primes.map(p => frac(Math.cbrt(p)));
-  let H = primes.slice(0, 8).map(p => frac(Math.sqrt(p)));
-  const l = enc.length, nb = ((l + 9 + 63) >> 6) << 6;
-  const buf = new Uint8Array(nb); buf.set(enc); buf[l] = 0x80;
-  const dv = new DataView(buf.buffer);
-  dv.setUint32(nb - 4, (l * 8) >>> 0); dv.setUint32(nb - 8, Math.floor(l * 8 / 4294967296));
-  for (let o = 0; o < nb; o += 64) {
-    const w = new Uint32Array(64);
-    for (let i = 0; i < 16; i++) w[i] = dv.getUint32(o + i * 4);
-    for (let i = 16; i < 64; i++) {
-      const s0 = rotr(w[i-15], 7) ^ rotr(w[i-15], 18) ^ (w[i-15] >>> 3);
-      const s1 = rotr(w[i-2], 17) ^ rotr(w[i-2], 19) ^ (w[i-2] >>> 10);
-      w[i] = (w[i-16] + s0 + w[i-7] + s1) | 0;
-    }
-    let [a, b, c, d, e, f, g, h] = H;
-    for (let i = 0; i < 64; i++) {
-      const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
-      const t1 = (h + S1 + ((e & f) ^ (~e & g)) + K[i] + w[i]) | 0;
-      const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
-      const t2 = (S0 + ((a & b) ^ (a & c) ^ (b & c))) | 0;
-      h = g; g = f; f = e; e = (d + t1) | 0; d = c; c = b; b = a; a = (t1 + t2) | 0;
-    }
-    const v = [a, b, c, d, e, f, g, h];
-    H = H.map((x, i) => (x + v[i]) | 0);
-  }
-  return H.map(x => (x >>> 0).toString(16).padStart(8, '0')).join('');
+async function rpc(method,params){
+var url=$("rpc").value.trim()||"https://api.mainnet-beta.solana.com";
+for(var t=0;t<4;t++){
+var r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:method,params:params})});
+if(r.status===429){await sleep(800*(t+1));continue}
+if(!r.ok)throw new Error("HTTP "+r.status);
+var j=await r.json();
+if(j.error)throw new Error(j.error.message);
+return j.result}
+throw new Error("rate limit reached")}
+
+async function tokenAccounts(pid){
+try{var r=await rpc("getTokenAccountsByOwner",[addr,{programId:pid},{encoding:"jsonParsed"}]);return r.value||[]}
+catch(e){if(pid===TOKEN)throw e;return[]}}
+
+async function analyze(){
+if(busy)return;busy=true;view("load");
+try{
+$("step").textContent="Reading your balance…";
+var sol=(await rpc("getBalance",[addr])).value/1e9;
+
+$("step").textContent="Reading your transaction history…";
+var count=0,oldest=null,before,capped=false;
+for(var pg=0;pg<5;pg++){
+var opts={limit:1000};if(before)opts.before=before;
+var sigs=await rpc("getSignaturesForAddress",[addr,opts]);
+if(!sigs.length)break;
+count+=sigs.length;
+var l=sigs[sigs.length-1];
+if(l.blockTime)oldest=l.blockTime;
+before=l.signature;
+if(sigs.length<1000)break;
+if(pg===4)capped=true}
+var months=oldest?Math.max(0,(Date.now()/1000-oldest)/2629800):0;
+
+$("step").textContent="Reading your tokens and NFTs…";
+var accs=(await tokenAccounts(TOKEN)).concat(await tokenAccounts(TOKEN22));
+var tok=0,nft=0;
+accs.forEach(function(a){
+var ta=a.account.data.parsed.info.tokenAmount;
+if(ta.decimals===0&&ta.amount==="1")nft++;
+else if(ta.amount!=="0")tok++});
+
+render([
+["Balance",fmt(sol,2)+" SOL",part(Math.log10(1+sol),2)*2600,2600],
+["Wallet age",fmt(months)+" months",part(months,36)*2000,2000],
+["Activity",fmt(count)+(capped?"+":"")+" transactions",part(Math.log10(1+count),Math.log10(5001))*2200,2200],
+["Tokens",fmt(tok)+" held",part(tok,25)*1500,1500],
+["NFTs",fmt(nft)+" held",part(nft,20)*1100,1100],
+["Address vibe","unique signature",(hash(addr)%7)*100,600]]);
+view("res");
+}catch(e){
+view("home");
+msg("Couldn’t read the blockchain: "+esc(e.message||e)+". Try again, or set another RPC under “Advanced”.");
 }
+busy=false}
 
-function hasAccess() { try { return Number(localStorage.getItem(ACCESS_KEY)) > Date.now(); } catch { return false; } }
-function grantAccess() { try { localStorage.setItem(ACCESS_KEY, String(Date.now() + ACCESS_HOURS * 3600 * 1000)); } catch {} }
-function clearAccess() { try { localStorage.removeItem(ACCESS_KEY); } catch {} }
-function usedSigs() { try { return JSON.parse(localStorage.getItem(USED_KEY) || '[]'); } catch { return []; } }
-function markUsed(sig) { try { localStorage.setItem(USED_KEY, JSON.stringify([...usedSigs(), sig])); } catch {} }
+function render(parts){
+var aura=Math.max(0,Math.min(MAX,Math.round(parts.reduce(function(a,p){return a+p[2]},0))));
+var t=tierOf(aura);
+$("tier").textContent=t;
+$("res").classList.toggle("full",aura>=MAX);
+$("shown").textContent=addr.slice(0,6)+"…"+addr.slice(-6);
+$("ladder").innerHTML=tiers.map(function(x){return '<li class="'+(aura>=x[0]?"on":"")+'"><b>'+x[1]+'</b>'+fmt(x[0])+'</li>'}).join("");
+$("bars").innerHTML=parts.map(function(p){return '<div class="bar"><span>'+p[0]+'<small>'+p[1]+'</small></span><div class="track"><div class="fill" style="width:'+Math.round(p[2]/p[3]*100)+'%"></div></div><em>'+fmt(p[2])+' / '+fmt(p[3])+'</em></div>'}).join("");
+last="My Phantom wallet has "+fmt(aura)+" aura out of 10,000 on Solaura: "+t+" ✨";
+animate(aura)}
 
-function showGenerator(show) {
-  document.getElementById('payment-section').classList.toggle('hidden', show);
-  document.getElementById('generator-section').classList.toggle('hidden', !show);
-}
-function setStatus(id, text, cls) {
-  const el = document.getElementById(id);
-  el.textContent = text;
-  el.className = 'status' + (cls ? ' ' + cls : '');
-}
+function paint(v){
+$("pts").textContent=fmt(v);
+$("ring").style.strokeDashoffset=(C*(1-v/MAX)).toFixed(1);
+document.documentElement.style.setProperty("--k",(v/MAX).toFixed(3))}
+function animate(t){
+cancelAnimationFrame(raf);
+if(reduce){paint(t);return}
+var st=performance.now();
+(function f(n){var p=Math.min(1,(n-st)/1200),e=1-Math.pow(1-p,3);paint(t*e);if(p<1)raf=requestAnimationFrame(f)})(st)}
 
-if (hasAccess()) showGenerator(true);
-document.addEventListener('DOMContentLoaded', updateForm);
+function start(a){addr=a;msg("");analyze()}
 
-// ====== ACCÈS PRIVÉ (clic sur le logo) ======
-function openCode() {
-  document.getElementById('access-code').value = '';
-  setStatus('code-status', '');
-  document.getElementById('code-modal').classList.remove('hidden');
-  setTimeout(() => document.getElementById('access-code').focus(), 50);
-}
-function closeCode(event) {
-  if (!event || event.target.id === 'code-modal') document.getElementById('code-modal').classList.add('hidden');
-}
-function submitCode() {
-  const code = document.getElementById('access-code').value;
-  if (!code) { setStatus('code-status', 'Entrez le code.', 'err'); return; }
-  if (sha256(code) !== ACCESS_HASH) { setStatus('code-status', 'Code incorrect.', 'err'); return; }
-  grantAccess();
-  showGenerator(true);
-  document.getElementById('code-modal').classList.add('hidden');
-  document.getElementById('generator').scrollIntoView({ behavior: 'smooth' });
-}
+function diagnose(){
+var deep=(location.protocol.indexOf("http")===0)?' or <a href="https://phantom.app/ul/browse/'+encodeURIComponent(location.href)+'?ref='+encodeURIComponent(location.origin)+'">open Solaura inside the Phantom app</a>':"";
+if(location.protocol==="file:")
+msg("This page is opened as a local file, and Phantom can’t connect to it. Host it (for example with Netlify Drop) or run it on localhost, then reload.");
+else if(window.self!==window.top)
+msg("This page is running inside a preview frame, where Phantom can’t connect. Download the file and open it from your own hosting or from localhost.");
+else
+msg('Phantom wasn’t detected. <a href="https://phantom.app/download" target="_blank" rel="noopener">Install the extension</a>'+deep+', then reload the page. You can also analyze a public address under “Advanced”.')}
 
-// ====== PAIEMENT : vérification de la transaction directement sur Solana ======
-function copyAddress() {
-  navigator.clipboard.writeText(RECIPIENT)
-    .then(() => alert('Adresse copiée !'))
-    .catch(() => alert("Impossible de copier l'adresse."));
-}
+$("connect").addEventListener("click",async function(){
+var b=$("connect"),lab=$("clabel");
+b.disabled=true;lab.textContent="Connecting…";msg("");
+try{
+var p=await waitProv(1500);
+if(!p){diagnose();return}
+var r=await p.connect();
+start(r.publicKey.toString());
+}catch(e){
+if(e&&(e.code===4001||/reject|declin|denied/i.test(e.message||"")))msg("Connection declined in Phantom. Click the button again and approve the request.");
+else msg("Phantom error: "+esc((e&&e.message)||e)+". Make sure Phantom is unlocked, then try again.");
+}finally{b.disabled=false;lab.textContent="Connect Phantom"}});
 
-async function rpc(method, params) {
-  const r = await fetch(RPC_URL, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ jsonrpc: '2.0', id: 1, method, params })
-  });
-  const j = await r.json();
-  if (j.error) throw new Error(j.error.message);
-  return j.result;
-}
+$("manualgo").addEventListener("click",function(){
+var a=$("manual").value.trim();
+if(!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a)){msg("That doesn’t look like a valid Solana public address.");return}
+start(a)});
 
-async function verifyPayment() {
-  const sig = document.getElementById('signature').value.trim();
-  const btn = document.getElementById('verify-btn');
-  if (!/^[1-9A-HJ-NP-Za-km-z]{80,90}$/.test(sig)) { setStatus('payment-status', 'Signature de transaction invalide.', 'err'); return; }
-  if (usedSigs().includes(sig)) { setStatus('payment-status', 'Cette transaction a déjà été utilisée sur cet appareil.', 'err'); return; }
+$("again").addEventListener("click",analyze);
+$("off").addEventListener("click",function(){
+var p=prov();try{if(p&&p.disconnect)p.disconnect()}catch(e){}
+addr="";document.documentElement.style.setProperty("--k",".3");view("home")});
+$("copy").addEventListener("click",function(){
+var c=$("cmsg");
+try{navigator.clipboard.writeText(last).then(function(){c.textContent="Copied!"},function(){c.textContent=last})}catch(e){c.textContent=last}});
 
-  btn.disabled = true;
-  setStatus('payment-status', 'Vérification sur la blockchain en cours…');
-  try {
-    const tx = await rpc('getTransaction', [sig, { encoding: 'jsonParsed', maxSupportedTransactionVersion: 0, commitment: 'confirmed' }]);
-    if (!tx) throw new Error('Transaction introuvable (attendez la confirmation puis réessayez).');
-    if (tx.meta.err) throw new Error('La transaction a échoué.');
-    if (tx.blockTime && Date.now() / 1000 - tx.blockTime > MAX_AGE_SEC) throw new Error('Transaction trop ancienne (plus de 24 h).');
-
-    const keys = tx.transaction.message.accountKeys.map(k => k.pubkey || k);
-    const i = keys.indexOf(RECIPIENT);
-    if (i === -1) throw new Error("Le destinataire ne correspond pas à l'adresse indiquée.");
-    const received = tx.meta.postBalances[i] - tx.meta.preBalances[i];
-
-    const pr = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd');
-    const price = (await pr.json()).solana.usd;
-    const required = Math.floor((PRICE_USD / price) * 1e9 * (1 - TOLERANCE));
-    if (received < required) {
-      throw new Error('Montant insuffisant : reçu ' + (received / 1e9).toFixed(4) + ' SOL, attendu environ ' + (required / 1e9).toFixed(4) + ' SOL.');
-    }
-
-    markUsed(sig);
-    grantAccess();
-    setStatus('payment-status', '✓ Paiement confirmé !', 'ok');
-    showGenerator(true);
-    document.getElementById('generator').scrollIntoView({ behavior: 'smooth' });
-  } catch (e) {
-    setStatus('payment-status', e.message || 'Vérification impossible, réessayez.', 'err');
-  } finally {
-    btn.disabled = false;
-  }
-}
-
-// ====== GÉNÉRATEUR ======
-const UNITS = { solana: 'SOL', ethereum: 'ETH', bsc: 'BNB' };
-
-function updateForm() {
-  const chain = document.getElementById('blockchain').value;
-  const type = document.getElementById('bottype').value;
-  const copy = document.getElementById('bottype').querySelector('option[value="copy"]');
-  copy.disabled = chain !== 'solana';
-  if (chain !== 'solana' && type === 'copy') document.getElementById('bottype').value = 'sniper';
-  const t = document.getElementById('bottype').value;
-  document.getElementById('amount-label').textContent = 'Montant simulé par trade (' + UNITS[chain] + ')';
-  document.getElementById('sniper-fields').classList.toggle('hidden', t === 'copy');
-  document.getElementById('copy-fields').classList.toggle('hidden', t !== 'copy');
-  document.getElementById('tpsl-fields').classList.toggle('hidden', t === 'sniper');
-}
-
-function generateBot(e) {
-  e.preventDefault();
-  if (!hasAccess()) { clearAccess(); showGenerator(false); setStatus('payment-status', 'Accès expiré : un nouveau paiement est nécessaire.', 'err'); return; }
-
-  const chain = document.getElementById('blockchain').value;
-  const type = document.getElementById('bottype').value;
-  const amount = Number(document.getElementById('amount').value);
-  const tp = Number(document.getElementById('tp').value);
-  const sl = Number(document.getElementById('sl').value);
-  const minLiq = Number(document.getElementById('minliq').value);
-  const wallet = document.getElementById('wallet').value.trim();
-
-  if (![amount, tp, sl, minLiq].every(Number.isFinite) || amount <= 0 || tp <= 0 || sl <= 0 || sl >= 100 || minLiq < 0) {
-    setStatus('gen-status', 'Paramètres invalides.', 'err'); return;
-  }
-  if (type === 'copy' && !/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(wallet)) {
-    setStatus('gen-status', "Adresse de wallet Solana invalide.", 'err'); return;
-  }
-
-  document.getElementById('output').textContent = botCode(chain, type, amount, tp, sl, minLiq, wallet);
-  setStatus('gen-status', '✓ Code généré. Enregistrez-le dans bot.py, faites « pip install requests », puis « python bot.py ».', 'ok');
-}
-
-function botCode(chain, type, amount, tp, sl, minLiq, wallet) {
-  return `#!/usr/bin/env python3
-"""Bot de trading memecoins - MODE SIMULATION (aucun ordre reel n'est envoye).
-Mode : ${type} | Blockchain : ${chain}
-Prix et nouveaux tokens : API DexScreener. Copy trading : RPC Solana.
-Installation : pip install requests   |   Lancement : python bot.py
-"""
-import time
-import requests
-
-CHAIN = "${chain}"
-MODE = "${type}"              # sniper = detecte et suit | full = sniper + TP/SL | copy = copie un wallet
-AMOUNT = ${amount}            # montant simule par trade
-TAKE_PROFIT = ${tp}           # % de gain pour vendre
-STOP_LOSS = ${sl}             # % de perte pour vendre
-MIN_LIQUIDITY_USD = ${minLiq}
-WALLET = "${type === 'copy' ? wallet : ''}"
-POLL_SECONDS = 10
-RPC = "https://api.mainnet-beta.solana.com"
-DEX = "https://api.dexscreener.com"
-IGNORED_MINTS = {
-    "So11111111111111111111111111111111111111112",
-    "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-    "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB",
-}
-
-positions = {}    # adresse -> {symbol, entry}
-seen = set()
-total_pnl = 0.0
-
-
-def get_json(url, **kwargs):
-    r = requests.get(url, timeout=15, **kwargs)
-    r.raise_for_status()
-    return r.json()
-
-
-def token_info(address):
-    """Retourne (prix_usd, liquidite_usd, symbole) de la meilleure paire sur la blockchain choisie."""
-    pairs = get_json(f"{DEX}/latest/dex/tokens/{address}").get("pairs") or []
-    pairs = [p for p in pairs if p.get("chainId") == CHAIN and p.get("priceUsd")]
-    if not pairs:
-        return None
-    best = max(pairs, key=lambda p: (p.get("liquidity") or {}).get("usd", 0))
-    return float(best["priceUsd"]), (best.get("liquidity") or {}).get("usd", 0), best["baseToken"]["symbol"]
-
-
-def open_position(address, reason):
-    if address in positions or address in IGNORED_MINTS:
-        return
-    info = token_info(address)
-    if not info:
-        return
-    price, liquidity, symbol = info
-    if liquidity < MIN_LIQUIDITY_USD:
-        print(f"[IGNORE] {symbol} : liquidite {liquidity:.0f} $ < {MIN_LIQUIDITY_USD} $")
-        return
-    positions[address] = {"symbol": symbol, "entry": price}
-    print(f"[ACHAT SIMULE] {symbol} ({reason}) : {AMOUNT} @ {price:.10f} $ | liquidite {liquidity:.0f} $")
-
-
-def close_position(address, reason, change):
-    global total_pnl
-    pos = positions.pop(address)
-    gain = AMOUNT * change / 100
-    total_pnl += gain
-    print(f"[VENTE SIMULEE] {pos['symbol']} ({reason}) : {change:+.1f} % | PnL total simule : {total_pnl:+.4f}")
-
-
-def check_positions():
-    for address in list(positions):
-        try:
-            info = token_info(address)
-        except Exception as e:
-            print("Erreur prix :", e)
-            continue
-        if not info:
-            continue
-        change = (info[0] / positions[address]["entry"] - 1) * 100
-        print(f"  {positions[address]['symbol']} : {change:+.1f} %")
-        if MODE in ("full", "copy"):
-            if change >= TAKE_PROFIT:
-                close_position(address, "take-profit", change)
-            elif change <= -STOP_LOSS:
-                close_position(address, "stop-loss", change)
-
-
-def scan_new_tokens():
-    profiles = get_json(f"{DEX}/token-profiles/latest/v1")
-    for p in profiles:
-        address = p.get("tokenAddress")
-        if p.get("chainId") == CHAIN and address and address not in seen:
-            seen.add(address)
-            open_position(address, "nouveau token")
-
-
-last_sig = None
-
-
-def scan_wallet():
-    """Copy trading (Solana) : detecte les achats et ventes du wallet suivi."""
-    global last_sig
-    params = {"limit": 5}
-    if last_sig:
-        params["until"] = last_sig
-    body = {"jsonrpc": "2.0", "id": 1, "method": "getSignaturesForAddress", "params": [WALLET, params]}
-    sigs = requests.post(RPC, json=body, timeout=15).json().get("result") or []
-    if not sigs:
-        return
-    new_last = sigs[0]["signature"]
-    if last_sig is None:
-        last_sig = new_last           # premier passage : on ignore l'historique
-        print("Wallet suivi, en attente de nouvelles transactions...")
-        return
-    last_sig = new_last
-    for s in reversed(sigs):
-        body = {"jsonrpc": "2.0", "id": 1, "method": "getTransaction",
-                "params": [s["signature"], {"encoding": "jsonParsed", "maxSupportedTransactionVersion": 0}]}
-        tx = requests.post(RPC, json=body, timeout=15).json().get("result")
-        if not tx or tx["meta"]["err"]:
-            continue
-        pre, post = {}, {}
-        for b in tx["meta"].get("preTokenBalances", []):
-            if b.get("owner") == WALLET:
-                pre[b["mint"]] = float(b["uiTokenAmount"].get("uiAmount") or 0)
-        for b in tx["meta"].get("postTokenBalances", []):
-            if b.get("owner") == WALLET:
-                post[b["mint"]] = float(b["uiTokenAmount"].get("uiAmount") or 0)
-        for mint in set(pre) | set(post):
-            if mint in IGNORED_MINTS:
-                continue
-            delta = post.get(mint, 0) - pre.get(mint, 0)
-            if delta > 0:
-                open_position(mint, "copie d'un achat")
-            elif delta < 0 and mint in positions:
-                info = token_info(mint)
-                if info:
-                    close_position(mint, "copie d'une vente", (info[0] / positions[mint]["entry"] - 1) * 100)
-
-
-def main():
-    print(f"Bot {MODE} sur {CHAIN} - SIMULATION. Ctrl+C pour arreter.")
-    while True:
-        try:
-            if MODE == "copy":
-                scan_wallet()
-            else:
-                scan_new_tokens()
-            check_positions()
-        except Exception as e:
-            print("Erreur :", e)
-        time.sleep(POLL_SECONDS)
-
-
-if __name__ == "__main__":
-    main()
-`;
-}
-
-// FENÊTRES D'EXPLICATIONS
-const FEATURES = {
-  sniper: `
-    <h3>Sniper & Auto-buy</h3>
-    <p>Le sniper surveille la blockchain en continu et achète un token dès qu'il devient
-    négociable, parfois quelques secondes après sa création.</p>
-    <h4>Comment ça fonctionne</h4>
-    <ul>
-      <li><strong>Détection :</strong> le bot écoute la création de nouveaux pools de liquidité (Pump.fun, Raydium sur Solana).</li>
-      <li><strong>Filtres :</strong> il peut ignorer les tokens selon des critères (liquidité minimale, autorité de mint révoquée, taxes).</li>
-      <li><strong>Achat automatique :</strong> il envoie la transaction avec le montant configuré, un slippage maximum et des frais de priorité.</li>
-    </ul>
-    <h4>Paramètres typiques</h4>
-    <ul><li>Montant par achat</li><li>Slippage maximum</li><li>Frais de priorité</li><li>Liquidité minimale du pool</li></ul>
-    <div class="risk"><strong>Risques :</strong> la grande majorité des nouveaux memecoins perdent presque toute leur valeur.
-    Rug pulls, honeypots et bots concurrents plus rapides sont fréquents. N'investissez que ce que vous pouvez perdre.</div>
-  `,
-  copy: `
-    <h3>Copy Trading</h3>
-    <p>Le copy trading consiste à suivre l'adresse d'un ou plusieurs wallets et à reproduire automatiquement leurs transactions.</p>
-    <h4>Comment ça fonctionne</h4>
-    <ul>
-      <li><strong>Sélection :</strong> vous indiquez les adresses de wallets à suivre.</li>
-      <li><strong>Surveillance :</strong> le bot détecte chaque achat ou vente de ces wallets.</li>
-      <li><strong>Réplication :</strong> il exécute la même opération avec votre propre montant (fixe ou proportionnel).</li>
-    </ul>
-    <h4>Paramètres typiques</h4>
-    <ul><li>Liste des wallets suivis</li><li>Montant fixe ou ratio par trade</li><li>Filtres et plafond par position</li><li>Slippage maximum</li></ul>
-    <div class="risk"><strong>Risques :</strong> vous entrez toujours après le wallet copié, donc à un prix moins bon.
-    Un wallet performant dans le passé ne garantit rien.</div>
-  `,
-  tpsl: `
-    <h3>Take-profit & Stop-loss</h3>
-    <p>Ces deux ordres automatisent vos sorties de position pour ne pas dépendre de votre présence devant l'écran.</p>
-    <h4>Définitions</h4>
-    <ul>
-      <li><strong>Take-profit :</strong> vente automatique quand le prix atteint un gain cible (ex. +100 %).</li>
-      <li><strong>Stop-loss :</strong> vente automatique quand le prix tombe sous un seuil (ex. −30 %).</li>
-      <li><strong>Trailing stop :</strong> le seuil suit le prix à la hausse.</li>
-      <li><strong>Ventes partielles :</strong> vendre par paliers (ex. 50 % à x2, le reste à x5).</li>
-    </ul>
-    <h4>Exemple</h4>
-    <p>Achat à 100 $ avec TP à +100 % et SL à −30 % : le bot vend à 200 $ si le prix monte, ou à 70 $ s'il baisse.</p>
-    <div class="risk"><strong>Risques :</strong> sur les memecoins, le prix peut chuter de 90 % en quelques secondes.
-    Le stop-loss ne garantit pas le prix de sortie, et si la liquidité disparaît la vente peut échouer.</div>
-  `
-};
-
-function openFeature(key) {
-  document.getElementById('modal-content').innerHTML = FEATURES[key];
-  document.getElementById('feature-modal').classList.remove('hidden');
-}
-function closeFeature(event) {
-  if (!event || event.target.id === 'feature-modal') {
-    document.getElementById('feature-modal').classList.add('hidden');
-  }
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.getElementById('feature-modal').classList.add('hidden');
-    document.getElementById('code-modal').classList.add('hidden');
-  }
-});
+waitProv(1200).then(function(p){
+if(p){try{p.connect({onlyIfTrusted:true}).then(function(r){start(r.publicKey.toString())}).catch(function(){})}catch(e){}}});
+})();
 </script>
-
 </body>
 </html>
-
