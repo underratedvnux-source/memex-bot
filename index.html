@@ -142,7 +142,10 @@ function tierOf(a){if(a>=MAX)return "Legendary Aura";var t=tiers[0][1];tiers.for
 function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function part(v,full){return Math.max(0,Math.min(1,v/full))}
 
-var ENDPOINTS=["https://solana-rpc.publicnode.com","https://solana.drpc.org","https://api.mainnet-beta.solana.com"];
+// Paste your own RPC URL between the quotes (e.g. https://mainnet.helius-rpc.com/?api-key=YOUR_KEY).
+// Visitors then need to do nothing. Leave empty to use free public servers only.
+var MY_RPC="https://mainnet.helius-rpc.com/?api-key=b6e42558-5111-4741-a007-1effb0fb46ae";
+var ENDPOINTS=(MY_RPC?[MY_RPC]:[]).concat(["https://solana-rpc.publicnode.com","https://solana.drpc.org","https://api.mainnet-beta.solana.com"]);
 var okIdx=0;
 async function rpcOne(url,method,params){
 for(var t=0;t<3;t++){
@@ -272,3 +275,4 @@ if(p){try{p.connect({onlyIfTrusted:true}).then(function(r){start(r.publicKey.toS
 </script>
 </body>
 </html>
+
