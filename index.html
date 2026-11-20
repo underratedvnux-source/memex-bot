@@ -1,331 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Solaura – the aura of your Phantom wallet</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&display=swap">
+<title>CoinCheck – Analyse de memecoin Solana</title>
 <style>
-:root{--ink:#f3f1fc;--mute:#a9a5cc;--line:rgba(255,255,255,.14);--k:.3;--h:160}
-*,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#06060c;color:var(--ink);font-family:Sora,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
-body{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.bg::before{content:"";position:absolute;left:50%;top:-10%;width:130vmax;height:130vmax;transform:translateX(-50%);background:radial-gradient(circle,hsl(var(--h) 85% 55%/calc(.1 + .22*var(--k))) 0,transparent 55%);transition:background .8s}
-.bg i{position:absolute;width:4px;height:4px;border-radius:50%;background:hsl(var(--h) 90% 80%);opacity:0;animation:float 9s ease-in infinite}
-@keyframes float{0%{transform:translateY(40px) scale(.5);opacity:0}25%{opacity:.8}100%{transform:translateY(-160px) scale(1.2);opacity:0}}
-@keyframes rot{to{transform:rotate(360deg)}}
-@keyframes rotr{to{transform:rotate(-360deg)}}
-@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important}}
-.wrap{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:24px 20px 48px;min-height:100vh;display:flex;flex-direction:column}
-.top{display:flex;align-items:center;gap:10px;font-weight:800}
-main{flex:1;display:grid;align-items:center}
-section[hidden]{display:none}
-.hero{text-align:center;padding:20px 0}
-/* aura orb */
-.orb{position:relative;width:min(250px,64vw);aspect-ratio:1;margin:0 auto}
-.halo,.halo2{position:absolute;inset:-22%;border-radius:50%;animation:rot 16s linear infinite,breathe 6s ease-in-out infinite;filter:blur(34px);opacity:calc(.35 + .6*var(--k));background:conic-gradient(hsl(var(--h) 95% 60%),hsl(calc(var(--h) + 75) 95% 62%),hsl(calc(var(--h) + 150) 95% 60%),hsl(var(--h) 95% 60%))}
-.halo2{inset:-8%;filter:blur(16px);animation:rotr 11s linear infinite;opacity:calc(.25 + .5*var(--k))}
-.core{position:absolute;inset:24%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0,hsl(var(--h) 90% 75%) 25%,hsl(calc(var(--h) + 70) 85% 45%) 70%,#12082e 100%);box-shadow:0 0 60px hsl(var(--h) 90% 60%/.6)}
-.logo{position:absolute;inset:20%;width:60%;height:60%;filter:drop-shadow(0 0 16px hsl(var(--h) 90% 60%/.65))}
-.spin .logo{inset:18%;width:64%;height:64%}
-.rt{position:absolute;inset:0;width:100%;height:100%;animation:rot 40s linear infinite;overflow:visible}
-.rt text{font-size:10.5px;letter-spacing:.42em;fill:var(--mute);font-weight:600}
-h1{margin:26px 0 0;font-size:clamp(3rem,14vw,5.6rem);font-weight:800;letter-spacing:-.05em;line-height:.95;background:linear-gradient(100deg,hsl(var(--h) 95% 70%),hsl(calc(var(--h) + 110) 90% 70%));-webkit-background-clip:text;background-clip:text;color:transparent}
-.tag{margin:12px 0 0;font-weight:300;font-size:1.15rem;color:var(--ink)}
-.lead{margin:14px auto 26px;max-width:46ch;color:var(--mute);font-size:1rem}
-.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px;margin:30px auto 0;padding:0;list-style:none}
-.chips li{font-size:.76rem;padding:7px 12px;border-radius:99px;border:1px solid var(--line);color:var(--mute)}
-.chips b{color:var(--ink);font-weight:600}
-.glass{background:rgba(13,12,24,.82);border:1px solid var(--line);border-radius:18px;padding:26px 22px;backdrop-filter:blur(6px)}
-button{font:inherit;font-weight:600;border:0;border-radius:12px;padding:14px 22px;cursor:pointer;background:#ab9ff2;color:#1b0f4a}
-button.cta{display:inline-flex;align-items:center;gap:10px;font-size:1.05rem;padding:16px 28px;background:linear-gradient(135deg,#ab9ff2,#7c5cff);color:#fff;box-shadow:0 10px 40px -8px rgba(124,92,255,.85)}
-button.alt{background:transparent;color:var(--ink);border:1px solid var(--line);padding:11px 16px;font-size:.86rem}
-button:disabled{opacity:.6;cursor:wait}
-button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #ab9ff2;outline-offset:2px}
-.note{font-size:.8rem;color:var(--mute);margin:18px auto 0;max-width:52ch}
-#msg{margin:16px auto 0;max-width:52ch;font-size:.88rem;color:#ffb4c8}
-#msg a,.note a{color:#ab9ff2}
-.load{text-align:center}
-.spin{position:relative;width:110px;height:110px;margin:0 auto 22px}
-.spin .halo{inset:0;filter:blur(18px);opacity:.9}
-.gauge{position:relative;width:min(290px,70vw);aspect-ratio:1;margin:22px auto 0}
-.gauge .halo{inset:-6%;filter:blur(30px)}
-.gauge svg.g{position:relative;width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
-.gauge .bgc{stroke:rgba(255,255,255,.1)}
-.mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
-.pts{font-size:clamp(2.3rem,9vw,3.3rem);font-weight:800;letter-spacing:-.03em;line-height:1}
-.max{font-size:.8rem;color:var(--mute);margin-top:6px}
-.tier{text-align:center;margin:26px 0 2px;font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
-.mantra{text-align:center;color:var(--mute);font-weight:300;font-size:1rem;max-width:40ch;margin:4px auto 0}
-.hue{display:flex;gap:8px;align-items:center;justify-content:center;margin:16px 0 0;font-size:.86rem}
-.sw{width:16px;height:16px;border-radius:50%;background:conic-gradient(hsl(var(--h) 95% 60%),hsl(calc(var(--h) + 75) 95% 62%),hsl(calc(var(--h) + 150) 95% 60%),hsl(var(--h) 95% 60%));box-shadow:0 0 12px hsl(var(--h) 95% 60%)}
-.addr{text-align:center;font-size:.78rem;color:var(--mute);margin-top:6px}
-.badge{display:none;margin:10px auto 0;width:max-content;padding:3px 12px;border-radius:99px;background:#fff;color:#1b0f4a;font-weight:800;font-size:.8rem}
-.full .badge{display:block}
-.ladder{list-style:none;margin:22px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-@media(min-width:560px){.ladder{grid-template-columns:repeat(6,1fr)}}
-.ladder li{font-size:.7rem;text-align:center;padding:7px 4px;border-radius:9px;border:1px solid var(--line);color:#8f8bb5}
-.ladder li b{display:block;font-size:.72rem}
-.ladder li.on{color:#fff;border-color:hsl(var(--h) 90% 65%);background:hsl(var(--h) 90% 60%/.2)}
-h2{font-size:.95rem;margin:26px 0 0;font-weight:600}
-.bars{display:grid;gap:14px;margin-top:14px}
-.bar{display:grid;grid-template-columns:132px 1fr 88px;gap:10px;align-items:center;font-size:.82rem}
-.bar small{display:block;color:var(--mute);font-size:.72rem}
-.bar em{font-style:normal;text-align:right}
-@media(max-width:480px){.bar{grid-template-columns:104px 1fr 70px}}
-.track{height:7px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
-.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,hsl(var(--h) 95% 62%),hsl(calc(var(--h) + 110) 90% 65%));transition:width .7s}
-.acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
-details{margin-top:26px;font-size:.8rem;color:var(--mute)}
-summary{cursor:pointer;width:max-content}
-details input{width:100%;margin:8px 0;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:rgba(0,0,0,.3);color:var(--ink);font:inherit}
+:root{--bg:#0b0b10;--sf:#15151d;--tx:#f1f0f5;--mu:#9a99a6;--bd:#262633;--ok:#14c38e;--wa:#f5a524;--dg:#ff3b5c;--ac:#7b5cff;color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(900px 400px at 50% -100px,#1d1a3a,transparent),var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+.w{max-width:860px;margin:0 auto;padding:28px 16px 56px}
+h1{font-size:32px;margin:0;letter-spacing:-.5px}h1 span{background:linear-gradient(90deg,var(--ok),var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mu);margin:6px 0 22px}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+input{flex:1;min-width:220px;background:var(--sf);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:14px;font:inherit}
+input:focus{outline:2px solid var(--ac)}
+button{border:0;border-radius:12px;padding:14px 22px;font:inherit;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--ok),var(--ac));cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+.st{color:var(--mu);margin:18px 0}
+.v{border:1px solid var(--bd);border-radius:16px;padding:20px;margin:22px 0;background:var(--sf)}
+.v .sc{font-size:40px;font-weight:800;line-height:1.1}
+.v .tt{font-size:20px;font-weight:700;margin-top:6px}
+.meter{height:8px;border-radius:4px;background:var(--bd);margin-top:14px;overflow:hidden}.meter i{display:block;height:100%}
+h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin:26px 0 10px}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+.c{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
+.c b{display:block;font-size:12px;color:var(--mu);font-weight:500}
+.f{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}.f:last-child{border:0}
+.d{width:10px;height:10px;border-radius:50%;margin-top:7px;flex:none}
+.note{font-size:13px;color:var(--mu);margin-top:22px;border-left:3px solid var(--ac);padding-left:12px}
+a{color:var(--ok)}
+.links{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px}
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="lg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="#0a0818" style="stroke:hsl(var(--h) 90% 65%)" stroke-width="1.5"/><g fill="none" stroke-width="3.6" stroke-linecap="round"><path d="M18 78V52a32 32 0 0 1 64 0v26" style="stroke:hsl(var(--h) 92% 62%)"/><path d="M27 78V52a23 23 0 0 1 46 0v26" style="stroke:hsl(calc(var(--h) + 75) 92% 66%)"/><path d="M36 78V52a14 14 0 0 1 28 0v26" style="stroke:hsl(calc(var(--h) + 150) 92% 68%)"/></g><circle cx="50" cy="52" r="5.5" fill="#fff"/><path d="M41 78q0-15 9-15t9 15z" fill="#fff"/><path d="M50 9l2.4 6.6L59 18l-6.6 2.4L50 27l-2.4-6.6L41 18l6.6-2.4z" fill="#fff"/></symbol></defs></svg>
-<div class="bg" id="bg" aria-hidden="true"></div>
-<div class="wrap">
-<div class="top"><svg width="30" height="24" viewBox="0 0 397.7 311.7" role="img" aria-label="Solana logo"><defs><linearGradient id="sol" x1="360" y1="-38" x2="141" y2="347" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00ffa3"/><stop offset="1" stop-color="#dc1fff"/></linearGradient></defs><path fill="url(#sol)" d="M64.6,237.9c2.4-2.4,5.7-3.8,9.2-3.8h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,237.9z"/><path fill="url(#sol)" d="M64.6,3.8C67.1,1.4,70.4,0,73.8,0h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,3.8z"/><path fill="url(#sol)" d="M333.1,120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8,0-8.7,7-4.6,11.1l62.7,62.7c2.4,2.4,5.7,3.8,9.2,3.8h317.4c5.8,0,8.7-7,4.6-11.1L333.1,120.1z"/></svg>Solaura</div>
-<main>
-
-<section id="home" class="hero">
-<div class="orb"><div class="halo"></div><div class="halo2"></div><svg class="logo" aria-hidden="true"><use href="#lg"/></svg><svg class="rt" viewBox="0 0 200 200" aria-hidden="true"></svg></div>
-<h1>Solaura</h1>
-<p class="tag">Every wallet gives off an energy. What color is yours?</p>
-<p class="lead">Connect Phantom and reveal the color, the strength and the rank of your aura, read straight from the Solana blockchain.</p>
-<button class="cta" id="connect" type="button">
-<svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 2C7 2 3.5 5.8 3.5 10.5V20c0 .8.9 1.2 1.5.7l1.8-1.5 1.9 1.6c.4.3.9.3 1.3 0L12 19.2l1.9 1.6c.4.3.9.3 1.3 0l1.9-1.6 1.8 1.5c.6.5 1.5.1 1.5-.7v-9.5C20.5 5.8 17 2 12 2Z"/><circle cx="9" cy="10.5" r="1.5" fill="#6d4cff"/><circle cx="15" cy="10.5" r="1.5" fill="#6d4cff"/></svg>
-<span id="clabel">Reveal my aura</span></button>
-<div id="msg" role="alert"></div>
-<ul class="chips" aria-label="How your aura is read">
-<li><b>Gold energy</b> your balance</li><li><b>Momentum</b> your transactions</li><li><b>Wisdom</b> your wallet age</li><li><b>Constellations</b> your tokens</li><li><b>Relics</b> your NFTs</li><li><b>Signature</b> your address</li>
-</ul>
-<p class="note">Solaura only reads your public address and public on-chain data. No signature, no transaction, never your private key.</p>
-</section>
-
-<section id="load" class="glass load" hidden aria-live="polite">
-<div class="spin"><div class="halo"></div><svg class="logo" aria-hidden="true"><use href="#lg"/></svg></div>
-<div id="step" style="font-weight:600">Sensing your energy…</div>
-<p class="note">Solaura is reading your aura from the Solana blockchain.</p>
-</section>
-
-<section id="res" class="glass" hidden aria-live="polite">
-<div class="gauge" role="img" aria-label="Aura gauge">
-<div class="halo"></div>
-<svg class="g" viewBox="0 0 220 220">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14f195"/><stop offset="1" stop-color="#9945ff"/></linearGradient></defs>
-<circle class="bgc" cx="110" cy="110" r="96" fill="none" stroke-width="12"/>
-<circle id="ring" cx="110" cy="110" r="96" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="603.2" stroke-dashoffset="603.2"/>
-</svg>
-<div class="mid"><div class="pts" id="pts">0</div><div class="max">aura points of 10,000</div></div>
+<div class="w">
+  <h1>Coin<span>Check</span></h1>
+  <p class="sub">Colle l’adresse d’un token Solana : infos, signaux de risque et verdict en quelques secondes.</p>
+  <div class="bar">
+    <input id="addr" placeholder="Adresse du token (mint) ou lien pump.fun / DexScreener" spellcheck="false" autocomplete="off">
+    <button id="go">Analyser</button>
+  </div>
+  <div id="out"></div>
 </div>
-<div class="tier" id="tier"></div>
-<p class="mantra" id="mantra"></p>
-<div class="badge">Maximum aura reached</div>
-<div class="hue"><span class="sw"></span><span id="hue"></span></div>
-<div class="addr" id="shown"></div>
-<ul class="ladder" id="ladder"></ul>
-<h2>The layers of your aura</h2>
-<div class="bars" id="bars"></div>
-<p class="note" id="partial" style="text-align:center"></p>
-<div class="acts">
-<button id="copy" type="button" class="cta" style="padding:12px 22px;font-size:.92rem">Copy my aura</button>
-<button id="again" type="button" class="alt">Read again</button>
-<button id="off" type="button" class="alt">Disconnect</button>
-</div>
-<p class="note" id="cmsg" style="text-align:center"></p>
-</section>
-
-</main>
-<details>
-<summary>Advanced</summary>
-<label for="rpc">Solana RPC URL</label>
-<input id="rpc" type="text" value="" placeholder="https://… (optional)" spellcheck="false">
-<p>Leave empty to use free public servers. If you get an error, paste a personal RPC URL (a free Helius key works well).</p>
-<label for="manual">Can’t connect Phantom? Read a public address instead</label>
-<input id="manual" type="text" placeholder="Your Solana public address" spellcheck="false" autocomplete="off">
-<button class="alt" id="manualgo" type="button">Read this address</button>
-</details>
-</div>
-
 <script>
-(function(){
-var $=function(i){return document.getElementById(i)};
-var MAX=10000,C=603.2;
-var TOKEN="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",TOKEN22="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb";
-var tiers=[[0,"Aura NPC","Your glow is still loading. Keep moving on-chain.",220],[1000,"Spark","A first flicker lights up around you.",170],[3000,"Glow","Your presence is starting to be felt.",150],[5000,"Rising","Your energy is climbing and others notice.",270],[7000,"Whale","A deep, heavy aura that bends the whole ocean.",200],[9000,"Mythic","Your aura is the stuff of legends.",300]];
-var LEG=[MAX,"Legendary Aura","Pure light. Nothing left to prove.",0];
-var hues=["Ruby","Amber","Gold","Emerald","Turquoise","Sapphire","Violet","Magenta"];
-var fmt=function(n,d){return Number(n).toLocaleString("en-US",{maximumFractionDigits:d||0})};
-var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
-var raf,last="",busy=false,addr="";
-var root=document.documentElement;
-function prov(){var p=(window.phantom&&window.phantom.solana)||window.solana;return p&&p.isPhantom?p:null}
-function waitProv(ms){return new Promise(function(res){
-var p=prov();if(p)return res(p);
-var t0=Date.now(),iv=setInterval(function(){var q=prov();if(q||Date.now()-t0>ms){clearInterval(iv);res(q)}},100)})}
-function view(id){["home","load","res"].forEach(function(s){$(s).hidden=s!==id})}
-function msg(h){$("msg").innerHTML=h}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
-function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
-function tierOf(a){if(a>=MAX)return LEG;var t=tiers[0];tiers.forEach(function(x){if(a>=x[0])t=x});return t}
-function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
-function part(v,full){return Math.max(0,Math.min(1,v/full))}
+const DS = "https://api.dexscreener.com";
+const RC = "https://api.rugcheck.xyz/v1/tokens/";
+const B58 = /[1-9A-HJ-NP-Za-km-z]{32,44}/;
+const $ = (id) => document.getElementById(id);
 
-// decor: circular text + rising sparks
-$("home").querySelector(".rt").innerHTML='<defs><path id="cp" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0"/></defs><text><textPath href="#cp">AURA · ENERGY · GLOW · VIBES · ON-CHAIN · PRESENCE · LIGHT · </textPath></text>';
-var bg=$("bg");for(var s=0;s<16;s++){var i=document.createElement("i");i.style.left=(Math.random()*100)+"%";i.style.top=(40+Math.random()*60)+"%";i.style.animationDelay=(Math.random()*9)+"s";i.style.animationDuration=(7+Math.random()*6)+"s";bg.appendChild(i)}
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+async function getJSON(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error("HTTP " + r.status);
+  return r.json();
+}
+const usd = (n) => {
+  if (n == null || isNaN(n)) return "—";
+  const a = Math.abs(n);
+  if (a >= 1e9) return "$" + (n / 1e9).toFixed(2) + "B";
+  if (a >= 1e6) return "$" + (n / 1e6).toFixed(2) + "M";
+  if (a >= 1e3) return "$" + (n / 1e3).toFixed(1) + "K";
+  return "$" + Number(n).toPrecision(3);
+};
+const pct = (n) => (n == null ? "—" : (n > 0 ? "+" : "") + n + "%");
+const age = (ms) => {
+  if (!ms) return "—";
+  const h = (Date.now() - ms) / 36e5;
+  return h < 1 ? Math.round(h * 60) + " min" : h < 48 ? h.toFixed(1) + " h" : Math.round(h / 24) + " j";
+};
+const COL = { ok: "var(--ok)", warn: "var(--wa)", bad: "var(--dg)", info: "var(--mu)" };
 
-// Paste your own RPC URL between the quotes (e.g. https://mainnet.helius-rpc.com/?api-key=YOUR_KEY).
-// Visitors then need to do nothing. Leave empty to use free public servers only.
-var MY_RPC="https://mainnet.helius-rpc.com/?api-key=b6e42558-5111-4741-a007-1effb0fb46ae";
-var ENDPOINTS=(MY_RPC?[MY_RPC]:[]).concat(["https://solana-rpc.publicnode.com","https://solana.drpc.org","https://solana.api.onfinality.io/public","https://api.mainnet-beta.solana.com"]);
-var okIdx=0;
-async function rpcOne(url,method,params){
-for(var t=0;t<3;t++){
-var ac=new AbortController(),to=setTimeout(function(){ac.abort()},9000),r;
-try{r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:method,params:params}),signal:ac.signal})}
-catch(e){throw new Error(e&&e.name==="AbortError"?"timeout":"network or CORS error")}
-finally{clearTimeout(to)}
-if(r.status===429){await sleep(700*(t+1));continue}
-if(!r.ok)throw new Error("HTTP "+r.status);
-var j=await r.json();
-if(j.error)throw new Error(j.error.message);
-return j.result}
-throw new Error("HTTP 429")}
-async function rpc(method,params){
-var custom=$("rpc").value.trim();
-var list=custom?[custom]:ENDPOINTS.slice(okIdx).concat(ENDPOINTS.slice(0,okIdx));
-var errs=[];
-for(var i=0;i<list.length;i++){
-try{var res=await rpcOne(list[i],method,params);if(!custom)okIdx=ENDPOINTS.indexOf(list[i]);return res}
-catch(e){var h=list[i];try{h=new URL(list[i]).hostname}catch(x){}errs.push(h+" → "+(e.message||e))}}
-throw new Error(errs.join(" | "))}
+async function run(input) {
+  const out = $("out");
+  const m = input.match(B58);
+  if (!m) { out.replaceChildren(el("div", "st", "Adresse invalide : colle l’adresse complète du token.")); return; }
+  out.replaceChildren(el("div", "st", "Analyse en cours…"));
+  $("go").disabled = true;
+  try {
+    let addr = m[0];
+    let pairs = [];
+    try {
+      const d = await getJSON(DS + "/latest/dex/tokens/" + addr);
+      pairs = (d.pairs || []).filter((p) => p.chainId === "solana");
+    } catch (e) {}
+    if (!pairs.length) {
+      try {
+        const d = await getJSON(DS + "/latest/dex/pairs/solana/" + addr);
+        const p0 = (d.pairs || [])[0];
+        if (p0) { pairs = [p0]; addr = p0.baseToken.address; }
+      } catch (e) {}
+    }
+    pairs.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0));
+    const p = pairs[0];
 
-async function tokenAccounts(pid){
-try{var r=await rpc("getTokenAccountsByOwner",[addr,{programId:pid},{encoding:"jsonParsed"}]);return r.value||[]}
-catch(e){if(pid===TOKEN)throw e;return[]}}
+    const rug = await getJSON(RC + addr + "/report").catch(() => null);
 
-async function analyze(){
-if(busy)return;busy=true;view("load");
-var d={sol:null,count:null,months:null,capped:false,tok:null,nft:null},fails=[],firstErr="";
-function note(k,e){fails.push(k);if(!firstErr)firstErr=(e&&e.message)||String(e)}
-$("step").textContent="Sensing your gold energy…";
-try{d.sol=(await rpc("getBalance",[addr])).value/1e9}catch(e){note("balance",e)}
-$("step").textContent="Following your momentum…";
-try{
-var count=0,oldest=null,before;
-for(var pg=0;pg<5;pg++){
-var opts={limit:1000};if(before)opts.before=before;
-var sigs;
-try{sigs=await rpc("getSignaturesForAddress",[addr,opts])}catch(e){if(pg===0)throw e;d.capped=true;break}
-if(!sigs.length)break;
-count+=sigs.length;
-var l=sigs[sigs.length-1];
-if(l.blockTime)oldest=l.blockTime;
-before=l.signature;
-if(sigs.length<1000)break;
-if(pg===4)d.capped=true}
-d.count=count;
-d.months=oldest?Math.max(0,(Date.now()/1000-oldest)/2629800):0;
-}catch(e){note("transactions",e)}
-$("step").textContent="Counting your constellations and relics…";
-try{
-var accs=(await tokenAccounts(TOKEN)).concat(await tokenAccounts(TOKEN22));
-var tok=0,nft=0;
-accs.forEach(function(a){
-var ta=a.account.data.parsed.info.tokenAmount;
-if(ta.decimals===0&&ta.amount==="1")nft++;
-else if(ta.amount!=="0")tok++});
-d.tok=tok;d.nft=nft;
-}catch(e){note("tokens",e)}
-if(d.sol===null&&d.count===null&&d.tok===null){
-view("home");
-msg("Couldn’t read the blockchain: "+esc(firstErr)+". Try again, or set another RPC under “Advanced”.");
-busy=false;return}
-render(d,fails);
-view("res");
-busy=false}
+    const authority = (key) => {
+      if (!rug) return undefined;
+      return rug[key] !== undefined ? rug[key] : rug.token?.[key];
+    };
+    const ma = authority("mintAuthority"), fa = authority("freezeAuthority");
+    const holders = rug?.topHolders || [];
+    const top1 = holders.length ? Number(holders[0].pct) : null;
+    const top10 = holders.length ? holders.slice(0, 10).reduce((a, h) => a + Number(h.pct || 0), 0) : null;
+    const insiders = holders.filter((h) => h.insider).length;
 
-function render(d,fails){
-var rows=[
-["Gold energy","Balance · "+(d.sol===null?"":fmt(d.sol,2)+" SOL"),d.sol===null?0:part(Math.log10(1+d.sol),2)*3000,3000,d.sol===null],
-["Momentum","Transactions · "+(d.count===null?"":fmt(d.count)+(d.capped?"+":"")),d.count===null?0:part(Math.log10(1+d.count),Math.log10(5001))*3000,3000,d.count===null],
-["Wisdom","Wallet age · "+(d.months===null?"":fmt(d.months)+" months"),d.months===null?0:part(d.months,36)*1500,1500,d.months===null],
-["Constellations","Tokens · "+(d.tok===null?"":fmt(d.tok)),d.tok===null?0:part(d.tok,25)*1200,1200,d.tok===null],
-["Relics","NFTs · "+(d.nft===null?"":fmt(d.nft)),d.nft===null?0:part(d.nft,20)*800,800,d.nft===null],
-["Signature","Address vibe · unique",(hash(addr)%6)*100,500,false]];
-var got=0,avail=0;
-rows.forEach(function(r){if(!r[4]){got+=r[2];avail+=r[3]}});
-var aura=Math.max(0,Math.min(MAX,Math.round(got/avail*MAX)));
-var t=tierOf(aura);
-var H=hash(addr)%360,hn=hues[Math.floor(H/45)];
-root.style.setProperty("--h",H);
-$("tier").textContent=t[1];
-$("mantra").textContent=t[2];
-$("hue").textContent="Your aura color: "+hn;
-$("res").classList.toggle("full",aura>=MAX);
-$("shown").textContent=addr.slice(0,6)+"…"+addr.slice(-6);
-$("partial").textContent=fails.length?"Estimated from the energy we could read. Unreadable: "+fails.join(", ")+".":"";
-$("ladder").innerHTML=tiers.map(function(x){return '<li class="'+(aura>=x[0]?"on":"")+'"><b>'+x[1]+'</b>'+fmt(x[0])+'</li>'}).join("");
-$("bars").innerHTML=rows.map(function(r){
-var ok=!r[4];
-return '<div class="bar"><span>'+r[0]+'<small>'+(ok?r[1]:"unreadable")+'</small></span><div class="track"><div class="fill" style="width:'+(ok?Math.round(r[2]/r[3]*100):0)+'%"></div></div><em>'+(ok?fmt(r[2])+' / '+fmt(r[3]):"–")+'</em></div>'}).join("");
-last="My Phantom wallet radiates "+fmt(aura)+" aura out of 10,000 on Solaura: "+t[1]+", "+hn+" aura ✨";
-animate(aura)}
+    const flags = [];
+    const add = (pts, level, text) => flags.push({ pts, level, text });
 
-function paint(v){
-$("pts").textContent=fmt(v);
-$("ring").style.strokeDashoffset=(C*(1-v/MAX)).toFixed(1);
-root.style.setProperty("--k",(v/MAX).toFixed(3))}
-function animate(t){
-cancelAnimationFrame(raf);
-if(reduce){paint(t);return}
-var st=performance.now();
-(function f(n){var p=Math.min(1,(n-st)/1400),e=1-Math.pow(1-p,3);paint(t*e);if(p<1)raf=requestAnimationFrame(f)})(st)}
+    if (!p) add(40, "bad", "Aucune paire de trading trouvée : impossible de l’acheter ou de le vendre normalement.");
+    if (rug?.rugged) add(60, "bad", "RugCheck marque ce token comme « rugged » (déjà rug pull).");
 
-function start(a){addr=a;msg("");analyze()}
+    if (ma === undefined) add(5, "info", "Mint authority : information indisponible.");
+    else if (ma) add(25, "bad", "Le créateur peut encore imprimer de nouveaux tokens (mint authority active).");
+    else add(0, "ok", "Mint authority révoquée : pas de nouveaux tokens possibles.");
+    if (fa === undefined) add(3, "info", "Freeze authority : information indisponible.");
+    else if (fa) add(15, "bad", "Le créateur peut geler les wallets (freeze authority active).");
+    else add(0, "ok", "Freeze authority révoquée.");
 
-function diagnose(){
-var deep=(location.protocol.indexOf("http")===0)?' or <a href="https://phantom.app/ul/browse/'+encodeURIComponent(location.href)+'?ref='+encodeURIComponent(location.origin)+'">open Solaura inside the Phantom app</a>':"";
-if(location.protocol==="file:")
-msg("This page is opened as a local file, and Phantom can’t connect to it. Host it (for example with Netlify Drop) or run it on localhost, then reload.");
-else if(window.self!==window.top)
-msg("This page is running inside a preview frame, where Phantom can’t connect. Download the file and open it from your own hosting or from localhost.");
-else
-msg('Phantom wasn’t detected. <a href="https://phantom.app/download" target="_blank" rel="noopener">Install the extension</a>'+deep+', then reload the page. You can also read a public address under “Advanced”.')}
+    if (p) {
+      const liq = p.liquidity?.usd || 0;
+      if (liq < 5000) add(25, "bad", "Liquidité très faible (" + usd(liq) + ") : sortie difficile, prix très volatil.");
+      else if (liq < 20000) add(12, "warn", "Liquidité faible (" + usd(liq) + ").");
+      else add(0, "ok", "Liquidité correcte (" + usd(liq) + ").");
 
-$("connect").addEventListener("click",async function(){
-var b=$("connect"),lab=$("clabel");
-b.disabled=true;lab.textContent="Connecting…";msg("");
-try{
-var p=await waitProv(1500);
-if(!p){diagnose();return}
-var r=await p.connect();
-start(r.publicKey.toString());
-}catch(e){
-if(e&&(e.code===4001||/reject|declin|denied/i.test(e.message||"")))msg("Connection declined in Phantom. Click the button again and approve the request.");
-else msg("Phantom error: "+esc((e&&e.message)||e)+". Make sure Phantom is unlocked, then try again.");
-}finally{b.disabled=false;lab.textContent="Reveal my aura"}});
+      const h = p.pairCreatedAt ? (Date.now() - p.pairCreatedAt) / 36e5 : null;
+      if (h != null && h < 1) add(15, "bad", "Token créé il y a moins d’une heure.");
+      else if (h != null && h < 24) add(8, "warn", "Token créé il y a moins de 24 h.");
 
-$("manualgo").addEventListener("click",function(){
-var a=$("manual").value.trim();
-if(!/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(a)){msg("That doesn’t look like a valid Solana public address.");return}
-start(a)});
+      const b = p.txns?.h24?.buys || 0, s = p.txns?.h24?.sells || 0;
+      if (s > b * 1.5 && s > 30) add(8, "warn", "Beaucoup plus de ventes que d’achats sur 24 h (" + s + " vs " + b + ").");
+      if ((p.priceChange?.h24 ?? 0) < -50) add(10, "warn", "Chute de plus de 50 % sur 24 h.");
+    }
+    if (top10 != null) {
+      if (top10 > 50) add(25, "bad", "Les 10 plus gros comptes détiennent " + top10.toFixed(0) + " % (peut inclure la liquidité).");
+      else if (top10 > 30) add(12, "warn", "Concentration élevée : top 10 = " + top10.toFixed(0) + " %.");
+      else add(0, "ok", "Répartition correcte : top 10 = " + top10.toFixed(0) + " %.");
+    }
+    if (insiders >= 3) add(15, "bad", insiders + " des plus gros comptes sont liés à des wallets d’initiés.");
+    else if (insiders > 0) add(6, "warn", insiders + " compte(s) de gros holders lié(s) à des initiés.");
 
-$("again").addEventListener("click",analyze);
-$("off").addEventListener("click",function(){
-var p=prov();try{if(p&&p.disconnect)p.disconnect()}catch(e){}
-addr="";root.style.setProperty("--k",".3");root.style.setProperty("--h",160);view("home")});
-$("copy").addEventListener("click",function(){
-var c=$("cmsg");
-try{navigator.clipboard.writeText(last).then(function(){c.textContent="Copied!"},function(){c.textContent=last})}catch(e){c.textContent=last}});
+    if (rug?.risks?.length) {
+      rug.risks.filter((r) => r.level === "danger").slice(0, 3).forEach((r) => add(12, "bad", "RugCheck : " + r.name));
+      rug.risks.filter((r) => r.level === "warn").slice(0, 3).forEach((r) => add(3, "warn", "RugCheck : " + r.name));
+    }
+    if (!rug) add(5, "info", "Rapport RugCheck indisponible : l’analyse est moins complète.");
 
-waitProv(1200).then(function(p){
-if(p){try{p.connect({onlyIfTrusted:true}).then(function(r){start(r.publicKey.toString())}).catch(function(){})}catch(e){}}});
-})();
+    const score = Math.max(0, Math.min(100, flags.reduce((a, f) => a + f.pts, 0)));
+    let col = "ok", title = "Pas de signal rouge majeur", sub = "Ça ne veut pas dire que c’est sûr : un memecoin reste très risqué.";
+    if (score >= 75) { col = "bad"; title = "Danger : à éviter"; sub = "Plusieurs signaux typiques d’un rug pull ou d’un token piégé."; }
+    else if (score >= 50) { col = "bad"; title = "Risque élevé : plutôt à éviter"; sub = "Trop de signaux négatifs pour y mettre de l’argent."; }
+    else if (score >= 25) { col = "warn"; title = "Prudence"; sub = "Des points d’attention : vérifie-les avant d’acheter."; }
+
+    out.replaceChildren();
+    const v = el("div", "v");
+    v.style.borderColor = COL[col];
+    const sc = el("div", "sc", score + " / 100 de risque"); sc.style.color = COL[col];
+    v.append(sc, el("div", "tt", title), el("div", "st", sub));
+    const mt = el("div", "meter"), fill = document.createElement("i");
+    fill.style.width = score + "%"; fill.style.background = COL[col]; mt.append(fill); v.append(mt);
+    out.append(v);
+
+    const name = p?.baseToken?.name || rug?.tokenMeta?.name || "Token";
+    const sym = p?.baseToken?.symbol || rug?.tokenMeta?.symbol || "?";
+    out.append(el("h2", null, name + " ($" + sym + ")"));
+    const g = el("div", "g");
+    const cells = [
+      ["Prix", p?.priceUsd ? usd(Number(p.priceUsd)) : "—"],
+      ["Market cap (FDV)", usd(p?.fdv)],
+      ["Liquidité", usd(p?.liquidity?.usd)],
+      ["Volume 24 h", usd(p?.volume?.h24)],
+      ["Variation 1 h", pct(p?.priceChange?.h1)],
+      ["Variation 24 h", pct(p?.priceChange?.h24)],
+      ["Achats 24 h", p?.txns?.h24?.buys ?? "—"],
+      ["Ventes 24 h", p?.txns?.h24?.sells ?? "—"],
+      ["Âge", age(p?.pairCreatedAt)],
+      ["Marché", p?.dexId || "—"],
+      ["Plus gros compte", top1 != null ? top1.toFixed(1) + " %" : "—"],
+      ["Top 10 comptes", top10 != null ? top10.toFixed(1) + " %" : "—"],
+    ];
+    cells.forEach(([k, val]) => { const c = el("div", "c"); c.append(el("b", null, k), el("span", null, String(val))); g.append(c); });
+    out.append(g);
+
+    out.append(el("h2", null, "Signaux détectés"));
+    const fl = el("div");
+    flags.forEach((f) => {
+      const r = el("div", "f"); const d = el("span", "d"); d.style.background = COL[f.level];
+      r.append(d, el("span", null, f.text)); fl.append(r);
+    });
+    out.append(fl);
+
+    const links = el("div", "links");
+    if (p?.url && p.url.startsWith("https://dexscreener.com/")) {
+      const a = el("a", null, "Graphique DexScreener ↗"); a.href = p.url; a.target = "_blank"; a.rel = "noopener"; links.append(a);
+    }
+    const r1 = el("a", null, "Rapport RugCheck ↗"); r1.href = "https://rugcheck.xyz/tokens/" + addr; r1.target = "_blank"; r1.rel = "noopener"; links.append(r1);
+    out.append(links);
+    out.append(el("div", "note", "Score calculé avec des données publiques (DexScreener et RugCheck). C’est une aide à la décision, pas un conseil financier : un score bas n’est pas une garantie, un score élevé n’est pas une certitude. Le plus gros compte peut être la liquidité du token et non une personne."));
+    history.replaceState(null, "", "?mint=" + addr);
+  } catch (e) {
+    out.replaceChildren(el("div", "st", "Erreur : " + e.message));
+  }
+  $("go").disabled = false;
+}
+
+$("go").addEventListener("click", () => run($("addr").value));
+$("addr").addEventListener("keydown", (e) => { if (e.key === "Enter") run($("addr").value); });
+const q = new URLSearchParams(location.search).get("mint");
+if (q) { $("addr").value = q; run(q); }
 </script>
 </body>
 </html>
