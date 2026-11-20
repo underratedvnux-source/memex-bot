@@ -8,24 +8,20 @@
 <style>
 :root{--ink:#f1f0fb;--mute:#a29ec6;--line:rgba(255,255,255,.14);--k:.3}
 *,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#06050f;color:var(--ink);font-family:Sora,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
+html,body{margin:0;min-height:100%;background:#07080d;color:var(--ink);font-family:Sora,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5}
 body{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
-.bg{position:fixed;inset:-20% -15%;filter:blur(70px);opacity:calc(.2 + .65*var(--k));transition:opacity .8s;pointer-events:none;z-index:0}
-.bg i{position:absolute;display:block;border-radius:50%;animation:drift 16s ease-in-out infinite alternate}
-.bg i:nth-child(1){width:50%;height:42%;left:4%;top:10%;background:#3ef0c4}
-.bg i:nth-child(2){width:48%;height:48%;right:2%;top:0;background:#8b5cf6;animation-delay:-6s}
-.bg i:nth-child(3){width:58%;height:38%;left:24%;bottom:6%;background:#f43f9a;animation-delay:-10s}
-@keyframes drift{to{transform:translate(9%,10%) scale(1.15)}}
-@media(prefers-reduced-motion:reduce){.bg i,.spin{animation:none}}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 85% 70% at 50% 22%,#000 20%,transparent 100%);mask-image:radial-gradient(ellipse 85% 70% at 50% 22%,#000 20%,transparent 100%)}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 55% 32% at 50% 0%,rgba(20,241,149,.11),transparent 72%);opacity:calc(.35 + .65*var(--k));transition:opacity .8s}
+@media(prefers-reduced-motion:reduce){.spin{animation:none}}
 .wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:24px 20px 48px;min-height:100vh;display:flex;flex-direction:column}
 .top{display:flex;align-items:center;gap:10px;font-weight:800}
 .dot{width:22px;height:22px;border-radius:50%;background:conic-gradient(#3ef0c4,#8b5cf6,#f43f9a,#3ef0c4)}
 main{flex:1;display:grid;align-items:center}
 section[hidden]{display:none}
 .hero{text-align:center;padding:28px 0}
-h1{margin:0;font-size:clamp(3rem,14vw,6rem);font-weight:800;letter-spacing:-.05em;line-height:.95;background:linear-gradient(100deg,#3ef0c4,#8b7bff 50%,#f43f9a);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{margin:0;font-size:clamp(3rem,14vw,6rem);font-weight:800;letter-spacing:-.05em;line-height:.95;background:linear-gradient(100deg,#14f195,#9945ff);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lead{margin:18px auto 30px;max-width:44ch;color:var(--mute);font-size:1.05rem}
-.glass{background:rgba(20,17,43,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);border-radius:20px;padding:26px 22px}
+.glass{background:#0d0f16;border:1px solid var(--line);border-radius:14px;padding:26px 22px}
 button{font:inherit;font-weight:600;border:0;border-radius:12px;padding:14px 22px;cursor:pointer;background:#ab9ff2;color:#1b0f4a}
 button.cta{display:inline-flex;align-items:center;gap:10px;font-size:1.05rem;padding:16px 28px;background:linear-gradient(135deg,#ab9ff2,#7c5cff);color:#fff;box-shadow:0 10px 40px -8px rgba(124,92,255,.85)}
 button.alt{background:transparent;color:var(--ink);border:1px solid var(--line);padding:11px 16px;font-size:.86rem}
@@ -40,13 +36,12 @@ button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{o
 .gauge{position:relative;width:min(300px,76vw);aspect-ratio:1;margin:0 auto}
 .gauge svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
 .gauge .bgc{stroke:rgba(255,255,255,.1)}
-.gauge .fg{filter:drop-shadow(0 0 calc(4px + 14px*var(--k)) rgba(139,124,255,.9))}
 .mid{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
 .pts{font-size:clamp(2.2rem,9vw,3.2rem);font-weight:800;letter-spacing:-.03em;line-height:1}
 .max{font-size:.8rem;color:var(--mute);margin-top:6px}
 .tier{text-align:center;margin:18px 0 2px;font-size:1.2rem;font-weight:600}
 .addr{text-align:center;font-size:.78rem;color:var(--mute)}
-.badge{display:none;margin:8px auto 0;width:max-content;padding:3px 12px;border-radius:99px;background:linear-gradient(90deg,#f7d56a,#f43f9a);color:#1a0b2e;font-weight:800;font-size:.8rem}
+.badge{display:none;margin:8px auto 0;width:max-content;padding:3px 12px;border-radius:99px;background:#14f195;color:#06110b;font-weight:800;font-size:.8rem}
 .full .badge{display:block}
 .ladder{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 @media(min-width:560px){.ladder{grid-template-columns:repeat(6,1fr)}}
@@ -58,7 +53,7 @@ button:focus-visible,summary:focus-visible,input:focus-visible,a:focus-visible{o
 .bar small{display:block;color:var(--mute);font-size:.72rem}
 .bar em{font-style:normal;text-align:right}
 .track{height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
-.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#3ef0c4,#8b5cf6,#f43f9a);transition:width .7s}
+.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#14f195,#9945ff);transition:width .7s}
 .acts{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
 details{margin-top:26px;font-size:.8rem;color:var(--mute)}
 summary{cursor:pointer;width:max-content}
@@ -66,7 +61,7 @@ details input{width:100%;margin:8px 0;padding:10px 12px;border-radius:9px;border
 </style>
 </head>
 <body>
-<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+<div class="bg" aria-hidden="true"></div>
 <div class="wrap">
 <div class="top"><svg width="30" height="24" viewBox="0 0 397.7 311.7" role="img" aria-label="Solana logo"><defs><linearGradient id="sol" x1="360" y1="-38" x2="141" y2="347" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00ffa3"/><stop offset="1" stop-color="#dc1fff"/></linearGradient></defs><path fill="url(#sol)" d="M64.6,237.9c2.4-2.4,5.7-3.8,9.2-3.8h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,237.9z"/><path fill="url(#sol)" d="M64.6,3.8C67.1,1.4,70.4,0,73.8,0h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,3.8z"/><path fill="url(#sol)" d="M333.1,120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8,0-8.7,7-4.6,11.1l62.7,62.7c2.4,2.4,5.7,3.8,9.2,3.8h317.4c5.8,0,8.7-7,4.6-11.1L333.1,120.1z"/></svg>Solaura</div>
 <main>
@@ -90,7 +85,7 @@ details input{width:100%;margin:8px 0;padding:10px 12px;border-radius:9px;border
 <section id="res" class="glass" hidden aria-live="polite">
 <div class="gauge" role="img" aria-label="Aura gauge">
 <svg viewBox="0 0 220 220">
-<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3ef0c4"/><stop offset=".55" stop-color="#8b5cf6"/><stop offset="1" stop-color="#f43f9a"/></linearGradient></defs>
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14f195"/><stop offset="1" stop-color="#9945ff"/></linearGradient></defs>
 <circle class="bgc" cx="110" cy="110" r="96" fill="none" stroke-width="12"/>
 <circle class="fg" id="ring" cx="110" cy="110" r="96" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="603.2" stroke-dashoffset="603.2"/>
 </svg>
@@ -101,6 +96,7 @@ details input{width:100%;margin:8px 0;padding:10px 12px;border-radius:9px;border
 <div class="addr" id="shown"></div>
 <ul class="ladder" id="ladder"></ul>
 <div class="bars" id="bars"></div>
+<p class="note" id="partial" style="text-align:center"></p>
 <div class="acts">
 <button id="copy" type="button" class="cta" style="padding:12px 22px;font-size:.92rem">Copy my aura</button>
 <button id="again" type="button" class="alt">Recalculate</button>
@@ -145,11 +141,14 @@ function part(v,full){return Math.max(0,Math.min(1,v/full))}
 // Paste your own RPC URL between the quotes (e.g. https://mainnet.helius-rpc.com/?api-key=YOUR_KEY).
 // Visitors then need to do nothing. Leave empty to use free public servers only.
 var MY_RPC="https://mainnet.helius-rpc.com/?api-key=b6e42558-5111-4741-a007-1effb0fb46ae";
-var ENDPOINTS=(MY_RPC?[MY_RPC]:[]).concat(["https://solana-rpc.publicnode.com","https://solana.drpc.org","https://api.mainnet-beta.solana.com"]);
+var ENDPOINTS=(MY_RPC?[MY_RPC]:[]).concat(["https://solana-rpc.publicnode.com","https://solana.drpc.org","https://solana.api.onfinality.io/public","https://api.mainnet-beta.solana.com"]);
 var okIdx=0;
 async function rpcOne(url,method,params){
 for(var t=0;t<3;t++){
-var r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:method,params:params})});
+var ac=new AbortController(),to=setTimeout(function(){ac.abort()},9000),r;
+try{r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:method,params:params}),signal:ac.signal})}
+catch(e){throw new Error(e&&e.name==="AbortError"?"timeout":"network or CORS error")}
+finally{clearTimeout(to)}
 if(r.status===429){await sleep(700*(t+1));continue}
 if(!r.ok)throw new Error("HTTP "+r.status);
 var j=await r.json();
@@ -171,54 +170,65 @@ catch(e){if(pid===TOKEN)throw e;return[]}}
 
 async function analyze(){
 if(busy)return;busy=true;view("load");
-try{
+var d={sol:null,count:null,months:null,capped:false,tok:null,nft:null},fails=[],firstErr="";
+function note(k,e){fails.push(k);if(!firstErr)firstErr=(e&&e.message)||String(e)}
 $("step").textContent="Reading your balance…";
-var sol=(await rpc("getBalance",[addr])).value/1e9;
-
-$("step").textContent="Reading your transaction history…";
-var count=0,oldest=null,before,capped=false;
+try{d.sol=(await rpc("getBalance",[addr])).value/1e9}catch(e){note("balance",e)}
+$("step").textContent="Reading your transactions…";
+try{
+var count=0,oldest=null,before;
 for(var pg=0;pg<5;pg++){
 var opts={limit:1000};if(before)opts.before=before;
-var sigs=await rpc("getSignaturesForAddress",[addr,opts]);
+var sigs;
+try{sigs=await rpc("getSignaturesForAddress",[addr,opts])}catch(e){if(pg===0)throw e;d.capped=true;break}
 if(!sigs.length)break;
 count+=sigs.length;
 var l=sigs[sigs.length-1];
 if(l.blockTime)oldest=l.blockTime;
 before=l.signature;
 if(sigs.length<1000)break;
-if(pg===4)capped=true}
-var months=oldest?Math.max(0,(Date.now()/1000-oldest)/2629800):0;
-
+if(pg===4)d.capped=true}
+d.count=count;
+d.months=oldest?Math.max(0,(Date.now()/1000-oldest)/2629800):0;
+}catch(e){note("transactions",e)}
 $("step").textContent="Reading your tokens and NFTs…";
+try{
 var accs=(await tokenAccounts(TOKEN)).concat(await tokenAccounts(TOKEN22));
 var tok=0,nft=0;
 accs.forEach(function(a){
 var ta=a.account.data.parsed.info.tokenAmount;
 if(ta.decimals===0&&ta.amount==="1")nft++;
 else if(ta.amount!=="0")tok++});
-
-render([
-["Balance",fmt(sol,2)+" SOL",part(Math.log10(1+sol),2)*2600,2600],
-["Wallet age",fmt(months)+" months",part(months,36)*2000,2000],
-["Activity",fmt(count)+(capped?"+":"")+" transactions",part(Math.log10(1+count),Math.log10(5001))*2200,2200],
-["Tokens",fmt(tok)+" held",part(tok,25)*1500,1500],
-["NFTs",fmt(nft)+" held",part(nft,20)*1100,1100],
-["Address vibe","unique signature",(hash(addr)%7)*100,600]]);
-view("res");
-}catch(e){
+d.tok=tok;d.nft=nft;
+}catch(e){note("tokens",e)}
+if(d.sol===null&&d.count===null&&d.tok===null){
 view("home");
-msg("Couldn’t read the blockchain: "+esc(e.message||e)+". Try again, or set another RPC under “Advanced”.");
-}
+msg("Couldn’t read the blockchain: "+esc(firstErr)+". Try again, or set another RPC under “Advanced”.");
+busy=false;return}
+render(d,fails);
+view("res");
 busy=false}
 
-function render(parts){
-var aura=Math.max(0,Math.min(MAX,Math.round(parts.reduce(function(a,p){return a+p[2]},0))));
+function render(d,fails){
+var rows=[
+["Balance",d.sol===null?null:fmt(d.sol,2)+" SOL",d.sol===null?0:part(Math.log10(1+d.sol),2)*3000,3000],
+["Transactions",d.count===null?null:fmt(d.count)+(d.capped?"+":"")+" on-chain",d.count===null?0:part(Math.log10(1+d.count),Math.log10(5001))*3000,3000],
+["Wallet age",d.months===null?null:fmt(d.months)+" months",d.months===null?0:part(d.months,36)*1500,1500],
+["Tokens",d.tok===null?null:fmt(d.tok)+" held",d.tok===null?0:part(d.tok,25)*1200,1200],
+["NFTs",d.nft===null?null:fmt(d.nft)+" held",d.nft===null?0:part(d.nft,20)*800,800],
+["Address vibe","unique signature",(hash(addr)%6)*100,500]];
+var got=0,avail=0;
+rows.forEach(function(r){if(r[1]!==null){got+=r[2];avail+=r[3]}});
+var aura=Math.max(0,Math.min(MAX,Math.round(got/avail*MAX)));
 var t=tierOf(aura);
 $("tier").textContent=t;
 $("res").classList.toggle("full",aura>=MAX);
 $("shown").textContent=addr.slice(0,6)+"…"+addr.slice(-6);
+$("partial").textContent=fails.length?"Estimated from the data we could read. Unavailable: "+fails.join(", ")+".":"";
 $("ladder").innerHTML=tiers.map(function(x){return '<li class="'+(aura>=x[0]?"on":"")+'"><b>'+x[1]+'</b>'+fmt(x[0])+'</li>'}).join("");
-$("bars").innerHTML=parts.map(function(p){return '<div class="bar"><span>'+p[0]+'<small>'+p[1]+'</small></span><div class="track"><div class="fill" style="width:'+Math.round(p[2]/p[3]*100)+'%"></div></div><em>'+fmt(p[2])+' / '+fmt(p[3])+'</em></div>'}).join("");
+$("bars").innerHTML=rows.map(function(r){
+var ok=r[1]!==null;
+return '<div class="bar"><span>'+r[0]+'<small>'+(ok?r[1]:"unavailable")+'</small></span><div class="track"><div class="fill" style="width:'+(ok?Math.round(r[2]/r[3]*100):0)+'%"></div></div><em>'+(ok?fmt(r[2])+' / '+fmt(r[3]):"–")+'</em></div>'}).join("");
 last="My Phantom wallet has "+fmt(aura)+" aura out of 10,000 on Solaura: "+t+" ✨";
 animate(aura)}
 
