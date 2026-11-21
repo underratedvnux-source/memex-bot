@@ -3,216 +3,310 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CoinCheck – Analyse de memecoin Solana</title>
+<title>CoinCheck – Scanne un memecoin avant d’ape</title>
+<meta name="description" content="Colle l’adresse d’un token Solana : mint authority, liquidité, holders, initiés. Un score de risque clair en quelques secondes.">
 <style>
-:root{--bg:#0b0b10;--sf:#15151d;--tx:#f1f0f5;--mu:#9a99a6;--bd:#262633;--ok:#14c38e;--wa:#f5a524;--dg:#ff3b5c;--ac:#7b5cff;color-scheme:dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#000;--tx:#f5f5f7;--mu:#9b9ba6;--bd:rgba(255,255,255,.09);--bd2:rgba(255,255,255,.16);--pu:#8b5cf6;--la:#c4b5fd;--ok:#34d399;--wa:#fbbf24;--or:#fb923c;--dg:#f87171;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color-scheme:dark;padding-bottom:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(900px 400px at 50% -100px,#1d1a3a,transparent),var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
-.w{max-width:860px;margin:0 auto;padding:28px 16px 56px}
-h1{font-size:32px;margin:0;letter-spacing:-.5px}h1 span{background:linear-gradient(90deg,var(--ok),var(--ac));-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{color:var(--mu);margin:6px 0 22px}
-.bar{display:flex;gap:8px;flex-wrap:wrap}
-input{flex:1;min-width:220px;background:var(--sf);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:14px;font:inherit}
-input:focus{outline:2px solid var(--ac)}
-button{border:0;border-radius:12px;padding:14px 22px;font:inherit;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--ok),var(--ac));cursor:pointer}
-button:disabled{opacity:.55;cursor:wait}
-.st{color:var(--mu);margin:18px 0}
-.v{border:1px solid var(--bd);border-radius:16px;padding:20px;margin:22px 0;background:var(--sf)}
-.v .sc{font-size:40px;font-weight:800;line-height:1.1}
-.v .tt{font-size:20px;font-weight:700;margin-top:6px}
-.meter{height:8px;border-radius:4px;background:var(--bd);margin-top:14px;overflow:hidden}.meter i{display:block;height:100%}
-h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin:26px 0 10px}
-.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
-.c{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:10px 12px}
-.c b{display:block;font-size:12px;color:var(--mu);font-weight:500}
-.f{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd)}.f:last-child{border:0}
-.d{width:10px;height:10px;border-radius:50%;margin-top:7px;flex:none}
-.note{font-size:13px;color:var(--mu);margin-top:22px;border-left:3px solid var(--ac);padding-left:12px}
-a{color:var(--ok)}
-.links{display:flex;gap:14px;flex-wrap:wrap;margin-top:18px}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+a{color:inherit}
+.w{max-width:1180px;margin:0 auto;padding:0 24px}
+/* stripes background */
+.stripes{position:absolute;left:0;right:0;top:0;height:1000px;z-index:-1;overflow:hidden;pointer-events:none}
+.stripes::before{content:"";position:absolute;inset:-12% -10%;background:repeating-linear-gradient(70deg,#000 0,#3a0a78 20px,#8a3ff0 46px,#b9a0ff 60px,#2b1bd8 82px,#0b0638 96px,#000 97px,#000 124px);-webkit-mask-image:radial-gradient(ellipse 64% 68% at 50% 36%,#000 22%,transparent 78%);mask-image:radial-gradient(ellipse 64% 68% at 50% 36%,#000 22%,transparent 78%)}
+.stripes::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");mix-blend-mode:overlay;opacity:.45;-webkit-mask-image:radial-gradient(ellipse 64% 68% at 50% 36%,#000 22%,transparent 78%);mask-image:radial-gradient(ellipse 64% 68% at 50% 36%,#000 22%,transparent 78%)}
+.gl{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.06);z-index:-1}
+.gh{position:absolute;left:0;right:0;height:1px;background:rgba(255,255,255,.06);z-index:-1}
+/* nav */
+.nav{position:relative;z-index:40;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:104px;padding-top:env(safe-area-inset-top,0px)}
+.mb{justify-self:start;display:flex;align-items:center;gap:12px;background:none;border:0;color:var(--tx);font:600 15px inherit;font-family:inherit;cursor:pointer;padding:8px 0}
+.mb span{display:block;width:22px;height:12px;border-top:2px solid var(--tx);border-bottom:2px solid var(--tx);position:relative}
+.mb span::after{content:"";position:absolute;left:0;right:0;top:3px;height:2px;background:var(--tx)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:650;font-size:21px;letter-spacing:-.03em;text-decoration:none}
+.logo svg{width:26px;height:26px}
+.nr{justify-self:end}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:14px 24px;font:600 15px inherit;font-family:inherit;color:#0a0a0a;background:#f5f5f7;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .2s,background .2s}
+.btn:hover{transform:translateY(-1px);background:#fff;box-shadow:0 10px 40px -10px rgba(196,181,253,.6)}
+.btn.s{padding:15px 22px;border-radius:12px}
+.btn.g{background:transparent;color:var(--tx);padding:12px 18px}
+.btn.g:hover{background:rgba(255,255,255,.07);box-shadow:none}
+.mk{display:none}.nr .btn{white-space:nowrap}
+@media(max-width:560px){.nr .btn{padding:11px 16px;font-size:14px}.dk{display:none}.mk{display:inline}.logo{font-size:18px}.logo svg{width:22px;height:22px}.nav{height:84px}h1{font-size:clamp(34px,10vw,48px)}}
+/* menu overlay */
+.mo{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.94);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;flex-direction:column;justify-content:center;padding:0 8vw;opacity:0;pointer-events:none;transition:opacity .25s}
+.mo.o{opacity:1;pointer-events:auto}
+.mo a{font-size:clamp(34px,7vw,64px);font-weight:600;letter-spacing:-.04em;text-decoration:none;padding:6px 0;color:var(--mu);transition:color .15s}
+.mo a:hover{color:var(--tx)}
+.mx{position:absolute;top:34px;left:8vw;background:none;border:0;color:var(--tx);font:600 15px inherit;font-family:inherit;cursor:pointer}
+/* hero */
+.hero{position:relative;text-align:center;padding:72px 0 56px}
+h1{font-size:clamp(44px,8.4vw,92px);line-height:.98;letter-spacing:-.055em;font-weight:560;margin:0 auto;max-width:960px}
+h1 span{display:block;background:linear-gradient(90deg,#fff 0 58%,var(--la) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;width:max-content;max-width:100%;margin:0 auto}
+.lead{color:#c8c8d3;font-size:clamp(16px,2vw,19px);max-width:470px;margin:30px auto 36px;text-shadow:0 1px 24px rgba(0,0,0,.7)}
+.cta{display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+/* console */
+.con{position:relative;max-width:1080px;margin:76px auto 0;text-align:left;border:1px solid var(--bd);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.01));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding:22px}
+.ch{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--mu);margin:2px 4px 14px}
+.ch em{font:12px var(--mono);font-style:normal;border:1px solid var(--bd);border-radius:999px;padding:2px 10px}
+.ci{display:flex;gap:10px;flex-wrap:wrap}
+.ci input{flex:1;min-width:220px;background:rgba(0,0,0,.55);color:var(--tx);border:1px solid var(--bd2);border-radius:14px;padding:17px 18px;font:15px var(--mono);transition:border-color .15s,box-shadow .2s}
+.ci input::placeholder{color:#5f5f6a}
+.ci input:focus{outline:none;border-color:var(--la);box-shadow:0 0 0 4px rgba(139,92,246,.22)}
+.ex{display:grid;grid-template-columns:.8fr 1.2fr;gap:0;margin-top:20px;border:1px solid var(--bd);border-radius:16px;overflow:hidden;background:rgba(0,0,0,.4)}
+@media(max-width:820px){.ex{grid-template-columns:1fr}}
+.el{padding:24px;text-align:center;border-right:1px solid var(--bd)}
+@media(max-width:820px){.el{border-right:0;border-bottom:1px solid var(--bd)}}
+.th{display:flex;align-items:center;gap:12px;text-align:left}
+.av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--la),var(--pu));color:#0a0014;display:flex;align-items:center;justify-content:center;font:800 17px var(--mono)}
+.th b{display:block;font-size:15px}.th small{color:var(--mu);font:12px var(--mono)}
+.th .tag{margin-left:auto;font:11px var(--mono);color:var(--mu);border:1px dashed var(--bd2);border-radius:6px;padding:2px 8px;letter-spacing:.06em}
+.gauge{position:relative;width:240px;max-width:100%;margin:14px auto 0}
+.gauge svg{display:block;width:100%;height:auto}
+.gf{animation:gf 1.4s cubic-bezier(.2,.8,.2,1)}
+@keyframes gf{from{stroke-dashoffset:251.3}}
+.gv{position:absolute;left:0;right:0;bottom:4px}
+.gv strong{display:block;font:560 50px/1 "Inter",system-ui,sans-serif;letter-spacing:-.05em}
+.gv span{font:11px var(--mono);color:var(--mu);letter-spacing:.16em}
+.chip{display:inline-block;margin-top:12px;font:600 12px var(--mono);letter-spacing:.1em;color:var(--or);background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.35);border-radius:999px;padding:4px 14px}
+.er{padding:10px 24px 14px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 0 8px}
+@media(max-width:560px){.tiles{grid-template-columns:1fr 1fr}}
+.tile{border:1px solid var(--bd);border-radius:12px;padding:9px 12px;background:rgba(255,255,255,.02)}
+.tile small{display:block;font:10.5px var(--mono);color:var(--mu);letter-spacing:.08em}
+.tile b{font:600 15px var(--mono)}
+.sig{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--bd);font-size:14.5px;color:#d9d9e2}
+.sig:first-of-type{border-top:0}
+.sig i{flex:none;width:20px;height:20px;border-radius:6px;font:700 12px/20px var(--mono);text-align:center;font-style:normal}
+.sig .x{background:rgba(248,113,113,.15);color:var(--dg)}.sig .w{background:rgba(251,191,36,.15);color:var(--wa)}.sig .o{background:rgba(52,211,153,.15);color:var(--ok)}
+/* strip */
+.src{display:flex;justify-content:center;gap:34px;flex-wrap:wrap;color:var(--mu);font-size:13px;margin-top:44px}
+.src b{color:var(--tx);font-weight:560}
+/* sections */
+section{padding:128px 0 0}
+.ey{font:500 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--la)}
+h2{font-size:clamp(32px,4.6vw,56px);letter-spacing:-.05em;line-height:1.02;font-weight:560;margin:16px 0 14px;max-width:760px}
+h2 em{font-style:normal;background:linear-gradient(90deg,#fff,var(--la));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mu);max-width:540px;margin:0 0 52px;font-size:17px}
+.sec{text-align:center}.sec h2,.sec .sub{margin-left:auto;margin-right:auto}
+.cols{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--bd)}
+@media(max-width:800px){.cols{grid-template-columns:1fr}}
+.col{padding:34px 30px 34px 0;border-right:1px solid var(--bd)}
+.col+.col{padding-left:30px}
+.col:last-child{border-right:0}
+@media(max-width:800px){.col,.col+.col{padding:28px 0;border-right:0;border-bottom:1px solid var(--bd)}}
+.col b{display:block;font:500 13px var(--mono);color:var(--la);margin-bottom:34px}
+.col h3{margin:0 0 8px;font-size:22px;letter-spacing:-.03em;font-weight:560}
+.col p{margin:0;color:var(--mu);font-size:15.5px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1000px){.grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{position:relative;border:1px solid var(--bd);border-radius:18px;padding:24px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008));transition:border-color .25s,transform .25s;overflow:hidden}
+.card::before{content:"";position:absolute;inset:auto -30% -70% -30%;height:80%;background:radial-gradient(closest-side,rgba(139,92,246,.35),transparent);opacity:0;transition:opacity .3s}
+.card:hover{border-color:rgba(196,181,253,.45);transform:translateY(-3px)}
+.card:hover::before{opacity:1}
+.card>*{position:relative}
+.card .t{display:block;font:500 11px var(--mono);letter-spacing:.14em;color:var(--la);margin-bottom:34px}
+.card h3{margin:0 0 6px;font-size:18px;letter-spacing:-.02em;font-weight:560}
+.card p{margin:0;color:var(--mu);font-size:14.5px}
+/* scale */
+.bar{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--ok) 0 24%,var(--wa) 24% 49%,var(--or) 49% 74%,var(--dg) 74% 100%);margin-top:6px;opacity:.9}
+.bar::after{content:"";position:absolute;left:62%;top:-8px;width:4px;height:26px;border-radius:2px;background:#fff;box-shadow:0 0 0 4px #000,0 0 24px rgba(255,255,255,.6)}
+.sd{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px;text-align:left}
+@media(max-width:800px){.sd{grid-template-columns:1fr 1fr}}
+.sd div{border-top:2px solid var(--c);padding-top:14px}
+.sd b{display:block;font:500 12px var(--mono);letter-spacing:.14em;color:var(--c)}
+.sd strong{display:block;font:560 28px "Inter",system-ui,sans-serif;letter-spacing:-.04em;margin:6px 0 2px}
+.sd span{font-size:14px;color:var(--mu)}
+/* does */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left}
+@media(max-width:800px){.dd{grid-template-columns:1fr}}
+.bx{border:1px solid var(--bd);border-radius:18px;padding:28px;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.008))}
+.bx h3{margin:0 0 10px;font:500 12px var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.bx ul{list-style:none;margin:0;padding:0}
+.bx li{padding:12px 0 12px 30px;border-top:1px solid var(--bd);position:relative;font-size:15.5px}
+.bx li::before{position:absolute;left:0;top:12px;font:700 14px var(--mono)}
+.yes h3,.yes li::before{color:var(--ok)}.yes li::before{content:"✓"}
+.no h3,.no li::before{color:var(--dg)}.no li::before{content:"✕"}
+/* faq */
+.faq{max-width:760px;margin:0 auto;text-align:left}
+details{border-top:1px solid var(--bd);padding:22px 0}
+details:last-of-type{border-bottom:1px solid var(--bd)}
+summary{cursor:pointer;font-weight:560;font-size:18px;letter-spacing:-.02em;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--la);font:300 26px/1 var(--mono)}
+details[open] summary::after{content:"–"}
+details p{color:var(--mu);margin:12px 0 0}
+/* final cta */
+.band{position:relative;overflow:hidden;border:1px solid var(--bd);border-radius:28px;padding:96px 24px;text-align:center;background:#000}
+.band .stripes{height:100%;z-index:0}
+.band .stripes::before{-webkit-mask-image:radial-gradient(ellipse 70% 90% at 50% 50%,#000 10%,transparent 80%);mask-image:radial-gradient(ellipse 70% 90% at 50% 50%,#000 10%,transparent 80%);opacity:.8}
+.band .stripes::after{-webkit-mask-image:radial-gradient(ellipse 70% 90% at 50% 50%,#000 10%,transparent 80%);mask-image:radial-gradient(ellipse 70% 90% at 50% 50%,#000 10%,transparent 80%)}
+.band>*:not(.stripes){position:relative;z-index:1}
+.band h2{margin:0 auto 12px}
+.band .sub{margin:0 auto 30px;color:#c8c8d3}
+.band .ci{max-width:620px;margin:0 auto}
+footer{margin-top:128px;border-top:1px solid var(--bd);padding:34px 0 48px;color:var(--mu);font-size:13px}
+footer .r{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+footer p{margin:16px 0 0;max-width:800px;font-size:12.5px}
+@media(prefers-reduced-motion:reduce){.gf{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
+<div class="stripes" aria-hidden="true"></div>
+<span class="gl" style="left:calc(50% - 600px)"></span><span class="gl" style="left:calc(50% + 600px)"></span>
+<span class="gl" style="left:calc(50% - 640px)"></span><span class="gl" style="left:calc(50% + 640px)"></span>
+<span class="gh" style="top:660px"></span><span class="gh" style="top:700px"></span>
+
+<div class="mo" id="mo" aria-hidden="true">
+  <button class="mx" id="mx">✕ Fermer</button>
+  <a href="#how">Fonctionnement</a>
+  <a href="#flags">Red flags</a>
+  <a href="#score">Score</a>
+  <a href="#faq">FAQ</a>
+  <a href="analyse.html" style="color:var(--tx)">Scanner un token →</a>
+</div>
+
 <div class="w">
-  <h1>Coin<span>Check</span></h1>
-  <p class="sub">Colle l’adresse d’un token Solana : infos, signaux de risque et verdict en quelques secondes.</p>
-  <div class="bar">
-    <input id="addr" placeholder="Adresse du token (mint) ou lien pump.fun / DexScreener" spellcheck="false" autocomplete="off">
-    <button id="go">Analyser</button>
-  </div>
-  <div id="out"></div>
+  <nav class="nav">
+    <button class="mb" id="mb" aria-expanded="false" aria-controls="mo"><span></span>Menu</button>
+    <a class="logo" href="index.html"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M7.5 12.5l3 3 6-7"/></svg>coincheck</a>
+    <div class="nr"><a class="btn" href="analyse.html"><span class="dk">Lancer un scan</span><span class="mk">Scanner</span></a></div>
+  </nav>
+
+  <header class="hero">
+    <h1><span>Scanne avant d’ape.</span><span>Repère chaque red flag.</span></h1>
+    <p class="lead">Colle l’adresse d’un memecoin Solana. CoinCheck passe en revue mint authority, liquidité, holders et initiés, puis sort un score de risque clair.</p>
+    <div class="cta">
+      <a class="btn g" href="#how">En savoir plus</a>
+      <a class="btn s" href="#scan">Scanner un token <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="con" id="scan">
+      <div class="ch"><span>Scanner un token</span><em>Solana</em></div>
+      <div class="ci">
+        <input id="addr" placeholder="Adresse du token ou lien pump.fun / DexScreener" spellcheck="false" autocomplete="off" aria-label="Adresse du token">
+        <button class="btn s" id="go">Scanner</button>
+      </div>
+      <div class="ex" aria-label="Exemple de résultat fictif">
+        <div class="el">
+          <div class="th"><div class="av">$</div><div><b>$EXAMPLE</b><small>Solana</small></div><span class="tag">EXEMPLE FICTIF</span></div>
+          <div class="gauge">
+            <svg viewBox="0 0 200 112" aria-hidden="true"><path d="M20 100A80 80 0 0 1 180 100" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="11" stroke-linecap="round"/><path class="gf" d="M20 100A80 80 0 0 1 180 100" fill="none" stroke="#fb923c" stroke-width="11" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="95.5"/></svg>
+            <div class="gv"><strong>62</strong><span>/ 100 RISQUE</span></div>
+          </div>
+          <span class="chip">RISQUÉ</span>
+        </div>
+        <div class="er">
+          <div class="tiles">
+            <div class="tile"><small>PRIX</small><b>$0.00042</b></div>
+            <div class="tile"><small>LIQUIDITÉ</small><b>$48K</b></div>
+            <div class="tile"><small>ÂGE</small><b>6 h</b></div>
+            <div class="tile"><small>TOP 10</small><b>54 %</b></div>
+          </div>
+          <div class="sig"><i class="x">✕</i><span>Mint authority active : de nouveaux tokens peuvent être imprimés.</span></div>
+          <div class="sig"><i class="x">✕</i><span>Les 10 plus gros comptes détiennent 54 % de l’offre.</span></div>
+          <div class="sig"><i class="w">!</i><span>Token créé il y a moins de 24 h.</span></div>
+          <div class="sig"><i class="o">✓</i><span>Freeze authority révoquée.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="src"><span>Données <b>DexScreener</b></span><span>Analyse <b>RugCheck</b></span><span><b>0</b> wallet à connecter</span><span><b>Gratuit</b>, sans inscription</span></div>
+  </header>
+
+  <section id="how">
+    <div class="ey">01 · fonctionnement</div>
+    <h2>Trois étapes. <em>Zéro blabla.</em></h2>
+    <p class="sub">Tu colles, on scanne, tu décides. Rien n’est acheté à ta place.</p>
+    <div class="cols">
+      <div class="col"><b>01</b><h3>Colle l’adresse</h3><p>L’adresse du token, ou directement le lien de sa page pump.fun ou DexScreener.</p></div>
+      <div class="col"><b>02</b><h3>On scanne</h3><p>Les données de marché de DexScreener sont croisées avec le rapport de RugCheck.</p></div>
+      <div class="col"><b>03</b><h3>Tu décides</h3><p>Un score de 0 à 100 et chaque signal détaillé en une phrase. La décision reste la tienne.</p></div>
+    </div>
+  </section>
+
+  <section id="flags">
+    <div class="ey">02 · red flags</div>
+    <h2>Ce que les rugs ont <em>en commun.</em></h2>
+    <p class="sub">Huit signaux scannés à chaque analyse, parmi ceux qui reviennent le plus souvent dans les tokens piégés.</p>
+    <div class="grid">
+      <div class="card"><span class="t">[MINT]</span><h3>Mint authority</h3><p>Le créateur peut-il encore imprimer de nouveaux tokens et diluer les holders ?</p></div>
+      <div class="card"><span class="t">[FREEZE]</span><h3>Freeze authority</h3><p>Peut-il geler ton wallet et t’empêcher de vendre ?</p></div>
+      <div class="card"><span class="t">[LIQUIDITY]</span><h3>Liquidité</h3><p>Le pool est-il assez profond pour sortir sans écraser le prix ?</p></div>
+      <div class="card"><span class="t">[AGE]</span><h3>Âge du token</h3><p>Quelques minutes d’existence, c’est zéro historique pour le juger.</p></div>
+      <div class="card"><span class="t">[HOLDERS]</span><h3>Concentration</h3><p>Une poignée de comptes détient-elle presque toute l’offre ?</p></div>
+      <div class="card"><span class="t">[INSIDERS]</span><h3>Wallets d’initiés</h3><p>Des gros comptes liés entre eux peuvent sortir tous en même temps.</p></div>
+      <div class="card"><span class="t">[FLOW]</span><h3>Achats vs ventes</h3><p>Volume, ventes massives et chutes brutales sur 24 h.</p></div>
+      <div class="card"><span class="t">[RUGCHECK]</span><h3>Alertes RugCheck</h3><p>Les risques remontés par RugCheck, dont les tokens déjà marqués « rugged ».</p></div>
+    </div>
+  </section>
+
+  <section id="score" class="sec">
+    <div class="ey">03 · le score</div>
+    <h2>Un verdict lisible <em>d’un coup d’œil.</em></h2>
+    <p class="sub">Plus le score monte, plus les signaux de risque s’accumulent. Chaque point est détaillé dans l’analyse.</p>
+    <div class="bar" aria-hidden="true"></div>
+    <div class="sd">
+      <div style="--c:var(--ok)"><b>CLEAN</b><strong>0–24</strong><span>Pas de signal rouge majeur</span></div>
+      <div style="--c:var(--wa)"><b>SUS</b><strong>25–49</strong><span>Prudence : à vérifier avant d’acheter</span></div>
+      <div style="--c:var(--or)"><b>RISQUÉ</b><strong>50–74</strong><span>Plutôt à éviter</span></div>
+      <div style="--c:var(--dg)"><b>DANGER</b><strong>75–100</strong><span>Signaux typiques d’un token piégé</span></div>
+    </div>
+  </section>
+
+  <section id="honest" class="sec">
+    <div class="ey">04 · soyons clairs</div>
+    <h2>Un scanner, <em>pas une boule de cristal.</em></h2>
+    <p class="sub">Un memecoin reste un pari risqué. CoinCheck t’aide à voir ce que personne ne prend le temps de lire.</p>
+    <div class="dd">
+      <div class="bx yes"><h3>CoinCheck fait</h3><ul><li>Repère les red flags connus</li><li>Explique chaque signal simplement</li><li>Fonctionne sans wallet ni compte</li><li>S’appuie sur des données publiques</li></ul></div>
+      <div class="bx no"><h3>CoinCheck ne fait pas</h3><ul><li>Prédire le prix d’un token</li><li>Garantir qu’un token est sûr</li><li>Acheter ou vendre à ta place</li><li>Donner un conseil financier</li></ul></div>
+    </div>
+  </section>
+
+  <section id="faq" class="sec">
+    <div class="ey">05 · faq</div>
+    <h2>Questions <em>fréquentes.</em></h2>
+    <p class="sub">Avant de t’y fier, voici ce qu’il faut savoir.</p>
+    <div class="faq">
+      <details><summary>Un score bas veut-il dire que le token est sûr ?</summary><p>Non. Le score repère des signaux connus, mais un token sans signal rouge peut quand même s’effondrer. Ne mets que ce que tu peux perdre.</p></details>
+      <details><summary>D’où viennent les données ?</summary><p>De sources publiques : DexScreener pour le marché (prix, liquidité, volume) et RugCheck pour l’analyse du token et de ses holders.</p></details>
+      <details><summary>Faut-il connecter mon wallet ?</summary><p>Non. Tu n’as rien à connecter ni à signer, et rien n’est acheté à ta place.</p></details>
+      <details><summary>Est-ce un conseil financier ?</summary><p>Non. C’est un outil d’information. La décision d’acheter ou non reste la tienne.</p></details>
+    </div>
+  </section>
+
+  <section>
+    <div class="band">
+      <div class="stripes" aria-hidden="true"></div>
+      <h2>Ne rentre pas <em>à l’aveugle.</em></h2>
+      <p class="sub">Colle une adresse et lis le verdict en quelques secondes.</p>
+      <div class="ci">
+        <input id="addr2" placeholder="Adresse du token ou lien" spellcheck="false" autocomplete="off" aria-label="Adresse du token">
+        <button class="btn s" id="go2">Scanner</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="r"><span>© CoinCheck · Solana</span><span style="font-family:var(--mono)">NFA · DYOR</span></div>
+    <p>CoinCheck est un outil d’information basé sur des données publiques. Il ne constitue pas un conseil financier et ne garantit l’absence d’aucun risque. Les memecoins sont extrêmement volatils : tu peux perdre l’intégralité de ta mise. Le token affiché en exemple est fictif.</p>
+  </footer>
 </div>
 <script>
-const DS = "https://api.dexscreener.com";
-const RC = "https://api.rugcheck.xyz/v1/tokens/";
-const B58 = /[1-9A-HJ-NP-Za-km-z]{32,44}/;
-const $ = (id) => document.getElementById(id);
-
-function el(tag, cls, text) {
-  const e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (text != null) e.textContent = text;
-  return e;
+function bind(i,b){
+  const inp=document.getElementById(i),btn=document.getElementById(b);
+  const go=()=>{const v=inp.value.trim();location.href="analyse.html"+(v?"?mint="+encodeURIComponent(v):"")};
+  btn.addEventListener("click",go);
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter")go()});
 }
-async function getJSON(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error("HTTP " + r.status);
-  return r.json();
-}
-const usd = (n) => {
-  if (n == null || isNaN(n)) return "—";
-  const a = Math.abs(n);
-  if (a >= 1e9) return "$" + (n / 1e9).toFixed(2) + "B";
-  if (a >= 1e6) return "$" + (n / 1e6).toFixed(2) + "M";
-  if (a >= 1e3) return "$" + (n / 1e3).toFixed(1) + "K";
-  return "$" + Number(n).toPrecision(3);
-};
-const pct = (n) => (n == null ? "—" : (n > 0 ? "+" : "") + n + "%");
-const age = (ms) => {
-  if (!ms) return "—";
-  const h = (Date.now() - ms) / 36e5;
-  return h < 1 ? Math.round(h * 60) + " min" : h < 48 ? h.toFixed(1) + " h" : Math.round(h / 24) + " j";
-};
-const COL = { ok: "var(--ok)", warn: "var(--wa)", bad: "var(--dg)", info: "var(--mu)" };
-
-async function run(input) {
-  const out = $("out");
-  const m = input.match(B58);
-  if (!m) { out.replaceChildren(el("div", "st", "Adresse invalide : colle l’adresse complète du token.")); return; }
-  out.replaceChildren(el("div", "st", "Analyse en cours…"));
-  $("go").disabled = true;
-  try {
-    let addr = m[0];
-    let pairs = [];
-    try {
-      const d = await getJSON(DS + "/latest/dex/tokens/" + addr);
-      pairs = (d.pairs || []).filter((p) => p.chainId === "solana");
-    } catch (e) {}
-    if (!pairs.length) {
-      try {
-        const d = await getJSON(DS + "/latest/dex/pairs/solana/" + addr);
-        const p0 = (d.pairs || [])[0];
-        if (p0) { pairs = [p0]; addr = p0.baseToken.address; }
-      } catch (e) {}
-    }
-    pairs.sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0));
-    const p = pairs[0];
-
-    const rug = await getJSON(RC + addr + "/report").catch(() => null);
-
-    const authority = (key) => {
-      if (!rug) return undefined;
-      return rug[key] !== undefined ? rug[key] : rug.token?.[key];
-    };
-    const ma = authority("mintAuthority"), fa = authority("freezeAuthority");
-    const holders = rug?.topHolders || [];
-    const top1 = holders.length ? Number(holders[0].pct) : null;
-    const top10 = holders.length ? holders.slice(0, 10).reduce((a, h) => a + Number(h.pct || 0), 0) : null;
-    const insiders = holders.filter((h) => h.insider).length;
-
-    const flags = [];
-    const add = (pts, level, text) => flags.push({ pts, level, text });
-
-    if (!p) add(40, "bad", "Aucune paire de trading trouvée : impossible de l’acheter ou de le vendre normalement.");
-    if (rug?.rugged) add(60, "bad", "RugCheck marque ce token comme « rugged » (déjà rug pull).");
-
-    if (ma === undefined) add(5, "info", "Mint authority : information indisponible.");
-    else if (ma) add(25, "bad", "Le créateur peut encore imprimer de nouveaux tokens (mint authority active).");
-    else add(0, "ok", "Mint authority révoquée : pas de nouveaux tokens possibles.");
-    if (fa === undefined) add(3, "info", "Freeze authority : information indisponible.");
-    else if (fa) add(15, "bad", "Le créateur peut geler les wallets (freeze authority active).");
-    else add(0, "ok", "Freeze authority révoquée.");
-
-    if (p) {
-      const liq = p.liquidity?.usd || 0;
-      if (liq < 5000) add(25, "bad", "Liquidité très faible (" + usd(liq) + ") : sortie difficile, prix très volatil.");
-      else if (liq < 20000) add(12, "warn", "Liquidité faible (" + usd(liq) + ").");
-      else add(0, "ok", "Liquidité correcte (" + usd(liq) + ").");
-
-      const h = p.pairCreatedAt ? (Date.now() - p.pairCreatedAt) / 36e5 : null;
-      if (h != null && h < 1) add(15, "bad", "Token créé il y a moins d’une heure.");
-      else if (h != null && h < 24) add(8, "warn", "Token créé il y a moins de 24 h.");
-
-      const b = p.txns?.h24?.buys || 0, s = p.txns?.h24?.sells || 0;
-      if (s > b * 1.5 && s > 30) add(8, "warn", "Beaucoup plus de ventes que d’achats sur 24 h (" + s + " vs " + b + ").");
-      if ((p.priceChange?.h24 ?? 0) < -50) add(10, "warn", "Chute de plus de 50 % sur 24 h.");
-    }
-    if (top10 != null) {
-      if (top10 > 50) add(25, "bad", "Les 10 plus gros comptes détiennent " + top10.toFixed(0) + " % (peut inclure la liquidité).");
-      else if (top10 > 30) add(12, "warn", "Concentration élevée : top 10 = " + top10.toFixed(0) + " %.");
-      else add(0, "ok", "Répartition correcte : top 10 = " + top10.toFixed(0) + " %.");
-    }
-    if (insiders >= 3) add(15, "bad", insiders + " des plus gros comptes sont liés à des wallets d’initiés.");
-    else if (insiders > 0) add(6, "warn", insiders + " compte(s) de gros holders lié(s) à des initiés.");
-
-    if (rug?.risks?.length) {
-      rug.risks.filter((r) => r.level === "danger").slice(0, 3).forEach((r) => add(12, "bad", "RugCheck : " + r.name));
-      rug.risks.filter((r) => r.level === "warn").slice(0, 3).forEach((r) => add(3, "warn", "RugCheck : " + r.name));
-    }
-    if (!rug) add(5, "info", "Rapport RugCheck indisponible : l’analyse est moins complète.");
-
-    const score = Math.max(0, Math.min(100, flags.reduce((a, f) => a + f.pts, 0)));
-    let col = "ok", title = "Pas de signal rouge majeur", sub = "Ça ne veut pas dire que c’est sûr : un memecoin reste très risqué.";
-    if (score >= 75) { col = "bad"; title = "Danger : à éviter"; sub = "Plusieurs signaux typiques d’un rug pull ou d’un token piégé."; }
-    else if (score >= 50) { col = "bad"; title = "Risque élevé : plutôt à éviter"; sub = "Trop de signaux négatifs pour y mettre de l’argent."; }
-    else if (score >= 25) { col = "warn"; title = "Prudence"; sub = "Des points d’attention : vérifie-les avant d’acheter."; }
-
-    out.replaceChildren();
-    const v = el("div", "v");
-    v.style.borderColor = COL[col];
-    const sc = el("div", "sc", score + " / 100 de risque"); sc.style.color = COL[col];
-    v.append(sc, el("div", "tt", title), el("div", "st", sub));
-    const mt = el("div", "meter"), fill = document.createElement("i");
-    fill.style.width = score + "%"; fill.style.background = COL[col]; mt.append(fill); v.append(mt);
-    out.append(v);
-
-    const name = p?.baseToken?.name || rug?.tokenMeta?.name || "Token";
-    const sym = p?.baseToken?.symbol || rug?.tokenMeta?.symbol || "?";
-    out.append(el("h2", null, name + " ($" + sym + ")"));
-    const g = el("div", "g");
-    const cells = [
-      ["Prix", p?.priceUsd ? usd(Number(p.priceUsd)) : "—"],
-      ["Market cap (FDV)", usd(p?.fdv)],
-      ["Liquidité", usd(p?.liquidity?.usd)],
-      ["Volume 24 h", usd(p?.volume?.h24)],
-      ["Variation 1 h", pct(p?.priceChange?.h1)],
-      ["Variation 24 h", pct(p?.priceChange?.h24)],
-      ["Achats 24 h", p?.txns?.h24?.buys ?? "—"],
-      ["Ventes 24 h", p?.txns?.h24?.sells ?? "—"],
-      ["Âge", age(p?.pairCreatedAt)],
-      ["Marché", p?.dexId || "—"],
-      ["Plus gros compte", top1 != null ? top1.toFixed(1) + " %" : "—"],
-      ["Top 10 comptes", top10 != null ? top10.toFixed(1) + " %" : "—"],
-    ];
-    cells.forEach(([k, val]) => { const c = el("div", "c"); c.append(el("b", null, k), el("span", null, String(val))); g.append(c); });
-    out.append(g);
-
-    out.append(el("h2", null, "Signaux détectés"));
-    const fl = el("div");
-    flags.forEach((f) => {
-      const r = el("div", "f"); const d = el("span", "d"); d.style.background = COL[f.level];
-      r.append(d, el("span", null, f.text)); fl.append(r);
-    });
-    out.append(fl);
-
-    const links = el("div", "links");
-    if (p?.url && p.url.startsWith("https://dexscreener.com/")) {
-      const a = el("a", null, "Graphique DexScreener ↗"); a.href = p.url; a.target = "_blank"; a.rel = "noopener"; links.append(a);
-    }
-    const r1 = el("a", null, "Rapport RugCheck ↗"); r1.href = "https://rugcheck.xyz/tokens/" + addr; r1.target = "_blank"; r1.rel = "noopener"; links.append(r1);
-    out.append(links);
-    out.append(el("div", "note", "Score calculé avec des données publiques (DexScreener et RugCheck). C’est une aide à la décision, pas un conseil financier : un score bas n’est pas une garantie, un score élevé n’est pas une certitude. Le plus gros compte peut être la liquidité du token et non une personne."));
-    history.replaceState(null, "", "?mint=" + addr);
-  } catch (e) {
-    out.replaceChildren(el("div", "st", "Erreur : " + e.message));
-  }
-  $("go").disabled = false;
-}
-
-$("go").addEventListener("click", () => run($("addr").value));
-$("addr").addEventListener("keydown", (e) => { if (e.key === "Enter") run($("addr").value); });
-const q = new URLSearchParams(location.search).get("mint");
-if (q) { $("addr").value = q; run(q); }
+bind("addr","go");bind("addr2","go2");
+const mo=document.getElementById("mo"),mb=document.getElementById("mb");
+function tg(o){mo.classList.toggle("o",o);mo.setAttribute("aria-hidden",String(!o));mb.setAttribute("aria-expanded",String(o));document.body.style.overflow=o?"hidden":""}
+mb.addEventListener("click",()=>tg(true));
+document.getElementById("mx").addEventListener("click",()=>tg(false));
+mo.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>tg(false)));
+document.addEventListener("keydown",e=>{if(e.key==="Escape")tg(false)});
 </script>
 </body>
 </html>
