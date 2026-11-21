@@ -163,6 +163,25 @@ input{flex:1;min-width:0;padding:12px 16px;border-radius:99px;border:1px solid v
 .rv-t{font:italic 400 clamp(30px,8vw,54px) "Instrument Serif",Georgia,serif;margin-top:14px;color:#fff;min-height:1.2em;opacity:0;transform:translateY(10px);transition:all .6s}
 #rev.hit .rv-t{opacity:1;transform:none}
 .rv-s{position:absolute;bottom:28px;right:24px;background:none;border:1px solid var(--line);color:var(--mute);border-radius:99px;padding:8px 16px;font:600 11px var(--mono);cursor:pointer}
+/* reveal v2: charge-up + meme explosion */
+#rev{background:radial-gradient(60% 50% at 50% 42%,hsl(var(--h,262) calc(50% + var(--p,0)*30%) calc(12% + var(--p,0)*12%)),#04030a 70%)}
+#rev.hit{animation:shk .7s}
+@keyframes shk{0%,100%{translate:0 0}15%{translate:-14px 7px}30%{translate:12px -9px}45%{translate:-9px -5px}60%{translate:7px 9px}80%{translate:-3px 2px}}
+.rv-ap{filter:drop-shadow(0 0 calc(var(--p,0)*46px) hsl(var(--h,262) 100% 65%/calc(var(--p,0)*.9)))}
+.rv-n{will-change:transform}
+#rev.hit .rv-n{animation:bump .7s cubic-bezier(.2,1.8,.3,1)}
+@keyframes bump{0%{transform:scale(1.4)}100%{transform:scale(1)}}
+.rv-ring:nth-of-type(2){border-width:3px}
+#rev.hit .rv-ring{animation:ring2 1.3s ease-out}
+#rev.hit .rv-ring:nth-of-type(2){animation-delay:.18s}
+#rev.hit .rv-ring:nth-of-type(3){animation-delay:.36s}
+.rv-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:4}
+#rev.hit .rv-flash{animation:flash .9s ease-out}
+@keyframes flash{0%{opacity:.9}100%{opacity:0}}
+.rv-v{font:900 clamp(13px,3.6vw,22px) var(--disp);letter-spacing:.06em;text-transform:uppercase;margin-top:12px;color:var(--c);opacity:0;position:relative;z-index:2;text-shadow:0 0 20px var(--c)}
+#rev.hit .rv-v{animation:pop .8s .3s cubic-bezier(.2,1.6,.3,1) both}
+@keyframes pop{from{opacity:0;transform:scale(.3) rotate(-10deg)}to{opacity:1;transform:scale(1) rotate(-2deg)}}
+.rv-t,.rv-n,.rv-l{position:relative;z-index:2}
 .hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 /* sections */
 .sec{padding:70px 0 0}
@@ -489,15 +508,53 @@ last="My Phantom wallet has "+fmt(r.aura)+" aura on Solaura: "+r.tier+", "+r.arc
 try{var tf=new File([new Blob(["x"])],"a.png",{type:"image/png"});$("sharecard").hidden=!(navigator.canShare&&navigator.canShare({files:[tf]}))}catch(e){$("sharecard").hidden=true}
 view("res");burst()}
 
+var MEMEL=["🗿","🐸","🚀","💎","🔥","😎","🐕","🌙","👑","🤌","✨","💸","🧠","🫡","🦍","🙌"];
+var MEMEB=["💀","😭","🤡","🫠","📉","🥲","🍞"];
+var MEMEW=["GM","WAGMI","LFG","HODL","SIGMA","BASED","NO CAP","RIZZ","FR FR","LOCKED IN","W","TO THE MOON","WEN LAMBO","+1000 AURA","AURA FARMING","DIAMOND HANDS"];
+var MEMEW0=["NGMI","FEW","RUGGED?","L","COPE","PAPER HANDS","TOUCH GRASS"];
+var VERD=["NGMI… for now","Not bad, anon","Elite hacker energy","Gigachad detected","Sigma grindset","Aura God ascended"];
+function explode(o,ti,H){
+var cv=document.createElement("canvas"),dpr=Math.min(2,window.devicePixelRatio||1),W=innerWidth,Hh=innerHeight;
+cv.width=W*dpr;cv.height=Hh*dpr;cv.style.cssText="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3";
+o.appendChild(cv);var x=cv.getContext("2d");x.scale(dpr,dpr);
+var ap=o.querySelector(".rv-ap").getBoundingClientRect(),ox=ap.left+ap.width/2,oy=ap.top+ap.height/2;
+var ps=[],alive=true,raf,rnd=function(a,b){return a+Math.random()*(b-a)};
+var pool=ti<2?MEMEB.concat(MEMEL.slice(0,6)):MEMEL,words=ti<1?MEMEW0.concat(MEMEW.slice(0,4)):MEMEW;
+var wcol=["#ffffff","#ffe27a","#9cf5ff","#ff9be0","#b8ff9c"];
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function burst(ne,nw,nc,sx,sy){
+for(var i=0;i<ne;i++){var an=rnd(0,Math.PI*2),sp=rnd(7,20);ps.push({k:"e",t:pick(pool),x:sx,y:sy,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp-4,g:.22,drag:.985,rot:rnd(-1,1),vr:rnd(-.1,.1),s:rnd(28,66),age:0,max:rnd(110,170)})}
+for(var j=0;j<nw;j++){var a2=rnd(0,Math.PI*2),s2=rnd(4,11);ps.push({k:"w",t:pick(words),col:pick(wcol),x:sx,y:sy,vx:Math.cos(a2)*s2,vy:Math.sin(a2)*s2-2,g:.06,drag:.975,rot:rnd(-.35,.35),vr:rnd(-.015,.015),s:rnd(24,42),age:0,max:rnd(130,190)})}
+for(var q=0;q<nc;q++){var a3=rnd(0,Math.PI*2),s3=rnd(5,24);ps.push({k:"c",col:"hsl("+((H+rnd(-70,160))%360)+",95%,"+rnd(55,78)+"%)",x:sx,y:sy,vx:Math.cos(a3)*s3,vy:Math.sin(a3)*s3-5,g:.3,drag:.97,rot:rnd(0,6),vr:rnd(-.3,.3),w:rnd(6,13),h:rnd(3,7),ph:rnd(0,6),age:0,max:rnd(90,160)})}}
+burst(34+ti*10,6+ti*2,90+ti*40,ox,oy);
+setTimeout(function(){if(alive)burst(14+ti*6,3+ti,40+ti*20,ox,oy)},420);
+var rain=null;
+if(ti>=3){var rc=0;rain=setInterval(function(){if(!alive||rc++>22){clearInterval(rain);return}
+ps.push({k:"e",t:pick(MEMEL),x:rnd(0,W),y:-40,vx:rnd(-1.5,1.5),vy:rnd(3,7),g:.08,drag:1,rot:rnd(-1,1),vr:rnd(-.06,.06),s:rnd(28,56),age:0,max:rnd(120,200)})},70)}
+function frame(){if(!alive)return;x.clearRect(0,0,W,Hh);
+ps.forEach(function(p){if(p.age>p.max)return;p.age++;p.vx*=p.drag;p.vy=p.vy*p.drag+p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;
+var k=p.age/p.max,al=k>.72?1-(k-.72)/.28:1,sc=Math.min(1,p.age/9)*(1+.28*Math.max(0,1-p.age/20));
+x.save();x.globalAlpha=Math.max(0,al);x.translate(p.x,p.y);x.rotate(p.rot);x.scale(sc,sc);
+if(p.k==="e"){x.font=p.s+"px 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif";x.textAlign="center";x.textBaseline="middle";x.fillText(p.t,0,0)}
+else if(p.k==="w"){x.font="900 "+p.s+"px Impact,'Arial Black',sans-serif";x.textAlign="center";x.textBaseline="middle";x.lineJoin="round";x.lineWidth=p.s/5;x.strokeStyle="#000";x.fillStyle=p.col;x.strokeText(p.t,0,0);x.fillText(p.t,0,0)}
+else{x.scale(1,Math.cos(p.age*.22+p.ph));x.fillStyle=p.col;x.fillRect(-p.w/2,-p.h/2,p.w,p.h)}
+x.restore()});
+raf=requestAnimationFrame(frame)}
+raf=requestAnimationFrame(frame);
+return function(){alive=false;if(rain)clearInterval(rain);cancelAnimationFrame(raf)}}
+
 function reveal(r){return new Promise(function(res){
 if(reduce){res();return}
-var o=$("rev"),ti=Math.max(0,tiers.findIndex(function(t){return t[1]===r.tier})),done=false,t0=performance.now(),dur=2600;
-o.style.setProperty("--h",r.H);o.className="on";
-o.innerHTML='<div class="rv-ap">'+AP(r.H,ti)+'<div class="rv-ring"></div></div><div class="rv-n" id="rvn">0</div><div class="rv-l">AURA</div><div class="rv-t" id="rvt"></div><button class="rv-s" id="rvs" type="button">skip</button>';
-function fin(){if(done)return;done=true;o.classList.add("out");setTimeout(function(){o.className="";o.innerHTML="";res()},500)}
+var o=$("rev"),ti=Math.max(0,tiers.findIndex(function(t){return t[1]===r.tier})),done=false,t0=performance.now(),dur=3000,stopFx=null;
+o.style.setProperty("--h",r.H);o.style.setProperty("--p",0);o.className="on";
+o.innerHTML='<div class="rv-flash"></div><div class="rv-ap">'+AP(r.H,ti)+'<i class="rv-ring"></i><i class="rv-ring"></i><i class="rv-ring"></i></div><div class="rv-n" id="rvn">0</div><div class="rv-l">AURA</div><div class="rv-t" id="rvt"></div><div class="rv-v" id="rvv"></div><button class="rv-s" id="rvs" type="button">skip</button>';
+function fin(){if(done)return;done=true;if(stopFx)stopFx();o.classList.add("out");setTimeout(function(){o.className="";o.innerHTML="";o.style.removeProperty("--p");res()},500)}
 o.onclick=fin;
-function tick(t){if(done)return;var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);$("rvn").textContent=fmt(Math.round(r.aura*e));
-if(p<1)requestAnimationFrame(tick);else{$("rvt").textContent=r.tier;o.classList.add("hit");setTimeout(fin,1500)}}
+function boom(){$("rvt").textContent=r.tier;$("rvv").textContent=VERD[ti];o.classList.add("hit");stopFx=explode(o,ti,r.H);try{if(navigator.vibrate)navigator.vibrate([60,40,120])}catch(e){}setTimeout(fin,4200)}
+function tick(t){if(done)return;var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3),n=$("rvn");
+n.textContent=fmt(Math.round(r.aura*e));o.style.setProperty("--p",e.toFixed(3));
+var j=p*p*8;n.style.transform="translate("+((Math.random()-.5)*j).toFixed(1)+"px,"+((Math.random()-.5)*j).toFixed(1)+"px) scale("+(1+p*.08).toFixed(3)+")";
+if(p<1)requestAnimationFrame(tick);else{n.style.transform="";boom()}}
 requestAnimationFrame(tick)})}
 async function scan(a,ph){
 if(busy)return;busy=true;addr=a;fromPh=!!ph;msg("");view("load");
