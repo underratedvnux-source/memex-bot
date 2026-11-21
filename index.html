@@ -255,7 +255,28 @@ h3{font:900 12px var(--disp);letter-spacing:.04em;text-transform:uppercase;margi
 .cmp .l,.cmp .r{height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;display:flex}
 .cmp .l{justify-content:flex-end}
 .cmp s{display:block;height:100%;background:rgba(255,255,255,.35);border-radius:99px}
-.cmp .w s{background:linear-gradient(90deg,var(--a),var(--b))}
+.cmp .up s{background:linear-gradient(90deg,var(--a),var(--b))}
+/* duel animation */
+@keyframes dl{from{opacity:0;transform:translateX(-70px)}to{opacity:1;transform:none}}
+@keyframes dr{from{opacity:0;transform:translateX(70px)}to{opacity:1;transform:none}}
+@keyframes dvs{0%{opacity:0;transform:scale(4) rotate(-12deg)}60%{opacity:1;transform:scale(.9)}100%{opacity:1;transform:scale(1)}}
+@keyframes dwin{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@keyframes dshk{0%,100%{translate:0 0}25%{translate:-8px 0}50%{translate:7px 0}75%{translate:-4px 0}}
+@keyframes dclash{0%{opacity:.9}100%{opacity:0}}
+.duel-a{position:relative}
+.duel-a>div{transition:transform .6s cubic-bezier(.2,1.5,.3,1),opacity .6s,filter .6s}
+.duel-a>div:first-child{animation:dl .55s cubic-bezier(.2,.8,.2,1) backwards}
+.duel-a>div:last-child{animation:dr .55s cubic-bezier(.2,.8,.2,1) backwards}
+.duel-a>i{animation:dvs .6s .35s backwards}
+.duel-a .champ{transform:scale(1.18)}
+.duel-a .champ b{color:var(--a);text-shadow:0 0 26px var(--a)}
+.duel-a .lose{opacity:.4;transform:scale(.88);filter:grayscale(1);animation:dshk .5s}
+.duel-a .tie{transform:scale(1.06)}
+#dwin{opacity:0}
+#dwin.on{opacity:1;animation:dwin .5s cubic-bezier(.2,1.6,.3,1) both}
+.cmp s{width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+#dacts{opacity:0;transition:opacity .5s}
+#dacts.on{opacity:1}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
 #fx span{position:absolute;bottom:-30px;font:900 16px var(--disp);color:var(--c);animation:up 2.6s ease-out forwards;text-shadow:0 0 14px var(--c)}
 @keyframes up{to{transform:translateY(-110vh) rotate(var(--r));opacity:0}}
@@ -666,11 +687,24 @@ if(w.d.sol===null&&w.d.count===null&&w.d.tok===null){o.innerHTML='<p class="note
 var R=score(w.d,w.fails,b),diff=S.aura-R.aura,me=S;
 var head=diff===0?"Perfect tie. Aura cancelled.":(diff>0?"You win by "+fmt(diff)+" aura":"Rival wins by "+fmt(-diff)+" aura");
 var rows=me.rows.slice(0,6).map(function(x,i){var y=R.rows[i],mx=Math.max(x[3],1),a1=x[4]?0:x[2],b1=y[4]?0:y[2];
-return '<div><span class="l '+(a1>b1?"w":"")+'"><s style="width:'+Math.round(a1/mx*100)+'%"></s></span><span>'+x[0]+'</span><span class="r '+(b1>a1?"w":"")+'"><s style="width:'+Math.round(b1/mx*100)+'%"></s></span></div>'}).join("");
-o.innerHTML='<div class="vs"><div><b>'+fmt(me.aura)+'</b><span>YOU · '+esc(me.tier)+'</span></div><i>VS</i><div><b>'+fmt(R.aura)+'</b><span>'+short(b)+' · '+esc(R.tier)+'</span></div></div><div class="win">'+head+'</div><div class="cmp">'+rows+'</div><div class="acts" style="justify-content:center"><button class="alt" id="dtw" type="button">Share the duel</button></div>';
+return '<div><span class="l '+(a1>b1?"up":"")+'"><s data-w="'+Math.round(a1/mx*100)+'"></s></span><span>'+x[0]+'</span><span class="r '+(b1>a1?"up":"")+'"><s data-w="'+Math.round(b1/mx*100)+'"></s></span></div>'}).join("");
+o.innerHTML='<div class="vs duel-a"><div id="dA"><b id="nA">0</b><span>YOU · '+esc(me.tier)+'</span></div><i>VS</i><div id="dB"><b id="nB">0</b><span>'+short(b)+' · '+esc(R.tier)+'</span></div></div><div class="win" id="dwin">'+head+'</div><div class="cmp">'+rows+'</div><div class="acts" id="dacts" style="justify-content:center"><button class="alt" id="dtw" type="button">Share the duel</button></div>';
 var txt="Aura duel on Solaura: "+fmt(me.aura)+" vs "+fmt(R.aura)+" — "+head+" ✨";
 $("dtw").addEventListener("click",function(){tweet(txt)});
-burst()
+var nA=$("nA"),nB=$("nB"),dA=$("dA"),dB=$("dB"),D=reduce?0:1900,t0=performance.now()+650;
+function end(){
+nA.textContent=fmt(me.aura);nB.textContent=fmt(R.aura);
+o.querySelectorAll(".cmp s").forEach(function(e){e.style.width=e.getAttribute("data-w")+"%"});
+if(diff>0){dA.classList.add("champ");dB.classList.add("lose")}else if(diff<0){dB.classList.add("champ");dA.classList.add("lose")}else{dA.classList.add("tie");dB.classList.add("tie")}
+$("dwin").classList.add("on");$("dacts").classList.add("on");
+if(diff>0)burst();
+try{if(navigator.vibrate)navigator.vibrate(diff>0?[40,30,90]:30)}catch(e){}}
+function step(now){
+if(!document.body.contains(nA))return;
+var p=Math.max(0,Math.min(1,(now-t0)/D)),e=1-Math.pow(1-p,3);
+nA.textContent=fmt(Math.round(me.aura*e));nB.textContent=fmt(Math.round(R.aura*e));
+if(p<1)requestAnimationFrame(step);else end()}
+if(reduce)end();else requestAnimationFrame(step);
 }catch(e){o.innerHTML='<p class="note">Duel failed: '+esc((e&&e.message)||e)+'</p>'}
 finally{$("duelgo").disabled=false}}
 
