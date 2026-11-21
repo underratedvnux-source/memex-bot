@@ -7,20 +7,27 @@
 <meta name="description" content="Connect Phantom, mint your aura card, roast your wallet and duel your friends. Read from the Solana blockchain.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;900&display=swap">
 <style>
-:root{--h:305;--bg:#07060f;--ink:#f5f3ff;--mute:#a9a4c9;--line:rgba(255,255,255,.12);--a:hsl(262 100% 70%);--b:hsl(236 100% 72%);--c:hsl(286 100% 78%);--disp:Unbounded,"Arial Black",system-ui,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+:root{--h:305;--bg:#05040b;--ink:#f5f3ff;--mute:#a9a4c9;--line:rgba(255,255,255,.1);--a:hsl(262 100% 70%);--b:hsl(236 100% 72%);--c:hsl(286 100% 78%);--disp:Unbounded,"Arial Black",system-ui,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 *,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
-body{overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom,0px);background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:26px 26px}
-body::before,body::after{content:"";position:fixed;z-index:-1;width:60vmax;height:60vmax;border-radius:50%;filter:blur(90px);opacity:.28;transition:background .8s;pointer-events:none}
-body::before{left:-20vmax;top:-20vmax;background:var(--a)}
-body::after{right:-24vmax;bottom:-24vmax;background:var(--b)}
+html{background:var(--bg)}
+html,body{margin:0;color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+body{overflow-x:hidden;padding-bottom:env(safe-area-inset-bottom,0px);background:none}
+/* premium background: aurora */
+body::before{content:"";position:fixed;inset:-20%;z-index:-4;pointer-events:none;background:radial-gradient(38% 34% at 16% 10%,hsl(var(--h) 90% 58%/.26),transparent 70%),radial-gradient(34% 30% at 86% 18%,hsl(236 90% 60%/.22),transparent 70%),radial-gradient(44% 38% at 72% 96%,hsl(262 90% 55%/.22),transparent 70%),radial-gradient(30% 30% at 4% 88%,hsl(220 90% 50%/.14),transparent 70%);filter:blur(48px);animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate3d(2.5%,-3%,0) scale(1.08)}}
+/* hairline grid */
+html::before{content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(70% 60% at 50% 28%,#000,transparent 80%);mask-image:radial-gradient(70% 60% at 50% 28%,#000,transparent 80%)}
+/* film grain */
+html::after{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.07;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* vignette */
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(520px circle at var(--mx,50%) var(--my,28%),rgba(170,150,255,.10),transparent 65%),radial-gradient(70% 38% at 50% -6%,rgba(200,185,255,.18),transparent 70%),radial-gradient(80% 30% at 50% 108%,hsl(var(--h) 90% 55%/.16),transparent 70%),radial-gradient(120% 90% at 50% 20%,transparent 45%,rgba(0,0,0,.6) 100%)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 section[hidden]{display:none}
 a{color:var(--a)}
 .w{max-width:1120px;margin:0 auto;padding:0 20px}
 /* tape */
-.tape{background:var(--c);color:#07070b;overflow:hidden;white-space:nowrap;transform:rotate(-1.2deg);margin:14px -10px 0;padding-top:env(safe-area-inset-top,0px);box-shadow:0 8px 40px -10px var(--c);transition:background .8s}
-.tape div{display:inline-block;padding:8px 0;animation:roll 28s linear infinite;font:900 12px var(--disp);letter-spacing:.06em}
+.tape{background:linear-gradient(90deg,transparent,rgba(255,255,255,.05) 20%,rgba(255,255,255,.05) 80%,transparent);color:var(--mute);overflow:hidden;white-space:nowrap;margin:0;padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--line);-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.tape div{display:inline-block;padding:10px 0;animation:roll 40s linear infinite;font:600 10px var(--disp);letter-spacing:.24em}
 .tape span{margin:0 18px}
 @keyframes roll{to{transform:translateX(-50%)}}
 /* header */
@@ -90,6 +97,17 @@ input{flex:1;min-width:0;padding:12px 16px;border-radius:99px;border:1px solid v
 .st em s{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));border-radius:9px}
 .cf{display:flex;justify-content:space-between;font:600 9.5px var(--mono);color:var(--mute);margin-top:9px;letter-spacing:.06em}
 .ex{position:absolute;top:-13px;left:50%;transform:translateX(-50%) rotate(-3deg);background:#fff;color:#07070b;font:900 10px var(--disp);padding:5px 16px;border-radius:99px;letter-spacing:.08em;z-index:3;white-space:nowrap}
+/* collectible polish */
+.card .in::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 38%,rgba(255,255,255,.22) 49%,transparent 60%);transform:translateX(-130%);animation:sweep 5.5s ease-in-out infinite}
+@keyframes sweep{55%,100%{transform:translateX(130%)}}
+.sc{text-shadow:0 0 30px var(--a)}
+.t5 .sc{text-shadow:none}
+.rar{box-shadow:0 0 14px var(--a)}
+.card:hover{box-shadow:0 40px 100px -18px hsl(var(--th) 100% 60%/.75)}
+.gal{display:flex;gap:26px;overflow-x:auto;scroll-snap-type:x mandatory;padding:38px 20px 30px;margin:0 -20px;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gi{flex:none;width:272px;height:382px;scroll-snap-align:center}
+.gi .card{width:340px;zoom:.8}
 /* tier skins */
 @keyframes scan{to{background-position:0 24px}}
 @keyframes holo{to{background-position:300% 0}}
@@ -139,7 +157,7 @@ h2{font:900 clamp(26px,5vw,48px)/1 var(--disp);letter-spacing:-.05em;text-transf
 h2 em{font-style:normal;color:var(--a)}
 .sub{color:var(--mute);max-width:56ch;margin:0 0 30px}
 .lay{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.lay div{border:1px solid var(--line);border-radius:18px;padding:16px;background:rgba(255,255,255,.03);transition:transform .2s,border-color .2s}
+.lay div{border:1px solid var(--line);border-radius:18px;padding:16px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .2s,border-color .2s}
 .lay div:hover{transform:translateY(-4px) rotate(-1deg);border-color:var(--a)}
 .lay b{display:block;font:900 13px var(--disp);color:var(--a);margin-bottom:6px}
 .lay span{font-size:.82rem;color:var(--mute)}
@@ -174,7 +192,7 @@ h3{font:900 12px var(--disp);letter-spacing:.04em;text-transform:uppercase;margi
 .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
 .cm{font-size:.8rem;color:var(--mute);margin-top:12px;min-height:1.2em}
 /* duel */
-.duel{margin-top:44px;border:1px solid var(--line);border-radius:26px;padding:26px;background:rgba(255,255,255,.03)}
+.duel{margin-top:44px;border:1px solid var(--line);border-radius:26px;padding:26px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 .vs{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;text-align:center;margin-top:22px}
 .vs div b{display:block;font:900 clamp(28px,7vw,52px)/1 var(--disp);letter-spacing:-.05em}
 .vs div span{font:600 12px var(--mono);color:var(--mute)}
@@ -226,6 +244,8 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 <h2>Climb the <em>tiers</em></h2>
 <p class="sub">Six tiers, six card designs. From Noob to Aura God, 100,000 aura at the top. Which rarity will your card be?</p>
 <div class="lad" id="lad"></div>
+<div class="gal" id="gal" aria-label="The six aura cards"></div>
+<div style="text-align:center;margin-top:10px"><button class="btn" id="cta2" type="button">Reveal my aura ✦</button></div>
 </div>
 </section>
 
@@ -398,15 +418,20 @@ return '<div class="card t'+ti+'" style="--h:'+r.H+'">'+(demo?'<div class="ex">E
 '<div class="sc">'+fmt(r.aura)+'</div><div class="sl">AURA / '+fmt(MAX)+'</div><div class="pb"><s style="width:'+pct+'%"></s></div>'+
 '<div class="nm">'+esc(r.arch)+'</div><div class="ro">“'+esc(r.roast)+'”</div>'+
 '<div class="st">'+r.rows.slice(0,6).map(function(x,i){return '<div>'+LAB[i]+'<em><s style="width:'+(x[4]?0:Math.round(x[2]/x[3]*100))+'%"></s></em></div>'}).join("")+'</div>'+
-'<div class="cf"><span>SOLAURA</span><span>'+esc(r.demoAddr||short(r.a))+'</span></div></div></div>'}
+'<div class="cf"><span>SOLAURA · SCAN YOURS</span><span>'+esc(r.demoAddr||short(r.a))+'</span></div></div></div>'}
 var DEMO={a:"EXAMPLE",demoAddr:"EXAM…PLE1",aura:74200,tier:"Aura Chad",arch:"The Treasurer",H:280,hn:"Violet",no:"00421",roast:"Heavy bag detected. Exit liquidity is scared.",rows:[[0,0,2100,2500],[0,0,1500,2000],[0,0,1100,1500],[0,0,900,1700],[0,0,700,1200],[0,0,300,800]]};
 $("demo").innerHTML=cardHTML(DEMO,true);
+var GAL=[[6000,"The Newcomer",250,"Sapphire","00007","Fresh wallet. Still has that new-RPC smell."],[27000,"The Explorer",200,"Turquoise","00128","Minimalist. Or just scared."],[46000,"The Metronome",150,"Emerald","00512","Shows up like a gym membership you actually use."],[68000,"The Treasurer",290,"Violet","01337","Heavy bag detected. Exit liquidity is scared."],[88000,"The Trader",330,"Magenta","04200","Terminally on-chain. Touching grass is optional."],[100000,"The Elder",275,"Violet","09999","Survived multiple bear markets. Respect."]];
+$("gal").innerHTML=GAL.map(function(g){var f=g[0]/MAX,r={a:"EXAMPLE",demoAddr:"YOUR…WALLET",aura:g[0],tier:tierOf(g[0])[1],arch:g[1],H:g[2],hn:g[3],no:g[4],roast:g[5],rows:[2500,2000,1500,1700,1200,800].map(function(m,i){return [0,0,Math.min(m,m*f*(.85+.3*((i*37)%10)/10)),m]})};return '<div class="gi">'+cardHTML(r,false)+'</div>'}).join("");
+$("cta2").addEventListener("click",function(){window.scrollTo({top:0,behavior:"smooth"});$("connect").focus()});
 document.addEventListener("pointermove",function(e){
 var c=e.target.closest&&e.target.closest(".card");if(!c||reduce)return;
 var b=c.getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;
 c.style.setProperty("--rx",((.5-y)*18).toFixed(1)+"deg");c.style.setProperty("--ry",((x-.5)*22).toFixed(1)+"deg");
 c.style.setProperty("--px",(x*100).toFixed(0)+"%");c.style.setProperty("--py",(y*100).toFixed(0)+"%")});
 document.addEventListener("pointerout",function(e){var c=e.target.closest&&e.target.closest(".card");if(c&&!c.contains(e.relatedTarget)){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")}});
+
+if(!reduce)document.addEventListener("pointermove",function(e){root.style.setProperty("--mx",e.clientX+"px");root.style.setProperty("--my",e.clientY+"px")},{passive:true});
 
 function burst(){
 if(reduce)return;var fx=$("fx"),t=["+AURA","+1000","✦","+AURA","+500"];
