@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Solaura – how much aura does your wallet have?</title>
 <meta name="description" content="Connect Phantom, mint your aura card, roast your wallet and duel your friends. Read from the Solana blockchain.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;900&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
 :root{--h:305;--bg:#05040b;--ink:#f5f3ff;--mute:#a9a4c9;--line:rgba(255,255,255,.1);--a:hsl(262 100% 70%);--b:hsl(236 100% 72%);--c:hsl(286 100% 78%);--disp:Unbounded,"Arial Black",system-ui,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 *,*::before,*::after{box-sizing:border-box}
@@ -126,6 +126,62 @@ input{flex:1;min-width:0;padding:12px 16px;border-radius:99px;border:1px solid v
 .halo{position:absolute;left:50%;top:-26px;width:72px;height:18px;margin-left:-36px;border-radius:50%;border:2px solid var(--a);box-shadow:0 0 14px var(--a),inset 0 0 8px var(--a);animation:pulse 3s ease-in-out infinite}
 .t5 .wm{-webkit-text-stroke:1px rgba(255,240,200,.18)}
 .t5 .rar{text-shadow:0 0 14px var(--a)}
+
+/* aura photo + serif refinement */
+@keyframes breathe{50%{transform:scale(1.06)}}
+@keyframes cin{from{opacity:0;transform:perspective(900px) rotateY(-80deg) scale(.7)}to{opacity:1;transform:none}}
+@keyframes rise{from{transform:scale(.15);opacity:0}25%{opacity:1}to{transform:scale(1);opacity:1}}
+@keyframes ring2{from{transform:scale(.7);opacity:.9}to{transform:scale(3.4);opacity:0}}
+.ap{position:relative;width:100%;height:100%}
+.ap svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ap .L3{fill:hsl(calc(var(--ah) + var(--sp)*1.6) 90% 62%);stroke:hsl(calc(var(--ah) + var(--sp)*1.6) 90% 62%);stroke-width:34;stroke-linejoin:round;filter:blur(16px);opacity:calc(.25 + var(--k)*.55);animation:breathe 5s ease-in-out infinite}
+.ap .L2{fill:hsl(calc(var(--ah) + var(--sp)) 95% 62%);stroke:hsl(calc(var(--ah) + var(--sp)) 95% 62%);stroke-width:20;stroke-linejoin:round;filter:blur(9px);opacity:calc(.45 + var(--k)*.5);animation:breathe 4s ease-in-out infinite reverse}
+.ap .L1{fill:hsl(var(--ah) 100% 66%);stroke:hsl(var(--ah) 100% 66%);stroke-width:8;stroke-linejoin:round;filter:blur(3px);opacity:.9}
+.ap .L0{fill:#08070c;stroke:rgba(255,255,255,.18);stroke-width:.6}
+.card .emb{width:150px;height:150px;margin-top:10px}
+.card .emb::before{display:none}
+.card .sc{font:400 62px/.9 "Instrument Serif",Georgia,serif;letter-spacing:-.01em;background:none;-webkit-background-clip:initial;background-clip:initial;color:#f6f1e8;margin-top:6px}
+.card .rar{font:italic 400 24px "Instrument Serif",Georgia,serif;letter-spacing:.01em;text-transform:none;padding-left:0;margin-top:10px;text-shadow:none}
+.card .nm{font:400 14px "Instrument Serif",Georgia,serif;letter-spacing:.16em;text-transform:uppercase;color:#cfc9bd;margin-top:8px}
+.card .tag{margin-top:8px}
+#cardmount.cin{animation:cin 1.1s cubic-bezier(.2,.8,.2,1)}
+.orbl{width:110px;height:110px;margin:0 auto 28px;border-radius:50%;background:conic-gradient(hsl(262 90% 65%),hsl(200 90% 60%),hsl(320 90% 65%),hsl(262 90% 65%));filter:blur(20px);animation:rot 3s linear infinite,pu 1.6s ease-in-out infinite}
+#rev{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;background:radial-gradient(60% 50% at 50% 42%,hsl(var(--h,262) 50% 12%),#04030a 70%);transition:opacity .5s}
+#rev.on{display:flex}
+#rev.out{opacity:0}
+.rv-ap{position:relative;width:min(300px,62vw);aspect-ratio:1;animation:rise 2.6s cubic-bezier(.2,.7,.2,1) both}
+.rv-ring{position:absolute;inset:0;border-radius:50%;border:2px solid hsl(var(--h,262) 90% 72%);opacity:0}
+#rev.hit .rv-ring{animation:ring2 1.1s ease-out}
+.rv-n{font:400 clamp(72px,22vw,150px)/1 "Instrument Serif",Georgia,serif;color:#f6f1e8;margin-top:22px;font-variant-numeric:tabular-nums}
+.rv-l{font:600 12px var(--mono);letter-spacing:.6em;padding-left:.6em;color:var(--mute)}
+.rv-t{font:italic 400 clamp(30px,8vw,54px) "Instrument Serif",Georgia,serif;margin-top:14px;color:#fff;min-height:1.2em;opacity:0;transform:translateY(10px);transition:all .6s}
+#rev.hit .rv-t{opacity:1;transform:none}
+.rv-s{position:absolute;bottom:28px;right:24px;background:none;border:1px solid var(--line);color:var(--mute);border-radius:99px;padding:8px 16px;font:600 11px var(--mono);cursor:pointer}
+/* accounts + ranking */
+.hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.logo{cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;background:#fff;color:#07070b;font:600 13px system-ui;padding:12px 20px;border-radius:99px;max-width:90vw;text-align:center;box-shadow:0 10px 40px #000a}
+.mine{border:1px solid var(--line);border-radius:18px;padding:16px 20px;margin-bottom:18px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));font:600 14px var(--mono);display:none}
+.mine.on{display:block}
+.mine b{font:400 30px "Instrument Serif",Georgia,serif;color:#f6f1e8;margin-right:8px}
+.lb{display:grid;gap:8px}
+.lr{display:grid;grid-template-columns:44px 40px 1fr auto;gap:12px;align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);color:var(--ink);text-decoration:none;transition:transform .15s,border-color .15s}
+.lr:hover{transform:translateX(4px);border-color:var(--a)}
+.lr.me{border-color:var(--c);background:rgba(255,255,255,.07)}
+.rk{font:400 28px "Instrument Serif",Georgia,serif;color:var(--mute);text-align:center}
+.rk.r1{color:#ffd978}.rk.r2{color:#d6dbe6}.rk.r3{color:#e3a77c}
+.av{width:40px;height:40px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,var(--a),var(--b));display:grid;place-items:center;font:900 15px var(--disp);color:#07070b}
+.ln{display:block;font:600 15px system-ui;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ln small{display:block;font:600 11px var(--mono);color:var(--mute)}
+.la{font:400 30px "Instrument Serif",Georgia,serif;color:#f6f1e8}
+.pf{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:start;padding-bottom:20px}
+@media(max-width:900px){.pf{grid-template-columns:1fr;gap:30px}}
+.pf .av{width:64px;height:64px;font-size:24px}
+.pn{font:400 clamp(34px,6vw,60px)/1 "Instrument Serif",Georgia,serif;margin:14px 0 4px;color:#f6f1e8}
+.pb{color:var(--mute);margin:6px 0 0;max-width:46ch}
+.pr{font:600 13px var(--mono);color:var(--b);margin-top:12px}
+.ed{display:grid;gap:8px;max-width:420px;margin-top:20px}
+.ed input{border-radius:12px}
 /* sections */
 .sec{padding:70px 0 0}
 h2{font:900 clamp(26px,5vw,48px)/1 var(--disp);letter-spacing:-.05em;text-transform:uppercase;margin:0 0 10px}
@@ -190,11 +246,12 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 </head>
 <body>
 <div id="fx" aria-hidden="true"></div>
+<div id="rev" aria-hidden="true"></div>
 <div class="tape" aria-hidden="true"><div id="tp"></div></div>
 <div class="w">
 <header>
 <div class="logo"><svg width="30" height="24" viewBox="0 0 397.7 311.7" role="img" aria-label="Solana logo"><defs><linearGradient id="sol" x1="360" y1="-38" x2="141" y2="347" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00ffa3"/><stop offset="1" stop-color="#dc1fff"/></linearGradient></defs><path fill="url(#sol)" d="M64.6,237.9c2.4-2.4,5.7-3.8,9.2-3.8h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,237.9z"/><path fill="url(#sol)" d="M64.6,3.8C67.1,1.4,70.4,0,73.8,0h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,3.8z"/><path fill="url(#sol)" d="M333.1,120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8,0-8.7,7-4.6,11.1l62.7,62.7c2.4,2.4,5.7,3.8,9.2,3.8h317.4c5.8,0,8.7-7,4.6-11.1L333.1,120.1z"/></svg>SOLAURA</div>
-<span class="pill" id="pill"></span>
+<div class="hr"><span class="pill" id="pill"></span><button class="alt" id="nBoard" type="button">🏆 Leaderboard</button><button class="alt" id="nAcct" type="button">Sign in</button></div>
 </header>
 <main>
 
@@ -225,7 +282,7 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 </section>
 
 <section id="load" class="load" hidden aria-live="polite">
-<div class="spinw">Measuring<br>your aura…</div>
+<div class="orbl" aria-hidden="true"></div><div class="spinw">Measuring<br>your aura…</div>
 <ul class="chk" id="chk"><li id="c0">Gold &amp; balance</li><li id="c1">Momentum &amp; rhythm</li><li id="c2">Tokens &amp; relics</li></ul>
 </section>
 
@@ -243,6 +300,7 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 <div class="log" id="log"></div>
 <p class="note" id="partial"></p>
 <div class="acts">
+<button class="alt" id="join" type="button">🏆 Join the leaderboard</button>
 <button class="alt" id="sharecard" type="button" hidden>Share card</button>
 <button class="alt" id="tweet" type="button">Share on X</button>
 <button class="alt" id="copy" type="button">Copy text</button>
@@ -257,6 +315,14 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 <div class="or" style="max-width:none"><input id="rival" type="text" placeholder="Rival wallet address" aria-label="Rival address" spellcheck="false" autocomplete="off"><button class="alt" id="duelgo" type="button">Fight</button></div>
 <div id="duelout"></div>
 </div>
+</section>
+
+<section id="board" hidden>
+<div class="sec" style="padding-top:40px"><h2>World <em>aura ranking</em></h2><p class="sub">The highest auras of the Solaura community.</p><div id="mine" class="mine"></div><div class="lb" id="lb"></div></div>
+</section>
+
+<section id="prof" hidden>
+<div class="sec" style="padding-top:40px" id="pbody"></div>
 </section>
 
 </main>
@@ -279,7 +345,7 @@ var root=document.documentElement;
 var addr="",fromPh=false,busy=false,S=null,last="",hooked=false;
 function prov(){var p=(window.phantom&&window.phantom.solana)||window.solana;return p&&p.isPhantom?p:null}
 function waitProv(ms){return new Promise(function(res){var p=prov();if(p)return res(p);var t0=Date.now(),iv=setInterval(function(){var q=prov();if(q||Date.now()-t0>ms){clearInterval(iv);res(q)}},100)})}
-function view(id){["home","load","res"].forEach(function(s){$(s).hidden=s!==id});window.scrollTo(0,0)}
+function view(id){["home","load","res","board","prof"].forEach(function(s){$(s).hidden=s!==id});window.scrollTo(0,0)}
 function msg(h){$("msg").innerHTML=h}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
@@ -390,11 +456,12 @@ var MX='<div class="mx">'+"1011010011,0100110101,1100101001,0010110110,100101101
 var SPK=[[14,26],[82,18],[70,46],[22,52],[88,70],[10,78]].map(function(p,i){return '<i class="sp" style="left:'+p[0]+'%;top:'+p[1]+'%;animation-delay:-'+(i*.6)+'s"></i>'}).join("");
 var FXH=['<div class="rb">STARTER</div>','<i class="cn a"></i><i class="cn b"></i><i class="cn c"></i><i class="cn d"></i>',MX,SPK,'<div class="foilbar"></div>','<div class="rays"></div>'+SPK];
 var EXT=["","","",'<svg class="crown" viewBox="0 0 40 24" aria-hidden="true"><path d="M2 22L5 6l8 8 7-12 7 12 8-8 3 16z"/></svg>',"",'<div class="halo"></div>'];
+function AP(H,ti){var sh='<path d="M16 96C16 70 32 60 50 60C68 60 84 70 84 96Z"/><circle cx="50" cy="38" r="15"/>';return '<div class="ap" style="--ah:'+H+';--k:'+(.35+ti*.13).toFixed(2)+';--sp:'+(25+ti*20)+'">'+["L3","L2","L1","L0"].map(function(c){return '<svg class="'+c+'" viewBox="0 0 100 100" aria-hidden="true">'+sh+'</svg>'}).join("")+'</div>'}
 function cardHTML(r,demo){
 var ti=Math.max(0,tiers.findIndex(function(t){return t[1]===r.tier}));
 return '<div class="card t'+ti+'" style="--h:'+r.H+'">'+(demo?'<div class="ex">EXAMPLE CARD</div>':'')+'<div class="in"><div class="sheen"></div><div class="wm">'+ROM[ti]+'</div>'+FXH[ti]+
 '<div class="ct"><span>SOLAURA</span><span>Nº <b>'+r.no+'</b></span></div>'+
-'<div class="emb">'+EXT[ti]+EMB+'</div>'+
+'<div class="emb">'+EXT[ti]+AP(r.H,ti)+'</div>'+
 '<div class="rar">'+esc(r.tier)+'</div><div class="tag">'+TAGS[ti]+'</div>'+
 '<div class="sc">'+fmt(r.aura)+'</div><div class="sl">AURA</div>'+
 '<div class="nm">'+esc(r.arch)+'</div><div class="ro">“'+esc(r.roast)+'”</div>'+
@@ -422,7 +489,7 @@ for(var i=0;i<18;i++){var s=document.createElement("span");s.textContent=t[i%t.l
 // ---------- render ----------
 function render(r){
 S=r;root.style.setProperty("--h",r.H);
-$("cardmount").innerHTML=cardHTML(r,false);
+$("cardmount").innerHTML=cardHTML(r,false);var cm0=$("cardmount");cm0.classList.remove("cin");void cm0.offsetWidth;cm0.classList.add("cin");
 $("rt").innerHTML=esc(r.tier)+'<br><em>'+fmt(r.aura)+'</em> aura';
 $("ra").textContent=r.arch+" · "+r.hn+" aura";
 $("log").innerHTML=r.rows.map(function(x){var ok=!x[4];return '<div><b'+(ok&&x[2]>0?'':' class="z"')+'>'+(ok?"+"+fmt(x[2]):"–")+'</b><span>'+x[0]+'<small>'+(ok?x[1]:"unreadable")+'</small></span><span>/ '+fmt(x[3])+'</span></div>'}).join("");
@@ -440,14 +507,24 @@ last="My Phantom wallet has "+fmt(r.aura)+" aura on Solaura: "+r.tier+", "+r.arc
 try{var tf=new File([new Blob(["x"])],"a.png",{type:"image/png"});$("sharecard").hidden=!(navigator.canShare&&navigator.canShare({files:[tf]}))}catch(e){$("sharecard").hidden=true}
 view("res");burst()}
 
+function reveal(r){return new Promise(function(res){
+if(reduce){res();return}
+var o=$("rev"),ti=Math.max(0,tiers.findIndex(function(t){return t[1]===r.tier})),done=false,t0=performance.now(),dur=2600;
+o.style.setProperty("--h",r.H);o.className="on";
+o.innerHTML='<div class="rv-ap">'+AP(r.H,ti)+'<div class="rv-ring"></div></div><div class="rv-n" id="rvn">0</div><div class="rv-l">AURA</div><div class="rv-t" id="rvt"></div><button class="rv-s" id="rvs" type="button">skip</button>';
+function fin(){if(done)return;done=true;o.classList.add("out");setTimeout(function(){o.className="";o.innerHTML="";res()},500)}
+o.onclick=fin;
+function tick(t){if(done)return;var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);$("rvn").textContent=fmt(Math.round(r.aura*e));
+if(p<1)requestAnimationFrame(tick);else{$("rvt").textContent=r.tier;o.classList.add("hit");setTimeout(fin,1500)}}
+requestAnimationFrame(tick)})}
 async function scan(a,ph){
 if(busy)return;busy=true;addr=a;fromPh=!!ph;msg("");view("load");
 var lis=[$("c0"),$("c1"),$("c2")];lis.forEach(function(l){l.className="on"});
 var w=await readWallet(a,function(i,ok){lis[i].className=ok?"ok":"no"});
 var d=w.d;
 if(d.sol===null&&d.count===null&&d.tok===null){view("home");msg("Couldn’t read the blockchain: "+esc(w.err)+". Try again, or set another RPC under “Advanced”.");busy=false;return}
-await sleep(400);
-render(score(d,w.fails,a));
+await sleep(300);
+var rs=score(d,w.fails,a);await reveal(rs);render(rs);
 if(ph){$("pill").textContent=short(a);$("pill").classList.add("on")}else $("pill").classList.remove("on");
 busy=false}
 
@@ -480,6 +557,7 @@ x.save();x.translate(cx,cy);x.rotate(rot);x.scale(R/46,R/46);x.translate(-50,-50
 x.beginPath();x.moveTo(50,4);x.bezierCurveTo(54,34,66,46,96,50);x.bezierCurveTo(66,54,54,66,50,96);x.bezierCurveTo(46,66,34,54,4,50);x.bezierCurveTo(34,46,46,34,50,4);x.closePath();x.fill();x.restore()}
 async function drawCard(){
 try{await document.fonts.load("900 40px Unbounded")}catch(e){}
+try{await document.fonts.load('400 100px "Instrument Serif"')}catch(e){}
 var W=1080,Hh=1350,c=document.createElement("canvas");c.width=W;c.height=Hh;var x=c.getContext("2d"),F="Unbounded,Arial Black,system-ui,sans-serif",M="ui-monospace,Menlo,monospace";
 var ti=Math.max(0,tiers.findIndex(function(t){return t[1]===S.tier}));
 var P=[["hsl(250,10%,72%)","hsl(250,10%,50%)",250,["#76758a","#2a2933","#6a6980"]],["hsl(212,80%,78%)","hsl(225,80%,62%)",215,["#bcd7ff","#3b5a9a","#a9c6ff"]],["hsl(160,70%,66%)","hsl(175,70%,48%)",160,["#a8ffe0","#1f6f5c","#7ff0cc"]],["hsl(18,85%,80%)","hsl(330,70%,70%)",15,["#ffe2cf","#a8566b","#f7c1a6"]],["hsl(285,90%,84%)","hsl(200,90%,74%)",285,["#9ad1ff","#b79cff","#ff9be0","#ffe0a8"]],["hsl(45,100%,88%)","hsl(270,100%,85%)",270,["#ffffff","#e9dcff","#fff6d6","#cbb8ff","#ffffff"]]][ti];
@@ -504,21 +582,19 @@ if(ti===5){var rg=x.createRadialGradient(cx,cy,0,cx,cy,620);rg.addColorStop(0,"r
 x.restore();
 x.strokeStyle="rgba(255,255,255,.06)";x.lineWidth=2;rr(x,L+22,T+22,CW-44,CH-44,40);x.stroke();
 x.textAlign="left";x.fillStyle="#9c99bd";x.font="600 22px "+M;ls("6px");x.fillText("SOLAURA",130,150);x.textAlign="right";x.fillText("Nº "+S.no,950,150);
-// emblem
-var eg2=x.createRadialGradient(cx,cy,10,cx,cy,230);eg2.addColorStop(0,"hsla("+G+",90%,60%,.4)");eg2.addColorStop(1,"hsla("+G+",90%,60%,0)");x.fillStyle=eg2;x.beginPath();x.arc(cx,cy,230,0,7);x.fill();
-x.strokeStyle=A;x.lineWidth=1.5;x.globalAlpha=.3;[186,150].forEach(function(r){x.beginPath();x.arc(cx,cy,r,0,7);x.stroke()});
-x.globalAlpha=.8;x.lineWidth=5;x.lineCap="round";x.setLineDash([1,16]);x.beginPath();x.arc(cx,cy,168,0,7);x.stroke();x.setLineDash([]);x.globalAlpha=1;
-x.save();x.shadowColor=A;x.shadowBlur=36;x.fillStyle=A;star(x,cx,cy,118,0);x.restore();
-x.fillStyle=B;star(x,cx,cy,65,Math.PI/4);x.fillStyle="#fff";x.beginPath();x.arc(cx,cy,10,0,7);x.fill();
-if(ti===3){x.save();x.translate(cx-70,cy-250);x.scale(3.5,3.5);x.shadowColor=A;x.shadowBlur=10;x.fillStyle=A;x.beginPath();x.moveTo(2,22);x.lineTo(5,6);x.lineTo(13,14);x.lineTo(20,2);x.lineTo(27,14);x.lineTo(35,6);x.lineTo(38,22);x.closePath();x.fill();x.restore()}
-if(ti===5){x.save();x.shadowColor=A;x.shadowBlur=24;x.strokeStyle=A;x.lineWidth=6;x.beginPath();x.ellipse(cx,cy-205,100,26,0,0,7);x.stroke();x.restore()}
+// aura photo
+var SH=new Path2D("M16 96C16 70 32 60 50 60C68 60 84 70 84 96Z M65 38A15 15 0 1 1 35 38A15 15 0 1 1 65 38Z"),sp2=25+ti*20,kk=.35+ti*.13,SF='"Instrument Serif",Georgia,serif';
+[[34,16,1.6,.25+kk*.55],[20,9,1,.45+kk*.5],[8,3,0,.9]].forEach(function(l){var col="hsla("+((S.H+sp2*l[2])%360)+",95%,64%,"+Math.min(1,l[3])+")";for(var q=0;q<2;q++){x.save();x.translate(cx-200-5000,cy-210);x.scale(4,4);x.lineJoin="round";x.shadowColor=col;x.shadowBlur=l[1]*7;x.shadowOffsetX=5000;x.fillStyle=col;x.strokeStyle=col;x.lineWidth=l[0];x.stroke(SH);x.fill(SH);x.restore()}});
+x.save();x.translate(cx-200,cy-210);x.scale(4,4);x.fillStyle="#08070c";x.fill(SH);x.strokeStyle="rgba(255,255,255,.18)";x.lineWidth=.6;x.stroke(SH);x.restore();
+if(ti===3){x.save();x.translate(cx-70,cy-205);x.scale(3.5,3.5);x.shadowColor=A;x.shadowBlur=10;x.fillStyle=A;x.beginPath();x.moveTo(2,22);x.lineTo(5,6);x.lineTo(13,14);x.lineTo(20,2);x.lineTo(27,14);x.lineTo(35,6);x.lineTo(38,22);x.closePath();x.fill();x.restore()}
+if(ti===5){x.save();x.shadowColor=A;x.shadowBlur=24;x.strokeStyle=A;x.lineWidth=6;x.beginPath();x.ellipse(cx,cy-150,100,26,0,0,7);x.stroke();x.restore()}
 // text
-x.textAlign="center";x.fillStyle=A;x.font="600 30px "+F;ls("12px");if(ti===5){x.save();x.shadowColor=A;x.shadowBlur=20;x.fillText(S.tier.toUpperCase(),cx+6,650);x.restore()}else x.fillText(S.tier.toUpperCase(),cx+6,650);
-x.font="600 20px "+M;ls("6px");var tg2=TAGS[ti],tw=x.measureText(tg2).width+64;rr(x,cx-tw/2,676,tw,46,23);x.fillStyle="hsla("+G+",60%,50%,.14)";x.fill();x.strokeStyle="hsla("+G+",60%,65%,.4)";x.lineWidth=2;x.stroke();x.fillStyle=A;x.fillText(tg2,cx+3,707);
-ls("-4px");x.font="600 140px "+F;var sg=x.createLinearGradient(0,730,0,840);sg.addColorStop(0,"#fff");sg.addColorStop(1,"hsl("+G+",40%,80%)");x.fillStyle=sg;x.fillText(fmt(S.aura),cx,850);
-ls("14px");x.fillStyle="#9c99bd";x.font="600 24px "+M;x.fillText("AURA",cx+7,896);
-ls("0px");x.fillStyle="#fff";x.font="600 36px "+F;x.fillText(S.arch,cx,962);
-x.fillStyle="#9c99bd";x.font="italic 28px system-ui,sans-serif";wrap(x,"“"+S.roast+"”",cx,1010,760,38);
+x.textAlign="center";ls("0px");x.fillStyle=A;x.font="italic 400 64px "+SF;if(ti===5){x.save();x.shadowColor=A;x.shadowBlur=20;x.fillText(S.tier,cx,656);x.restore()}else x.fillText(S.tier,cx,656);
+x.font="600 20px "+M;ls("6px");var tg2=TAGS[ti],tw=x.measureText(tg2).width+64;rr(x,cx-tw/2,684,tw,46,23);x.fillStyle="hsla("+G+",60%,50%,.14)";x.fill();x.strokeStyle="hsla("+G+",60%,65%,.4)";x.lineWidth=2;x.stroke();x.fillStyle=A;x.fillText(tg2,cx+3,715);
+ls("0px");x.font="400 190px "+SF;x.fillStyle="#f6f1e8";x.fillText(fmt(S.aura),cx,884);
+ls("14px");x.fillStyle="#9c99bd";x.font="600 22px "+M;x.fillText("AURA",cx+7,926);
+ls("8px");x.fillStyle="#cfc9bd";x.font="400 32px "+SF;x.fillText(S.arch.toUpperCase(),cx+4,976);
+ls("0px");x.fillStyle="#9c99bd";x.font="italic 26px system-ui,sans-serif";wrap(x,"“"+S.roast+"”",cx,1022,760,36);
 var hg=x.createLinearGradient(130,0,950,0);hg.addColorStop(0,"rgba(255,255,255,0)");hg.addColorStop(.5,A);hg.addColorStop(1,"rgba(255,255,255,0)");x.globalAlpha=.5;x.fillStyle=hg;x.fillRect(130,1086,820,2);x.globalAlpha=1;
 S.rows.slice(0,6).forEach(function(r,i){var x0=130+(i%3)*290,y=1128+Math.floor(i/3)*62,p=r[4]?0:r[2]/r[3];
 x.textAlign="left";ls("3px");x.fillStyle="#9c99bd";x.font="600 17px "+M;x.fillText(LB2[i],x0,y);
@@ -559,6 +635,75 @@ setTimeout(function(){URL.revokeObjectURL(a.href)},5000);c.textContent="Card dow
 catch(e){c.textContent="Couldn’t create the card. Try again."}finally{b.disabled=false}});
 $("sharecard").addEventListener("click",async function(){
 var c=$("cm");try{var blob=await drawCard(),f=new File([blob],"solaura-card-"+S.no+".png",{type:"image/png"});await navigator.share({files:[f],text:last})}catch(e){if(!e||e.name!=="AbortError")c.textContent="Sharing isn’t available here, use Download instead."}});
+// ---------- accounts + world ranking (Firebase) ----------
+// 1) Create a Firebase project, enable Google sign-in + Firestore, paste your web app config here.
+var FB={cfg:{apiKey:"",authDomain:"",projectId:"",appId:""}};
+var fb=null,me=null;
+function ea(s){return esc(s).replace(/"/g,"&quot;")}
+function fbOn(){return !!(FB.cfg.apiKey&&FB.cfg.projectId)}
+function toast(t){var d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},4200)}
+function notice(){toast("Accounts and ranking aren’t set up yet. Add your Firebase config in the code (FB.cfg).")}
+async function fbInit(){
+if(!fbOn())return null;if(fb)return fb;
+var V="https://www.gstatic.com/firebasejs/10.12.2/";
+var A=await import(V+"firebase-app.js"),Au=await import(V+"firebase-auth.js"),Fs=await import(V+"firebase-firestore.js");
+var app=A.initializeApp(FB.cfg);fb={auth:Au.getAuth(app),db:Fs.getFirestore(app),Au:Au,Fs:Fs};
+Au.onAuthStateChanged(fb.auth,function(u){me=u;$("nAcct").textContent=u?((u.displayName||"Profile").split(" ")[0]):"Sign in"});
+try{await fb.auth.authStateReady()}catch(e){}
+return fb}
+async function signIn(){
+var f=await fbInit();if(!f){notice();return null}
+if(f.auth.currentUser)return f.auth.currentUser;
+try{return (await f.Au.signInWithPopup(f.auth,new f.Au.GoogleAuthProvider())).user}
+catch(e){if(!e||e.code!=="auth/popup-closed-by-user")toast("Sign-in failed: "+((e&&e.message)||e));return null}}
+function avHTML(v){return /^https:\/\//.test(v.photo||"")?'<img class="av" src="'+ea(v.photo)+'" alt="" referrerpolicy="no-referrer">':'<span class="av">'+esc((v.name||"?").charAt(0).toUpperCase())+'</span>'}
+async function rankOf(aura){try{var c=await fb.Fs.getCountFromServer(fb.Fs.query(fb.Fs.collection(fb.db,"users"),fb.Fs.where("aura",">",aura)));return c.data().count+1}catch(e){return null}}
+async function joinBoard(){
+if(!S)return;
+if(!fromPh){toast("Connect Phantom to join the ranking. Pasted addresses can’t be ranked.");return}
+var u=await signIn();if(!u)return;var f=fb,ref=f.Fs.doc(f.db,"users",u.uid),old=null;
+try{var sn=await f.Fs.getDoc(ref);old=sn.exists()?sn.data():null}catch(e){}
+if(!old&&!confirm("Joining makes your name, Google photo, wallet address and aura public on the leaderboard. Continue?"))return;
+var d={name:((old&&old.name)||u.displayName||"Anon").slice(0,24),bio:(old&&old.bio)||"",photo:u.photoURL||"",wallet:S.a,aura:S.aura,tier:S.tier,arch:S.arch,H:S.H,hn:S.hn,no:S.no,roast:S.roast,st:S.rows.slice(0,6).map(function(x){return x[4]?0:Math.round(x[2]/x[3]*100)}),updatedAt:f.Fs.serverTimestamp()};
+try{await f.Fs.setDoc(ref,d);toast("You’re on the leaderboard ✦");location.hash="u="+u.uid;openProfile(u.uid)}catch(e){toast("Couldn’t save: "+((e&&e.message)||e))}}
+function rowHTML(v,i){return '<a class="lr'+(me&&v.id===me.uid?" me":"")+'" href="#u='+ea(v.id)+'"><b class="rk r'+(i<3?i+1:0)+'">'+(i+1)+'</b>'+avHTML(v)+'<span class="ln">'+esc(v.name)+'<small>'+esc(v.tier)+' · '+esc(v.arch)+'</small></span><span class="la">'+fmt(v.aura)+'</span></a>'}
+async function openBoard(){
+view("board");history.replaceState(null,"",location.pathname);$("mine").className="mine";$("lb").innerHTML='<p class="note">Loading…</p>';
+var f=await fbInit();if(!f){$("lb").innerHTML='<p class="note">The world ranking isn’t set up yet. (Site owner: add your Firebase config in the code.)</p>';return}
+try{
+var sn=await f.Fs.getDocs(f.Fs.query(f.Fs.collection(f.db,"users"),f.Fs.orderBy("aura","desc"),f.Fs.limit(100))),rows=[];
+sn.forEach(function(d){var v=d.data();v.id=d.id;rows.push(v)});
+$("lb").innerHTML=rows.length?rows.map(rowHTML).join(""):'<p class="note">Nobody here yet. Be the first to claim the top.</p>';
+var u=f.auth.currentUser;
+if(u){var m=await f.Fs.getDoc(f.Fs.doc(f.db,"users",u.uid));if(m.exists()){var rk=await rankOf(m.data().aura);$("mine").className="mine on";$("mine").innerHTML='<b>'+(rk?"#"+fmt(rk):"–")+'</b> your world rank · '+fmt(m.data().aura)+' aura'}}
+}catch(e){$("lb").innerHTML='<p class="note">Couldn’t load the ranking: '+esc((e&&e.message)||e)+'</p>'}}
+async function openProfile(uid){
+view("prof");$("pbody").innerHTML='<p class="note">Loading…</p>';
+var f=await fbInit();if(!f){view("home");notice();return}
+try{
+var sn=await f.Fs.getDoc(f.Fs.doc(f.db,"users",uid)),own=!!(f.auth.currentUser&&f.auth.currentUser.uid===uid);
+if(!sn.exists()){$("pbody").innerHTML='<p class="sub">'+(own?"You don’t have a profile yet. Scan your wallet with Phantom, then press “Join the leaderboard”.":"Profile not found.")+'</p><button class="alt" id="pback" type="button">← Leaderboard</button>';$("pback").onclick=openBoard;return}
+var v=sn.data(),rk=await rankOf(v.aura);
+var r={a:v.wallet,aura:v.aura,tier:v.tier,arch:v.arch,H:v.H,hn:v.hn,no:v.no,roast:v.roast,rows:(v.st||[]).map(function(p){return [0,0,p,100,false]}),demoAddr:short(v.wallet)};
+var txt="My aura on Solaura: "+fmt(v.aura)+" — "+v.tier+(rk?" · world rank #"+fmt(rk):"")+" ✨";
+$("pbody").innerHTML='<div class="pf"><div><div class="stage"><div id="pcard">'+cardHTML(r,false)+'</div></div></div><div>'+avHTML(v)+'<div class="pn">'+esc(v.name)+'</div><div class="pb">'+esc(v.bio||"")+'</div><div class="pr">'+(rk?"WORLD RANK #"+fmt(rk)+" · ":"")+esc(v.tier)+' · '+esc(v.arch)+'</div><div class="pr"><a href="https://solscan.io/account/'+ea(v.wallet)+'" target="_blank" rel="noopener">'+short(v.wallet)+'</a></div>'+
+(own?'<div class="ed"><input id="pnm" maxlength="24" aria-label="Display name" value="'+ea(v.name)+'"><input id="pbio" maxlength="80" aria-label="Bio" placeholder="Bio (80 characters)" value="'+ea(v.bio||"")+'"><button class="alt" id="psave" type="button">Save profile</button></div>':'')+
+'<div class="acts"><button class="alt" id="pshare" type="button">Share on X</button><button class="alt" id="plink" type="button">Copy profile link</button><button class="alt" id="pback" type="button">Leaderboard</button>'+(own?'<button class="alt" id="pout" type="button">Sign out</button><button class="alt" id="pdel" type="button">Delete my profile</button>':'')+'</div></div></div>';
+$("pshare").onclick=function(){tweet(txt)};
+$("plink").onclick=function(){var l=location.origin+location.pathname+"#u="+uid;try{navigator.clipboard.writeText(l).then(function(){toast("Link copied")})}catch(e){toast(l)}};
+$("pback").onclick=openBoard;
+if(own){
+$("psave").onclick=async function(){try{await f.Fs.updateDoc(f.Fs.doc(f.db,"users",uid),{name:($("pnm").value.trim()||"Anon").slice(0,24),bio:$("pbio").value.trim().slice(0,80)});toast("Saved");openProfile(uid)}catch(e){toast("Couldn’t save: "+((e&&e.message)||e))}};
+$("pout").onclick=async function(){await f.Au.signOut(f.auth);history.replaceState(null,"",location.pathname);view("home")};
+$("pdel").onclick=async function(){if(!confirm("Delete your profile and remove yourself from the leaderboard?"))return;try{await f.Fs.deleteDoc(f.Fs.doc(f.db,"users",uid));toast("Profile deleted");openBoard()}catch(e){toast("Couldn’t delete: "+((e&&e.message)||e))}}}
+}catch(e){$("pbody").innerHTML='<p class="note">Couldn’t load this profile: '+esc((e&&e.message)||e)+'</p>'}}
+function route(){var h=location.hash;if(h.indexOf("#u=")===0)openProfile(h.slice(3).replace(/[^A-Za-z0-9]/g,""))}
+$("nBoard").addEventListener("click",openBoard);
+$("nAcct").addEventListener("click",async function(){if(!fbOn()){notice();return}var u=await signIn();if(u){location.hash="u="+u.uid;openProfile(u.uid)}});
+$("join").addEventListener("click",joinBoard);
+document.querySelector(".logo").addEventListener("click",function(){history.replaceState(null,"",location.pathname);view(S&&!busy?"res":"home")});
+window.addEventListener("hashchange",route);
+if(fbOn())fbInit().then(route).catch(function(){});
 waitProv(1200).then(function(p){if(p){hook(p);try{p.connect({onlyIfTrusted:true}).then(function(r){scan(r.publicKey.toString(),true)}).catch(function(){})}catch(e){}}});
 })();
 </script>
