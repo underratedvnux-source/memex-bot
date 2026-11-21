@@ -272,6 +272,8 @@ h3{font:900 12px var(--disp);letter-spacing:.04em;text-transform:uppercase;margi
 .duel-a .champ b{color:var(--a);text-shadow:0 0 26px var(--a)}
 .duel-a .lose{opacity:.4;transform:scale(.88);filter:grayscale(1);animation:dshk .5s}
 .duel-a .tie{transform:scale(1.06)}
+@keyframes dboom{0%,100%{translate:0 0}12%{translate:-14px 8px}26%{translate:12px -9px}40%{translate:-9px -5px}55%{translate:7px 7px}75%{translate:-3px 2px}}
+.duel.boom{animation:dboom .7s}
 #dwin{opacity:0}
 #dwin.on{opacity:1;animation:dwin .5s cubic-bezier(.2,1.6,.3,1) both}
 .cmp s{width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
@@ -675,6 +677,32 @@ var rs=score(d,w.fails,a);await reveal(rs);render(rs);
 if(ph){$("pill").textContent=short(a);$("pill").classList.add("on")}else $("pill").classList.remove("on");
 busy=false}
 
+function explode(el,big){
+if(reduce||!el)return;
+var r=el.getBoundingClientRect(),ox=r.left+r.width/2,oy=r.top+r.height/2,W=innerWidth,Hh=innerHeight,dpr=Math.min(1.5,window.devicePixelRatio||1),H=S?S.H:262;
+var cv=document.createElement("canvas");cv.width=Math.round(W*dpr);cv.height=Math.round(Hh*dpr);
+cv.style.cssText="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:55";document.body.appendChild(cv);
+var x=cv.getContext("2d"),ps=[],n=big?200:100,t0=performance.now(),DUR=2200;
+function rnd(a,b){return a+Math.random()*(b-a)}
+for(var i=0;i<n;i++){var an=rnd(0,6.283),sp=rnd(4,big?26:18);ps.push({x:ox,y:oy,vx:Math.cos(an)*sp,vy:Math.sin(an)*sp-3,g:.28,d:.965,sz:rnd(2,6),hue:H+rnd(-70,90),conf:i%4===0,rot:rnd(0,6),vr:rnd(-.3,.3),max:rnd(55,120),age:0})}
+var d0=document.querySelector(".duel");if(d0){d0.classList.remove("boom");void d0.offsetWidth;d0.classList.add("boom");setTimeout(function(){d0.classList.remove("boom")},800)}
+try{if(navigator.vibrate)navigator.vibrate(big?[60,30,140]:40)}catch(e){}
+var last=t0;
+function loop(now){
+var dt=Math.min(2.5,(now-last)/16.667);last=now;var t=now-t0;
+x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,W,Hh);
+if(t<260){var fa=(1-t/260)*.55,fg=x.createRadialGradient(ox,oy,0,ox,oy,Math.max(W,Hh)*.7);fg.addColorStop(0,"hsla("+H+",100%,88%,"+fa+")");fg.addColorStop(1,"hsla("+H+",100%,70%,0)");x.fillStyle=fg;x.fillRect(0,0,W,Hh)}
+[0,170,340].forEach(function(dl,k){var q=(t-dl)/900;if(q<=0||q>=1)return;var e=1-Math.pow(1-q,3);x.strokeStyle="hsla("+(H+k*40)+",100%,75%,"+(1-q).toFixed(2)+")";x.lineWidth=7*(1-q)+1;x.beginPath();x.arc(ox,oy,e*Math.min(520,Math.max(W,Hh)*.5),0,7);x.stroke()});
+x.globalCompositeOperation="lighter";
+for(var i=ps.length-1;i>=0;i--){var p=ps[i];p.age+=dt;if(p.age>p.max){ps.splice(i,1);continue}
+var dd=Math.pow(p.d,dt);p.vx*=dd;p.vy=p.vy*dd+p.g*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.rot+=p.vr*dt;
+var k2=p.age/p.max;x.globalAlpha=Math.max(0,1-Math.pow(k2,2));
+if(p.conf){x.fillStyle="hsl("+p.hue+",95%,65%)";x.save();x.translate(p.x,p.y);x.rotate(p.rot);x.fillRect(-p.sz*1.5,-p.sz*.6,p.sz*3,p.sz*1.2);x.restore()}
+else{x.fillStyle="hsl("+p.hue+",100%,"+(60+30*(1-k2))+"%)";x.beginPath();x.arc(p.x,p.y,p.sz*(1-k2*.6),0,7);x.fill();
+x.strokeStyle=x.fillStyle;x.lineWidth=p.sz*.6;x.beginPath();x.moveTo(p.x,p.y);x.lineTo(p.x-p.vx*1.6,p.y-p.vy*1.6);x.stroke()}}
+x.globalAlpha=1;x.globalCompositeOperation="source-over";
+if(t<DUR&&ps.length)requestAnimationFrame(loop);else cv.remove()}
+requestAnimationFrame(loop)}
 // ---------- duel ----------
 async function duel(){
 var b=$("rival").value.trim(),o=$("duelout");
@@ -697,8 +725,8 @@ nA.textContent=fmt(me.aura);nB.textContent=fmt(R.aura);
 o.querySelectorAll(".cmp s").forEach(function(e){e.style.width=e.getAttribute("data-w")+"%"});
 if(diff>0){dA.classList.add("champ");dB.classList.add("lose")}else if(diff<0){dB.classList.add("champ");dA.classList.add("lose")}else{dA.classList.add("tie");dB.classList.add("tie")}
 $("dwin").classList.add("on");$("dacts").classList.add("on");
-if(diff>0)burst();
-try{if(navigator.vibrate)navigator.vibrate(diff>0?[40,30,90]:30)}catch(e){}}
+explode(diff>0?dA:(diff<0?dB:o.querySelector(".vs i")),diff!==0);
+if(diff>0)burst()}
 function step(now){
 if(!document.body.contains(nA))return;
 var p=Math.max(0,Math.min(1,(now-t0)/D)),e=1-Math.pow(1-p,3);
