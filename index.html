@@ -157,31 +157,7 @@ input{flex:1;min-width:0;padding:12px 16px;border-radius:99px;border:1px solid v
 .rv-t{font:italic 400 clamp(30px,8vw,54px) "Instrument Serif",Georgia,serif;margin-top:14px;color:#fff;min-height:1.2em;opacity:0;transform:translateY(10px);transition:all .6s}
 #rev.hit .rv-t{opacity:1;transform:none}
 .rv-s{position:absolute;bottom:28px;right:24px;background:none;border:1px solid var(--line);color:var(--mute);border-radius:99px;padding:8px 16px;font:600 11px var(--mono);cursor:pointer}
-/* accounts + ranking */
 .hr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.logo{cursor:pointer}
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;background:#fff;color:#07070b;font:600 13px system-ui;padding:12px 20px;border-radius:99px;max-width:90vw;text-align:center;box-shadow:0 10px 40px #000a}
-.mine{border:1px solid var(--line);border-radius:18px;padding:16px 20px;margin-bottom:18px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015));font:600 14px var(--mono);display:none}
-.mine.on{display:block}
-.mine b{font:400 30px "Instrument Serif",Georgia,serif;color:#f6f1e8;margin-right:8px}
-.lb{display:grid;gap:8px}
-.lr{display:grid;grid-template-columns:44px 40px 1fr auto;gap:12px;align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);color:var(--ink);text-decoration:none;transition:transform .15s,border-color .15s}
-.lr:hover{transform:translateX(4px);border-color:var(--a)}
-.lr.me{border-color:var(--c);background:rgba(255,255,255,.07)}
-.rk{font:400 28px "Instrument Serif",Georgia,serif;color:var(--mute);text-align:center}
-.rk.r1{color:#ffd978}.rk.r2{color:#d6dbe6}.rk.r3{color:#e3a77c}
-.av{width:40px;height:40px;border-radius:50%;object-fit:cover;background:linear-gradient(135deg,var(--a),var(--b));display:grid;place-items:center;font:900 15px var(--disp);color:#07070b}
-.ln{display:block;font:600 15px system-ui;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ln small{display:block;font:600 11px var(--mono);color:var(--mute)}
-.la{font:400 30px "Instrument Serif",Georgia,serif;color:#f6f1e8}
-.pf{display:grid;grid-template-columns:auto 1fr;gap:44px;align-items:start;padding-bottom:20px}
-@media(max-width:900px){.pf{grid-template-columns:1fr;gap:30px}}
-.pf .av{width:64px;height:64px;font-size:24px}
-.pn{font:400 clamp(34px,6vw,60px)/1 "Instrument Serif",Georgia,serif;margin:14px 0 4px;color:#f6f1e8}
-.pb{color:var(--mute);margin:6px 0 0;max-width:46ch}
-.pr{font:600 13px var(--mono);color:var(--b);margin-top:12px}
-.ed{display:grid;gap:8px;max-width:420px;margin-top:20px}
-.ed input{border-radius:12px}
 /* sections */
 .sec{padding:70px 0 0}
 h2{font:900 clamp(26px,5vw,48px)/1 var(--disp);letter-spacing:-.05em;text-transform:uppercase;margin:0 0 10px}
@@ -251,7 +227,7 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 <div class="w">
 <header>
 <div class="logo"><svg width="30" height="24" viewBox="0 0 397.7 311.7" role="img" aria-label="Solana logo"><defs><linearGradient id="sol" x1="360" y1="-38" x2="141" y2="347" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00ffa3"/><stop offset="1" stop-color="#dc1fff"/></linearGradient></defs><path fill="url(#sol)" d="M64.6,237.9c2.4-2.4,5.7-3.8,9.2-3.8h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,237.9z"/><path fill="url(#sol)" d="M64.6,3.8C67.1,1.4,70.4,0,73.8,0h317.4c5.8,0,8.7,7,4.6,11.1l-62.7,62.7c-2.4,2.4-5.7,3.8-9.2,3.8H6.5c-5.8,0-8.7-7-4.6-11.1L64.6,3.8z"/><path fill="url(#sol)" d="M333.1,120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8,0-8.7,7-4.6,11.1l62.7,62.7c2.4,2.4,5.7,3.8,9.2,3.8h317.4c5.8,0,8.7-7,4.6-11.1L333.1,120.1z"/></svg>SOLAURA</div>
-<div class="hr"><span class="pill" id="pill"></span><button class="alt" id="nBoard" type="button">🏆 Leaderboard</button><button class="alt" id="nAcct" type="button">Sign in</button></div>
+<div class="hr"><span class="pill" id="pill"></span></div>
 </header>
 <main>
 
@@ -300,7 +276,6 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 <div class="log" id="log"></div>
 <p class="note" id="partial"></p>
 <div class="acts">
-<button class="alt" id="join" type="button">🏆 Join the leaderboard</button>
 <button class="alt" id="sharecard" type="button" hidden>Share card</button>
 <button class="alt" id="tweet" type="button">Share on X</button>
 <button class="alt" id="copy" type="button">Copy text</button>
@@ -315,14 +290,6 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 <div class="or" style="max-width:none"><input id="rival" type="text" placeholder="Rival wallet address" aria-label="Rival address" spellcheck="false" autocomplete="off"><button class="alt" id="duelgo" type="button">Fight</button></div>
 <div id="duelout"></div>
 </div>
-</section>
-
-<section id="board" hidden>
-<div class="sec" style="padding-top:40px"><h2>World <em>aura ranking</em></h2><p class="sub">The highest auras of the Solaura community.</p><div id="mine" class="mine"></div><div class="lb" id="lb"></div></div>
-</section>
-
-<section id="prof" hidden>
-<div class="sec" style="padding-top:40px" id="pbody"></div>
 </section>
 
 </main>
@@ -345,7 +312,7 @@ var root=document.documentElement;
 var addr="",fromPh=false,busy=false,S=null,last="",hooked=false;
 function prov(){var p=(window.phantom&&window.phantom.solana)||window.solana;return p&&p.isPhantom?p:null}
 function waitProv(ms){return new Promise(function(res){var p=prov();if(p)return res(p);var t0=Date.now(),iv=setInterval(function(){var q=prov();if(q||Date.now()-t0>ms){clearInterval(iv);res(q)}},100)})}
-function view(id){["home","load","res","board","prof"].forEach(function(s){$(s).hidden=s!==id});window.scrollTo(0,0)}
+function view(id){["home","load","res"].forEach(function(s){$(s).hidden=s!==id});window.scrollTo(0,0)}
 function msg(h){$("msg").innerHTML=h}
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
 function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
@@ -552,9 +519,6 @@ finally{$("duelgo").disabled=false}}
 function tweet(t){var u=location.protocol.indexOf("http")===0?" "+location.origin+location.pathname:"";window.open("https://twitter.com/intent/tweet?text="+encodeURIComponent(t+u),"_blank","noopener")}
 function rr(x,a,b,w,h,r){x.beginPath();x.moveTo(a+r,b);x.arcTo(a+w,b,a+w,b+h,r);x.arcTo(a+w,b+h,a,b+h,r);x.arcTo(a,b+h,a,b,r);x.arcTo(a,b,a+w,b,r);x.closePath()}
 function wrap(x,t,cx,y,mw,lh){var w=t.split(" "),l="",n=0;w.forEach(function(s){var q=l?l+" "+s:s;if(x.measureText(q).width>mw&&l){x.fillText(l,cx,y+n*lh);l=s;n++}else l=q});x.fillText(l,cx,y+n*lh)}
-function star(x,cx,cy,R,rot){
-x.save();x.translate(cx,cy);x.rotate(rot);x.scale(R/46,R/46);x.translate(-50,-50);
-x.beginPath();x.moveTo(50,4);x.bezierCurveTo(54,34,66,46,96,50);x.bezierCurveTo(66,54,54,66,50,96);x.bezierCurveTo(46,66,34,54,4,50);x.bezierCurveTo(34,46,46,34,50,4);x.closePath();x.fill();x.restore()}
 async function drawCard(){
 try{await document.fonts.load("900 40px Unbounded")}catch(e){}
 try{await document.fonts.load('400 100px "Instrument Serif"')}catch(e){}
@@ -635,75 +599,7 @@ setTimeout(function(){URL.revokeObjectURL(a.href)},5000);c.textContent="Card dow
 catch(e){c.textContent="Couldn’t create the card. Try again."}finally{b.disabled=false}});
 $("sharecard").addEventListener("click",async function(){
 var c=$("cm");try{var blob=await drawCard(),f=new File([blob],"solaura-card-"+S.no+".png",{type:"image/png"});await navigator.share({files:[f],text:last})}catch(e){if(!e||e.name!=="AbortError")c.textContent="Sharing isn’t available here, use Download instead."}});
-// ---------- accounts + world ranking (Firebase) ----------
-// 1) Create a Firebase project, enable Google sign-in + Firestore, paste your web app config here.
-var FB={cfg:{apiKey:"",authDomain:"",projectId:"",appId:""}};
-var fb=null,me=null;
-function ea(s){return esc(s).replace(/"/g,"&quot;")}
-function fbOn(){return !!(FB.cfg.apiKey&&FB.cfg.projectId)}
-function toast(t){var d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(function(){d.remove()},4200)}
-function notice(){toast("Accounts and ranking aren’t set up yet. Add your Firebase config in the code (FB.cfg).")}
-async function fbInit(){
-if(!fbOn())return null;if(fb)return fb;
-var V="https://www.gstatic.com/firebasejs/10.12.2/";
-var A=await import(V+"firebase-app.js"),Au=await import(V+"firebase-auth.js"),Fs=await import(V+"firebase-firestore.js");
-var app=A.initializeApp(FB.cfg);fb={auth:Au.getAuth(app),db:Fs.getFirestore(app),Au:Au,Fs:Fs};
-Au.onAuthStateChanged(fb.auth,function(u){me=u;$("nAcct").textContent=u?((u.displayName||"Profile").split(" ")[0]):"Sign in"});
-try{await fb.auth.authStateReady()}catch(e){}
-return fb}
-async function signIn(){
-var f=await fbInit();if(!f){notice();return null}
-if(f.auth.currentUser)return f.auth.currentUser;
-try{return (await f.Au.signInWithPopup(f.auth,new f.Au.GoogleAuthProvider())).user}
-catch(e){if(!e||e.code!=="auth/popup-closed-by-user")toast("Sign-in failed: "+((e&&e.message)||e));return null}}
-function avHTML(v){return /^https:\/\//.test(v.photo||"")?'<img class="av" src="'+ea(v.photo)+'" alt="" referrerpolicy="no-referrer">':'<span class="av">'+esc((v.name||"?").charAt(0).toUpperCase())+'</span>'}
-async function rankOf(aura){try{var c=await fb.Fs.getCountFromServer(fb.Fs.query(fb.Fs.collection(fb.db,"users"),fb.Fs.where("aura",">",aura)));return c.data().count+1}catch(e){return null}}
-async function joinBoard(){
-if(!S)return;
-if(!fromPh){toast("Connect Phantom to join the ranking. Pasted addresses can’t be ranked.");return}
-var u=await signIn();if(!u)return;var f=fb,ref=f.Fs.doc(f.db,"users",u.uid),old=null;
-try{var sn=await f.Fs.getDoc(ref);old=sn.exists()?sn.data():null}catch(e){}
-if(!old&&!confirm("Joining makes your name, Google photo, wallet address and aura public on the leaderboard. Continue?"))return;
-var d={name:((old&&old.name)||u.displayName||"Anon").slice(0,24),bio:(old&&old.bio)||"",photo:u.photoURL||"",wallet:S.a,aura:S.aura,tier:S.tier,arch:S.arch,H:S.H,hn:S.hn,no:S.no,roast:S.roast,st:S.rows.slice(0,6).map(function(x){return x[4]?0:Math.round(x[2]/x[3]*100)}),updatedAt:f.Fs.serverTimestamp()};
-try{await f.Fs.setDoc(ref,d);toast("You’re on the leaderboard ✦");location.hash="u="+u.uid;openProfile(u.uid)}catch(e){toast("Couldn’t save: "+((e&&e.message)||e))}}
-function rowHTML(v,i){return '<a class="lr'+(me&&v.id===me.uid?" me":"")+'" href="#u='+ea(v.id)+'"><b class="rk r'+(i<3?i+1:0)+'">'+(i+1)+'</b>'+avHTML(v)+'<span class="ln">'+esc(v.name)+'<small>'+esc(v.tier)+' · '+esc(v.arch)+'</small></span><span class="la">'+fmt(v.aura)+'</span></a>'}
-async function openBoard(){
-view("board");history.replaceState(null,"",location.pathname);$("mine").className="mine";$("lb").innerHTML='<p class="note">Loading…</p>';
-var f=await fbInit();if(!f){$("lb").innerHTML='<p class="note">The world ranking isn’t set up yet. (Site owner: add your Firebase config in the code.)</p>';return}
-try{
-var sn=await f.Fs.getDocs(f.Fs.query(f.Fs.collection(f.db,"users"),f.Fs.orderBy("aura","desc"),f.Fs.limit(100))),rows=[];
-sn.forEach(function(d){var v=d.data();v.id=d.id;rows.push(v)});
-$("lb").innerHTML=rows.length?rows.map(rowHTML).join(""):'<p class="note">Nobody here yet. Be the first to claim the top.</p>';
-var u=f.auth.currentUser;
-if(u){var m=await f.Fs.getDoc(f.Fs.doc(f.db,"users",u.uid));if(m.exists()){var rk=await rankOf(m.data().aura);$("mine").className="mine on";$("mine").innerHTML='<b>'+(rk?"#"+fmt(rk):"–")+'</b> your world rank · '+fmt(m.data().aura)+' aura'}}
-}catch(e){$("lb").innerHTML='<p class="note">Couldn’t load the ranking: '+esc((e&&e.message)||e)+'</p>'}}
-async function openProfile(uid){
-view("prof");$("pbody").innerHTML='<p class="note">Loading…</p>';
-var f=await fbInit();if(!f){view("home");notice();return}
-try{
-var sn=await f.Fs.getDoc(f.Fs.doc(f.db,"users",uid)),own=!!(f.auth.currentUser&&f.auth.currentUser.uid===uid);
-if(!sn.exists()){$("pbody").innerHTML='<p class="sub">'+(own?"You don’t have a profile yet. Scan your wallet with Phantom, then press “Join the leaderboard”.":"Profile not found.")+'</p><button class="alt" id="pback" type="button">← Leaderboard</button>';$("pback").onclick=openBoard;return}
-var v=sn.data(),rk=await rankOf(v.aura);
-var r={a:v.wallet,aura:v.aura,tier:v.tier,arch:v.arch,H:v.H,hn:v.hn,no:v.no,roast:v.roast,rows:(v.st||[]).map(function(p){return [0,0,p,100,false]}),demoAddr:short(v.wallet)};
-var txt="My aura on Solaura: "+fmt(v.aura)+" — "+v.tier+(rk?" · world rank #"+fmt(rk):"")+" ✨";
-$("pbody").innerHTML='<div class="pf"><div><div class="stage"><div id="pcard">'+cardHTML(r,false)+'</div></div></div><div>'+avHTML(v)+'<div class="pn">'+esc(v.name)+'</div><div class="pb">'+esc(v.bio||"")+'</div><div class="pr">'+(rk?"WORLD RANK #"+fmt(rk)+" · ":"")+esc(v.tier)+' · '+esc(v.arch)+'</div><div class="pr"><a href="https://solscan.io/account/'+ea(v.wallet)+'" target="_blank" rel="noopener">'+short(v.wallet)+'</a></div>'+
-(own?'<div class="ed"><input id="pnm" maxlength="24" aria-label="Display name" value="'+ea(v.name)+'"><input id="pbio" maxlength="80" aria-label="Bio" placeholder="Bio (80 characters)" value="'+ea(v.bio||"")+'"><button class="alt" id="psave" type="button">Save profile</button></div>':'')+
-'<div class="acts"><button class="alt" id="pshare" type="button">Share on X</button><button class="alt" id="plink" type="button">Copy profile link</button><button class="alt" id="pback" type="button">Leaderboard</button>'+(own?'<button class="alt" id="pout" type="button">Sign out</button><button class="alt" id="pdel" type="button">Delete my profile</button>':'')+'</div></div></div>';
-$("pshare").onclick=function(){tweet(txt)};
-$("plink").onclick=function(){var l=location.origin+location.pathname+"#u="+uid;try{navigator.clipboard.writeText(l).then(function(){toast("Link copied")})}catch(e){toast(l)}};
-$("pback").onclick=openBoard;
-if(own){
-$("psave").onclick=async function(){try{await f.Fs.updateDoc(f.Fs.doc(f.db,"users",uid),{name:($("pnm").value.trim()||"Anon").slice(0,24),bio:$("pbio").value.trim().slice(0,80)});toast("Saved");openProfile(uid)}catch(e){toast("Couldn’t save: "+((e&&e.message)||e))}};
-$("pout").onclick=async function(){await f.Au.signOut(f.auth);history.replaceState(null,"",location.pathname);view("home")};
-$("pdel").onclick=async function(){if(!confirm("Delete your profile and remove yourself from the leaderboard?"))return;try{await f.Fs.deleteDoc(f.Fs.doc(f.db,"users",uid));toast("Profile deleted");openBoard()}catch(e){toast("Couldn’t delete: "+((e&&e.message)||e))}}}
-}catch(e){$("pbody").innerHTML='<p class="note">Couldn’t load this profile: '+esc((e&&e.message)||e)+'</p>'}}
-function route(){var h=location.hash;if(h.indexOf("#u=")===0)openProfile(h.slice(3).replace(/[^A-Za-z0-9]/g,""))}
-$("nBoard").addEventListener("click",openBoard);
-$("nAcct").addEventListener("click",async function(){if(!fbOn()){notice();return}var u=await signIn();if(u){location.hash="u="+u.uid;openProfile(u.uid)}});
-$("join").addEventListener("click",joinBoard);
-document.querySelector(".logo").addEventListener("click",function(){history.replaceState(null,"",location.pathname);view(S&&!busy?"res":"home")});
-window.addEventListener("hashchange",route);
-if(fbOn())fbInit().then(route).catch(function(){});
+document.querySelector(".logo").addEventListener("click",function(){view(S&&!busy?"res":"home")});
 waitProv(1200).then(function(p){if(p){hook(p);try{p.connect({onlyIfTrusted:true}).then(function(r){scan(r.publicKey.toString(),true)}).catch(function(){})}catch(e){}}});
 })();
 </script>
