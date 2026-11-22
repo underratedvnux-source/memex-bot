@@ -322,7 +322,7 @@ footer{padding:50px 0 40px;font:600 11px var(--mono);color:var(--mute);letter-sp
 </div>
 <div class="sec">
 <h2>Climb the <em>tiers</em></h2>
-<p class="sub">Six tiers, six card designs. From Noob to Aura God, 100,000 aura at the top. Which rarity will your card be?</p>
+<p class="sub">Six tiers, six card designs. From Noob to Aura God, 100.000 aura at the top. Which rarity will your card be?</p>
 <div class="lad" id="lad"></div>
 <div class="galw"><button class="gnav p" id="gprev" type="button" aria-label="Previous card">‹</button><div class="gal" id="gal" aria-label="The six aura cards"></div><button class="gnav n" id="gnext" type="button" aria-label="Next card">›</button></div>
 <div style="text-align:center;margin-top:10px"><button class="btn" id="cta2" type="button">Reveal my aura ✦</button></div>
@@ -378,7 +378,7 @@ var tiers=[[0,"Noob"],[20000,"Pro"],[40000,"Hacker"],[60000,"Aura Chad"],[80000,
 var hues=["Ruby","Amber","Gold","Emerald","Turquoise","Sapphire","Violet","Magenta"];
 var ARCH=["The Treasurer","The Trader","The Elder","The Metronome","The Explorer","The Collector"];
 var NAMES=["Gold","Momentum","Wisdom","Rhythm","Constellations","Relics","Signature"];
-var fmt=function(n,d){return Number(n).toLocaleString("en-US",{maximumFractionDigits:d||0})};
+var fmt=function(n,d){var t=Number(n).toLocaleString("en-US",{maximumFractionDigits:Math.abs(n)>=1000?0:(d||0)}),i=t.indexOf("."),a=i<0?t:t.slice(0,i);return a.replace(/,/g,".")+(i<0?"":t.slice(i))};
 var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
 var root=document.documentElement;
 var addr="",fromPh=false,busy=false,S=null,last="",hooked=false;
@@ -740,7 +740,7 @@ if(diff>0){dA.classList.add("champ");dB.classList.add("lose")}else if(diff<0){dB
 $("dwin").classList.add("on");$("dacts").classList.add("on");
 explode(diff>0?dA:(diff<0?dB:o.querySelector(".vs i")),diff!==0,diff>0?1:(diff<0?-1:0));
 if(diff>0)burst();
-if(diff!==0){var sl=document.createElement("div");sl.className="dslam "+(diff>0?"win":"lose");sl.textContent=diff>0?"You won 100,000 aura":"You got mogged";document.body.appendChild(sl);setTimeout(function(){sl.remove()},3300)}}
+if(diff!==0){var sl=document.createElement("div");sl.className="dslam "+(diff>0?"win":"lose");sl.textContent=diff>0?"You won 100.000 aura":"You got mogged";document.body.appendChild(sl);setTimeout(function(){sl.remove()},3300)}}
 function step(now){
 if(!document.body.contains(nA))return;
 var p=Math.max(0,Math.min(1,(now-t0)/D)),e=1-Math.pow(1-p,3);
