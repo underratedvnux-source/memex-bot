@@ -176,47 +176,53 @@ html{scrollbar-color:#2a2a2a #000}
 .feat>div{padding:22px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 60%),rgba(10,10,10,.6)}
 .ico{width:36px;height:36px;border-radius:10px;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);color:var(--gain);display:grid;place-items:center;margin-bottom:16px}
 .feat h3{font-size:16px;margin-bottom:8px}
+
+/* sélecteur de langue */
+body{position:relative;padding-top:52px}
+.lang{position:absolute;top:12px;right:16px;z-index:10;background:rgba(10,10,10,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.lang .pill{padding:5px 11px;font-size:12px;font-weight:600;letter-spacing:.04em}
+@media(max-width:700px){.lang{right:10px}}
 </style>
 </head>
 <body>
+<div class="pills lang" id="lang" role="group" data-i18n-aria="lang_label" aria-label="Langue"><button type="button" class="pill" data-l="fr" aria-pressed="true">FR</button><button type="button" class="pill" data-l="en" aria-pressed="false">EN</button></div>
 <main id="home">
-  <div class="top"><b><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="1" y="8" width="4" height="9" rx="1" fill="#34d399"/><rect x="7" y="2" width="4" height="15" rx="1" fill="#34d399"/><rect x="13" y="10" width="4" height="7" rx="1" fill="#f87171"/></svg>PnL Calendar</b><a class="btn" href="#app" style="text-decoration:none">Ouvrir le calendrier</a></div>
+  <div class="top"><b><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="1" y="8" width="4" height="9" rx="1" fill="#34d399"/><rect x="7" y="2" width="4" height="15" rx="1" fill="#34d399"/><rect x="13" y="10" width="4" height="7" rx="1" fill="#f87171"/></svg>PnL Calendar</b><a class="btn" href="#app" style="text-decoration:none" data-i18n="open">Ouvrir le calendrier</a></div>
   <section class="hero">
     <div>
-      <h1>Chaque trade, chaque jour, au même endroit.</h1>
-      <p>Un calendrier de PnL pour tes memecoins, ton forex, ta crypto et tes actions. Note un résultat en dix secondes et vois où tu en es dans le mois.</p>
-      <div class="cta"><a class="btn p" href="#app">Ouvrir le calendrier</a></div>
-      <p class="trust">Sans compte, sans inscription. Tes données restent dans ton navigateur.</p>
+      <h1 data-i18n="h_title">Chaque trade, chaque jour, au même endroit.</h1>
+      <p data-i18n="h_p">Un calendrier de PnL pour tes memecoins, ton forex, ta crypto et tes actions. Note un résultat en dix secondes et vois où tu en es dans le mois.</p>
+      <div class="cta"><a class="btn p" href="#app" data-i18n="open">Ouvrir le calendrier</a></div>
     </div>
-    <div class="panel pv" aria-label="Aperçu du calendrier">
-      <div class="tt"><span>PnL du mois</span><strong id="pvTot"></strong></div>
+    <div class="panel pv" data-i18n-aria="pv_label" aria-label="Aperçu du calendrier">
+      <div class="tt"><span data-i18n="pv_tt">PnL du mois</span><strong id="pvTot"></strong></div>
       <div class="grid" id="pvGrid"></div>
-      <p class="note">Aperçu avec des données d’exemple.</p>
+      <p class="note" data-i18n="pv_note">Aperçu avec des données d’exemple.</p>
     </div>
   </section>
   <section class="feat">
-    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3.5" width="14" height="12" rx="2"/><path d="M2 7.5h14M6 2v3M12 2v3"/></svg></span><h3>Vue mensuelle</h3><p>Chaque jour est coloré selon ton PnL net, avec une teinte plus forte pour les gros gains et les grosses pertes.</p></div>
-    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5h13M5.5 9h7M7.5 13.5h3"/></svg></span><h3>Tous tes marchés</h3><p>Memecoins, forex, crypto, actions : filtre le calendrier par marché en un clic.</p></div>
-    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8" width="11" height="7.5" rx="2"/><path d="M6 8V6a3 3 0 0 1 6 0v2"/></svg></span><h3>Tes données restent chez toi</h3><p>Rien n’est envoyé en ligne. Exporte en JSON ou en CSV pour sauvegarder.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3.5" width="14" height="12" rx="2"/><path d="M2 7.5h14M6 2v3M12 2v3"/></svg></span><h3 data-i18n="f1_h">Vue mensuelle</h3><p data-i18n="f1_p">Chaque jour est coloré selon ton PnL net, avec une teinte plus forte pour les gros gains et les grosses pertes.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5h13M5.5 9h7M7.5 13.5h3"/></svg></span><h3 data-i18n="f2_h">Tous tes marchés</h3><p data-i18n="f2_p">Memecoins, forex, crypto, actions : filtre le calendrier par marché en un clic.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8" width="11" height="7.5" rx="2"/><path d="M6 8V6a3 3 0 0 1 6 0v2"/></svg></span><h3 data-i18n="f3_h">Tes données restent chez toi</h3><p data-i18n="f3_p">Rien n’est envoyé en ligne. Exporte en JSON ou en CSV pour sauvegarder.</p></div>
   </section>
 </main>
 
 <div class="wrap">
 
-  <section class="panel" aria-label="Calendrier de PnL">
+  <section class="panel" data-i18n-aria="cal_label" aria-label="Calendrier de PnL">
     <div class="head">
       <div class="l">
         <h1><a href="#accueil">PnL Calendar</a></h1>
-        <div class="pills" id="pills" role="group" aria-label="Filtrer par marché"></div>
+        <div class="pills" id="pills" role="group" data-i18n-aria="filter_label" aria-label="Filtrer par marché"></div>
       </div>
       <div class="r">
         <div class="nav">
-          <button class="ib" id="prev" type="button" aria-label="Mois précédent">‹</button>
+          <button class="ib" id="prev" type="button" data-i18n-aria="prev" aria-label="Mois précédent">‹</button>
           <h2 id="title"></h2>
-          <button class="ib" id="next" type="button" aria-label="Mois suivant">›</button>
+          <button class="ib" id="next" type="button" data-i18n-aria="next" aria-label="Mois suivant">›</button>
         </div>
-        <button class="ib boxed" id="today" type="button" aria-label="Revenir à aujourd’hui" title="Aujourd’hui">◎</button>
-        <button class="ib boxed" id="best" type="button" aria-label="Aller au meilleur jour du mois" title="Meilleur jour">🏆</button>
+        <button class="ib boxed" id="today" type="button" data-i18n-aria="today_l" data-i18n-title="today_t" aria-label="Revenir à aujourd’hui" title="Aujourd’hui">◎</button>
+        <button class="ib boxed" id="best" type="button" data-i18n-aria="best_l" data-i18n-title="best_t" aria-label="Aller au meilleur jour du mois" title="Meilleur jour">🏆</button>
       </div>
     </div>
 
@@ -232,44 +238,127 @@ html{scrollbar-color:#2a2a2a #000}
     <h3 id="dayTitle"></h3>
     <ul class="list" id="list"></ul>
     <form id="form" autocomplete="off">
-      <label>Date<input type="date" id="fdate" required></label>
-      <label>Marché
+      <label><span data-i18n="f_date">Date</span><input type="date" id="fdate" required></label>
+      <label><span data-i18n="f_market">Marché</span>
         <select id="fmarket">
-          <option value="memecoin">Memecoins</option>
-          <option value="forex">Forex</option>
-          <option value="crypto">Crypto</option>
-          <option value="actions">Actions</option>
-          <option value="autre">Autre</option>
+          <option value="memecoin" data-i18n="m_memecoin">Memecoins</option>
+          <option value="forex" data-i18n="m_forex">Forex</option>
+          <option value="crypto" data-i18n="m_crypto">Crypto</option>
+          <option value="actions" data-i18n="m_actions">Actions</option>
+          <option value="autre" data-i18n="m_autre">Autre</option>
         </select>
       </label>
-      <label>Note<input type="text" id="fnote" maxlength="160" placeholder="Setup, erreur, leçon…"></label>
-      <label>PnL (ex : -25 ou 140,5)<input type="text" inputmode="decimal" id="fpnl" placeholder="-25" required></label>
-      <div class="full w"><button class="btn p" type="submit">Ajouter le trade</button></div>
+      <label><span data-i18n="f_note">Note</span><input type="text" id="fnote" maxlength="160" data-i18n-ph="note_ph" placeholder="Setup, erreur, leçon…"></label>
+      <label><span data-i18n="f_pnl">PnL (ex : -25 ou 140,5)</span><input type="text" inputmode="decimal" id="fpnl" placeholder="-25" required></label>
+      <div class="full w"><button class="btn p" type="submit" data-i18n="add">Ajouter le trade</button></div>
     </form>
   </section>
 
   <section class="panel">
     <div class="tools">
-      <label for="cur" style="color:var(--mut);font-size:13px">Devise</label>
+      <label for="cur" style="color:var(--mut);font-size:13px" data-i18n="cur">Devise</label>
       <select id="cur"><option>$</option><option>€</option><option>£</option></select>
       <span class="sp"></span>
-      <button class="btn" id="exJson" type="button">Exporter JSON</button>
-      <button class="btn" id="exCsv" type="button">Exporter CSV</button>
-      <button class="btn" id="imJson" type="button">Importer JSON</button>
-      <button class="btn" id="demo" type="button">Charger une démo</button>
-      <button class="btn" id="wipe" type="button">Tout effacer</button>
+      <button class="btn" id="exJson" type="button" data-i18n="exjson">Exporter JSON</button>
+      <button class="btn" id="exCsv" type="button" data-i18n="excsv">Exporter CSV</button>
+      <button class="btn" id="imJson" type="button" data-i18n="imjson">Importer JSON</button>
+      <button class="btn" id="demo" type="button" data-i18n="demo">Charger une démo</button>
+      <button class="btn" id="wipe" type="button" data-i18n="wipe">Tout effacer</button>
       <input type="file" id="file" accept=".json,application/json" hidden>
     </div>
-    <p class="hint">Tes trades sont enregistrés uniquement dans ce navigateur. Pense à exporter pour sauvegarder.</p>
+    <p class="hint" data-i18n="hint">Tes trades sont enregistrés uniquement dans ce navigateur. Pense à exporter pour sauvegarder.</p>
   </section>
 </div>
 
 <script>
 (function(){
 "use strict";
+var D={
+fr:{
+ meta_desc:"Calendrier de PnL pour tes trades memecoins, forex, crypto et actions.",
+ lang_label:"Langue",
+ open:"Ouvrir le calendrier",
+ h_title:"Chaque trade, chaque jour, au même endroit.",
+ h_p:"Un calendrier de PnL pour tes memecoins, ton forex, ta crypto et tes actions. Note un résultat en dix secondes et vois où tu en es dans le mois.",
+ pv_label:"Aperçu du calendrier", pv_tt:"PnL du mois", pv_note:"Aperçu avec des données d’exemple.",
+ f1_h:"Vue mensuelle", f1_p:"Chaque jour est coloré selon ton PnL net, avec une teinte plus forte pour les gros gains et les grosses pertes.",
+ f2_h:"Tous tes marchés", f2_p:"Memecoins, forex, crypto, actions : filtre le calendrier par marché en un clic.",
+ f3_h:"Tes données restent chez toi", f3_p:"Rien n’est envoyé en ligne. Exporte en JSON ou en CSV pour sauvegarder.",
+ cal_label:"Calendrier de PnL", filter_label:"Filtrer par marché", prev:"Mois précédent", next:"Mois suivant",
+ today_l:"Revenir à aujourd’hui", today_t:"Aujourd’hui", best_l:"Aller au meilleur jour du mois", best_t:"Meilleur jour",
+ f_date:"Date", f_market:"Marché", f_note:"Note", f_pnl:"PnL (ex : -25 ou 140,5)", note_ph:"Setup, erreur, leçon…",
+ add:"Ajouter le trade", cur:"Devise", exjson:"Exporter JSON", excsv:"Exporter CSV", imjson:"Importer JSON", demo:"Charger une démo", wipe:"Tout effacer",
+ hint:"Tes trades sont enregistrés uniquement dans ce navigateur. Pense à exporter pour sauvegarder.",
+ m_all:"Tous", m_memecoin:"Memecoins", m_forex:"Forex", m_crypto:"Crypto", m_actions:"Actions", m_autre:"Autre",
+ total:"PnL total du mois :", trade1:"trade", tradeN:"trades", sub_win:" · {p} % de trades gagnants",
+ sub_none:"Aucun trade ce mois-ci. Clique sur un jour pour en ajouter un.",
+ pick_day:"Choisis un jour", noname:"Sans nom", del:"Supprimer", del_l:"Supprimer ce trade",
+ day_empty:"Aucun trade ce jour-là. Ajoute-le ci-dessous.",
+ err_pnl:"Le PnL doit être un nombre, par exemple -25 ou 140,5.", imported:"{n} trades importés.", err_json:"Fichier JSON non reconnu.",
+ confirm_wipe:"Supprimer tous les trades de ce navigateur ? C’est définitif.", csv_head:"date,marche,symbole,pnl,note"
+},
+en:{
+ meta_desc:"PnL calendar for your memecoin, forex, crypto and stock trades.",
+ lang_label:"Language",
+ open:"Open the calendar",
+ h_title:"Every trade, every day, in one place.",
+ h_p:"A PnL calendar for your memecoins, forex, crypto and stocks. Log a result in ten seconds and see where you stand for the month.",
+ pv_label:"Calendar preview", pv_tt:"Monthly PnL", pv_note:"Preview with sample data.",
+ f1_h:"Monthly view", f1_p:"Each day is colored by your net PnL, with a stronger shade for big wins and big losses.",
+ f2_h:"All your markets", f2_p:"Memecoins, forex, crypto, stocks: filter the calendar by market in one click.",
+ f3_h:"Your data stays with you", f3_p:"Nothing is sent online. Export to JSON or CSV to back up.",
+ cal_label:"PnL calendar", filter_label:"Filter by market", prev:"Previous month", next:"Next month",
+ today_l:"Back to today", today_t:"Today", best_l:"Go to the best day of the month", best_t:"Best day",
+ f_date:"Date", f_market:"Market", f_note:"Note", f_pnl:"PnL (e.g. -25 or 140.5)", note_ph:"Setup, mistake, lesson…",
+ add:"Add trade", cur:"Currency", exjson:"Export JSON", excsv:"Export CSV", imjson:"Import JSON", demo:"Load demo data", wipe:"Clear all",
+ hint:"Your trades are saved only in this browser. Remember to export to back them up.",
+ m_all:"All", m_memecoin:"Memecoins", m_forex:"Forex", m_crypto:"Crypto", m_actions:"Stocks", m_autre:"Other",
+ total:"Total PnL this month:", trade1:"trade", tradeN:"trades", sub_win:" · {p}% winning trades",
+ sub_none:"No trades this month. Click a day to add one.",
+ pick_day:"Pick a day", noname:"Untitled", del:"Delete", del_l:"Delete this trade",
+ day_empty:"No trades on this day. Add one below.",
+ err_pnl:"PnL must be a number, for example -25 or 140.5.", imported:"{n} trades imported.", err_json:"Unrecognized JSON file.",
+ confirm_wipe:"Delete all trades from this browser? This cannot be undone.", csv_head:"date,market,symbol,pnl,note"
+}};
+var KEY="pnl-lang",L="fr";
+function guess(){return /^fr/i.test(navigator.language||"")?"fr":"en"}
+try{var s=localStorage.getItem(KEY);L=(s==="fr"||s==="en")?s:guess()}catch(e){L=guess()}
+function t(k,p){var s=(D[L]&&D[L][k])||D.fr[k]||k;if(p)for(var x in p)s=s.replace("{"+x+"}",p[x]);return s}
+function each(sel,fn){Array.prototype.forEach.call(document.querySelectorAll(sel),fn)}
+function apply(){
+  document.documentElement.lang=L;
+  document.title="PnL Calendar";
+  var md=document.querySelector('meta[name="description"]');if(md)md.setAttribute("content",t("meta_desc"));
+  each("[data-i18n]",function(e){e.textContent=t(e.getAttribute("data-i18n"))});
+  each("[data-i18n-ph]",function(e){e.setAttribute("placeholder",t(e.getAttribute("data-i18n-ph")))});
+  each("[data-i18n-aria]",function(e){e.setAttribute("aria-label",t(e.getAttribute("data-i18n-aria")))});
+  each("[data-i18n-title]",function(e){e.setAttribute("title",t(e.getAttribute("data-i18n-title")))});
+  each("#lang [data-l]",function(b){b.setAttribute("aria-pressed",String(b.getAttribute("data-l")===L))});
+}
+function set(l){
+  if(l!==L&&(l==="fr"||l==="en")){
+    L=l;try{localStorage.setItem(KEY,L)}catch(e){}
+    apply();document.dispatchEvent(new Event("langchange"));
+  }
+}
+document.getElementById("lang").addEventListener("click",function(e){
+  var b=e.target.closest("[data-l]");if(b)set(b.getAttribute("data-l"));
+});
+window.T={
+  t:t,
+  loc:function(){return L==="fr"?loc():"en-US"},
+  dow:function(){return L==="fr"?["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"]:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]}
+};
+apply();
+})();
+</script>
+<script>
+(function(){
+"use strict";
+var tr=T.t,loc=T.loc;
 var KEY="pnl-calendar-v1";
 var M={memecoin:"Memecoins",forex:"Forex",crypto:"Crypto",actions:"Actions",autre:"Autre"};
-var DOW=["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
+function MN(k){return tr("m_"+k)}
 var now=new Date();
 var S={trades:[],cur:"$",filter:"all",y:now.getFullYear(),m:now.getMonth(),sel:null};
 var $=function(i){return document.getElementById(i)};
@@ -278,7 +367,7 @@ function ymd(y,m,d){return y+"-"+pad(m+1)+"-"+pad(d)}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function ok(t){return t&&/^\d{4}-\d{2}-\d{2}$/.test(t.date||"")&&isFinite(Number(t.pnl))}
-function num(n){return Math.abs(n).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})}
+function num(n){return Math.abs(n).toLocaleString(loc(),{minimumFractionDigits:2,maximumFractionDigits:2})}
 function money(n){return n===0?"0"+S.cur:(n>0?"+":"-")+S.cur+num(n)}
 function cl(n){return n>0?"gn":n<0?"ls":""}
 
@@ -294,14 +383,14 @@ function monthMap(){
 }
 
 function renderPills(){
-  var h='<button type="button" class="pill" data-f="all" aria-pressed="'+(S.filter==="all")+'">Tous</button>';
-  Object.keys(M).forEach(function(k){h+='<button type="button" class="pill" data-f="'+k+'" aria-pressed="'+(S.filter===k)+'">'+M[k]+'</button>'});
+  var h='<button type="button" class="pill" data-f="all" aria-pressed="'+(S.filter==="all")+'">'+tr("m_all")+'</button>';
+  Object.keys(M).forEach(function(k){h+='<button type="button" class="pill" data-f="'+k+'" aria-pressed="'+(S.filter===k)+'">'+MN(k)+'</button>'});
   $("pills").innerHTML=h;
 }
 
 function render(){
   var d1=new Date(S.y,S.m,1);
-  var lab=d1.toLocaleDateString("fr-FR",{month:"short",year:"numeric"});
+  var lab=d1.toLocaleDateString(loc(),{month:"short",year:"numeric"});
   $("title").textContent=lab.charAt(0).toUpperCase()+lab.slice(1);
   $("cur").value=S.cur;
   renderPills();
@@ -314,7 +403,7 @@ function render(){
   });
   visible().filter(inMonth).forEach(function(t){if(Number(t.pnl)>0)wins++});
 
-  $("total").innerHTML='PnL total du mois : <span class="'+cl(tot)+'">'+money(tot)+'</span>';
+  $("total").innerHTML=tr("total")+' <span class="'+cl(tot)+'">'+money(tot)+'</span>';
   var mx=0;keys.forEach(function(k){mx=Math.max(mx,Math.abs(map[k].p))});var sum=ws+ls;
   $("bar").innerHTML=sum?'<i class="a" style="width:'+(ws/sum*100)+'%"></i><i class="b" style="width:'+(ls/sum*100)+'%"></i>':'';
   $("bl").textContent=wc+" / "+S.cur+num(ws);
@@ -322,7 +411,7 @@ function render(){
 
   var off=(d1.getDay()+6)%7,n=new Date(S.y,S.m+1,0).getDate();
   var td=new Date(),today=ymd(td.getFullYear(),td.getMonth(),td.getDate());
-  var h=DOW.map(function(x){return'<div class="dow">'+x+'</div>'}).join("");
+  var h=T.dow().map(function(x){return'<div class="dow">'+x+'</div>'}).join("");
   var i;
   for(i=0;i<off;i++)h+='<div class="blank"></div>';
   for(var d=1;d<=n;d++){
@@ -334,23 +423,23 @@ function render(){
     }
     if(k===today)c+=" today";
     if(k===S.sel)c+=" sel";
-    h+='<button type="button" class="'+c+'" data-d="'+k+'" aria-label="'+d+' '+lab+' : '+txt+'"'+(v&&mx?' style="--i:'+(Math.abs(v.p)/mx).toFixed(2)+'"':'')+'><span class="d">'+d+'</span>'+txt+(v&&v.c>1?'<span class="c">'+v.c+' trades</span>':'')+'</button>';
+    h+='<button type="button" class="'+c+'" data-d="'+k+'" aria-label="'+d+' '+lab+' : '+txt+'"'+(v&&mx?' style="--i:'+(Math.abs(v.p)/mx).toFixed(2)+'"':'')+'><span class="d">'+d+'</span>'+txt+(v&&v.c>1?'<span class="c">'+v.c+' '+tr("tradeN")+'</span>':'')+'</button>';
   }
   $("grid").innerHTML=h;
-  $("sub").textContent=trades?trades+(trades>1?" trades":" trade")+" · "+Math.round(wins/trades*100)+" % de trades gagnants":"Aucun trade ce mois-ci. Clique sur un jour pour en ajouter un.";
+  $("sub").textContent=trades?trades+" "+(trades>1?tr("tradeN"):tr("trade1"))+tr("sub_win",{p:Math.round(wins/trades*100)}):tr("sub_none");
   $("best").dataset.d=best||"";
   renderDay();
 }
 
 function renderDay(){
   var d=$("fdate").value;
-  if(!d){$("dayTitle").textContent="Choisis un jour";$("list").innerHTML="";return}
-  $("dayTitle").textContent=new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  if(!d){$("dayTitle").textContent=tr("pick_day");$("list").innerHTML="";return}
+  $("dayTitle").textContent=new Date(d+"T12:00:00").toLocaleDateString(loc(),{weekday:"long",day:"numeric",month:"long",year:"numeric"});
   var L=S.trades.filter(function(t){return t.date===d});
   $("list").innerHTML=L.length?L.map(function(t){
     var p=Number(t.pnl);
-    return'<li><span class="t"><b>'+(esc(t.symbol)||esc(t.note)||"Sans nom")+'</b> <span style="color:var(--mut);font-size:13px">'+(M[t.market]||"")+'</span>'+(t.note&&t.symbol?'<span class="n">'+esc(t.note)+'</span>':'')+'</span><span class="v '+cl(p)+'">'+money(p)+'</span><button type="button" class="x" data-x="'+esc(t.id)+'" aria-label="Supprimer ce trade">Supprimer</button></li>';
-  }).join(""):'<li><span class="none">Aucun trade ce jour-là. Ajoute-le ci-dessous.</span></li>';
+    return'<li><span class="t"><b>'+(esc(t.symbol)||esc(t.note)||tr("noname"))+'</b> <span style="color:var(--mut);font-size:13px">'+(M[t.market]?MN(t.market):"")+'</span>'+(t.note&&t.symbol?'<span class="n">'+esc(t.note)+'</span>':'')+'</span><span class="v '+cl(p)+'">'+money(p)+'</span><button type="button" class="x" data-x="'+esc(t.id)+'" aria-label="'+tr("del_l")+'">'+tr("del")+'</button></li>';
+  }).join(""):'<li><span class="none">'+tr("day_empty")+'</span></li>';
 }
 
 function pickDay(k,focus){S.sel=k;$("fdate").value=k;render();if(focus)$("fpnl").focus()}
@@ -386,7 +475,7 @@ $("list").onclick=function(e){
 $("form").onsubmit=function(e){
   e.preventDefault();
   var p=parseFloat(String($("fpnl").value).replace(/\s/g,"").replace(",","."));
-  if(!isFinite(p)){alert("Le PnL doit être un nombre, par exemple -25 ou 140,5.");$("fpnl").focus();return}
+  if(!isFinite(p)){alert(tr("err_pnl"));$("fpnl").focus();return}
   var date=$("fdate").value;if(!date)return;
   S.trades.push({id:uid(),date:date,market:$("fmarket").value,symbol:"",pnl:p,note:$("fnote").value.trim()});
   save();
@@ -396,7 +485,7 @@ $("form").onsubmit=function(e){
 };
 $("exJson").onclick=function(){dl("pnl-calendar.json","application/json",JSON.stringify({trades:S.trades,currency:S.cur},null,2))};
 $("exCsv").onclick=function(){
-  var rows=["date,marche,symbole,pnl,note"].concat(S.trades.slice().sort(function(a,b){return a.date<b.date?-1:1}).map(function(t){return[t.date,t.market,q(t.symbol),t.pnl,q(t.note)].join(",")}));
+  var rows=[tr("csv_head")].concat(S.trades.slice().sort(function(a,b){return a.date<b.date?-1:1}).map(function(t){return[t.date,t.market,q(t.symbol),t.pnl,q(t.note)].join(",")}));
   dl("pnl-calendar.csv","text/csv",rows.join("\n"));
 };
 $("imJson").onclick=function(){$("file").click()};
@@ -405,16 +494,17 @@ $("file").onchange=function(){
   rd.onload=function(){try{
     var d=JSON.parse(rd.result),a=Array.isArray(d)?d:d.trades;if(!Array.isArray(a))throw 0;
     var add=a.filter(ok).map(function(t){return{id:uid(),date:t.date,market:M[t.market]?t.market:"autre",symbol:String(t.symbol||""),pnl:Number(t.pnl),note:String(t.note||"")}});
-    S.trades=S.trades.concat(add);save();render();alert(add.length+" trades importés.");
-  }catch(err){alert("Fichier JSON non reconnu.")}};
+    S.trades=S.trades.concat(add);save();render();alert(tr("imported",{n:add.length}));
+  }catch(err){alert(tr("err_json"))}};
   rd.readAsText(f);this.value="";
 };
 $("demo").onclick=function(){
   var p=new Date(S.y,S.m-1,1);
   S.trades=S.trades.concat(demo(p.getFullYear(),p.getMonth(),7),demo(S.y,S.m,11));save();render();
 };
-$("wipe").onclick=function(){if(S.trades.length&&confirm("Supprimer tous les trades de ce navigateur ? C’est définitif.")){S.trades=[];save();render()}};
+$("wipe").onclick=function(){if(S.trades.length&&confirm(tr("confirm_wipe"))){S.trades=[];save();render()}};
 
+document.addEventListener("langchange",function(){render()});
 load();
 var t0=new Date();
 S.sel=ymd(t0.getFullYear(),t0.getMonth(),t0.getDate());
@@ -424,10 +514,12 @@ render();
 </script>
 <script>
 (function(){
+var loc=T.loc;
 var V=[null,null,null,null,12.5,null,null,85,-40,150,-20,310,null,null,-60,120,45,-95,220,null,null,70,-30,0,180,-55,null,null,95,-120,260,40,null,null,null];
-var D=["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"],h=D.map(function(x){return'<div class="dow">'+x+'</div>'}).join(""),mx=0,tot=0,best=-1,i;
+function build(){
+var h=T.dow().map(function(x){return'<div class="dow">'+x+'</div>'}).join(""),mx=0,tot=0,best=-1,i;
 V.forEach(function(v,k){if(v!==null){tot+=v;mx=Math.max(mx,Math.abs(v));if(v>0&&(best<0||v>V[best]))best=k}});
-function f(n){return(n>0?"+":n<0?"-":"")+"$"+Math.abs(n).toLocaleString("fr-FR",{maximumFractionDigits:0})}
+function f(n){return(n>0?"+":n<0?"-":"")+"$"+Math.abs(n).toLocaleString(loc(),{maximumFractionDigits:0})}
 V.forEach(function(v,k){
   if(v===null){h+='<div class="blank" style="min-height:52px"></div>';return}
   var c="cell"+(v>0?(k===best?" k":" g"):v<0?" l":"");
@@ -435,9 +527,11 @@ V.forEach(function(v,k){
 });
 document.getElementById("pvGrid").innerHTML=h;
 var t=document.getElementById("pvTot");t.textContent=f(tot);t.className=tot>0?"gn":"ls";
+}
+build();document.addEventListener("langchange",build);
 function route(){document.body.classList.toggle("app",location.hash==="#app");window.scrollTo(0,0)}
 window.addEventListener("hashchange",route);route();
 })();
 </script>
 </body>
-</html>
+</html
