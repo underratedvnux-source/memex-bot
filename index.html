@@ -116,15 +116,97 @@ input[type=date]{color-scheme:dark}
   .blank{min-height:54px}
   .dow{font-size:11px;text-align:center}
 }
+
+/* fond */
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(55% 38% at 50% -4%,rgba(52,211,153,.13),transparent 72%),radial-gradient(38% 30% at 92% 6%,rgba(248,113,113,.09),transparent 72%)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.09) 1px,transparent 1.3px) 0 0/26px 26px;-webkit-mask-image:radial-gradient(75% 60% at 50% 0%,#000,transparent 100%);mask-image:radial-gradient(75% 60% at 50% 0%,#000,transparent 100%)}
+.wrap{position:relative;z-index:1}
+.panel{background:rgba(10,10,10,.86)}
+.head h1 a{color:inherit;text-decoration:none}
+body:not(.app) .wrap{display:none}
+body.app #home{display:none}
+
+/* accueil */
+#home{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 20px 48px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.top b{font-weight:600;font-size:15px}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:48px;align-items:center;padding:56px 0 72px}
+.hero h1{font-size:clamp(34px,5.2vw,58px);font-weight:600;line-height:1.05;letter-spacing:-.03em;margin:0 0 18px}
+.hero p{color:var(--mut);font-size:17px;line-height:1.6;max-width:46ch;margin:0 0 28px}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta .btn{display:inline-flex;align-items:center;text-decoration:none;min-height:44px;padding:0 20px;font-size:14px}
+.pv{padding:16px}
+.pv .tt{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;font-size:13px;color:var(--mut)}
+.pv .tt strong{font-size:26px;font-weight:600;letter-spacing:-.02em}
+.pv .cell{min-height:52px;font-size:11px;padding:5px 6px;cursor:default}
+.pv .cell .d{top:4px;left:6px;font-size:10px}
+.pv .grid{gap:3px}
+.pv .dow{font-size:10px}
+.pv .note{margin:12px 0 0;font-size:12px;color:var(--mut)}
+.feat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;border-top:1px solid var(--line);padding-top:28px}
+.feat h3{font-size:15px;font-weight:600;margin:0 0 6px}
+.feat p{margin:0;color:var(--mut);font-size:14px;max-width:34ch}
+@media(max-width:800px){
+  .hero{grid-template-columns:minmax(0,1fr);gap:32px;padding:28px 0 48px}
+  .feat{grid-template-columns:minmax(0,1fr);gap:20px}
+}
+
+/* ---- refonte : mêmes couleurs, plus de finition ---- */
+body::before{background:radial-gradient(60% 42% at 50% -6%,rgba(52,211,153,.17),transparent 72%),radial-gradient(34% 28% at 95% 4%,rgba(248,113,113,.11),transparent 72%),radial-gradient(40% 30% at 0% 100%,rgba(52,211,153,.06),transparent 72%)}
+body::after{background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(80% 65% at 50% 0%,#000,transparent 100%);mask-image:radial-gradient(80% 65% at 50% 0%,#000,transparent 100%)}
+::selection{background:rgba(52,211,153,.3)}
+html{scrollbar-color:#2a2a2a #000}
+.panel{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,0) 45%),rgba(10,10,10,.8);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-color:rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 28px 60px -34px #000}
+.cell{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.total span{font-size:clamp(40px,6vw,56px);font-weight:700;letter-spacing:-.035em}
+.btn.p{box-shadow:0 0 0 1px rgba(255,255,255,.2),0 8px 24px -8px rgba(52,211,153,.45)}
+
+/* accueil */
+.top{border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:8px}
+.top b{display:flex;align-items:center;gap:9px}
+.hero{padding:72px 0 88px;gap:56px}
+.hero h1{font-size:clamp(38px,5.8vw,68px);font-weight:700;line-height:1.02;letter-spacing:-.04em}
+.hero p{font-size:18px;font-weight:300;color:#a8a8a8}
+.cta .btn{min-height:48px;padding:0 24px;font-size:15px}
+.trust{margin:16px 0 0;font-size:13px;color:var(--mut)}
+.pv{padding:20px;border-radius:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 0 140px -40px rgba(52,211,153,.4),0 40px 80px -40px #000}
+.pv .tt strong{font-size:32px;font-weight:700;letter-spacing:-.03em}
+.pv .cell{min-height:56px;font-size:12px}
+.feat{gap:16px;border-top:0;padding-top:0}
+.feat>div{padding:22px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 60%),rgba(10,10,10,.6)}
+.ico{width:36px;height:36px;border-radius:10px;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);color:var(--gain);display:grid;place-items:center;margin-bottom:16px}
+.feat h3{font-size:16px;margin-bottom:8px}
 </style>
 </head>
 <body>
+<main id="home">
+  <div class="top"><b><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="1" y="8" width="4" height="9" rx="1" fill="#34d399"/><rect x="7" y="2" width="4" height="15" rx="1" fill="#34d399"/><rect x="13" y="10" width="4" height="7" rx="1" fill="#f87171"/></svg>PnL Calendar</b><a class="btn" href="#app" style="text-decoration:none">Ouvrir le calendrier</a></div>
+  <section class="hero">
+    <div>
+      <h1>Chaque trade, chaque jour, au même endroit.</h1>
+      <p>Un calendrier de PnL pour tes memecoins, ton forex, ta crypto et tes actions. Note un résultat en dix secondes et vois où tu en es dans le mois.</p>
+      <div class="cta"><a class="btn p" href="#app">Ouvrir le calendrier</a></div>
+      <p class="trust">Sans compte, sans inscription. Tes données restent dans ton navigateur.</p>
+    </div>
+    <div class="panel pv" aria-label="Aperçu du calendrier">
+      <div class="tt"><span>PnL du mois</span><strong id="pvTot"></strong></div>
+      <div class="grid" id="pvGrid"></div>
+      <p class="note">Aperçu avec des données d’exemple.</p>
+    </div>
+  </section>
+  <section class="feat">
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3.5" width="14" height="12" rx="2"/><path d="M2 7.5h14M6 2v3M12 2v3"/></svg></span><h3>Vue mensuelle</h3><p>Chaque jour est coloré selon ton PnL net, avec une teinte plus forte pour les gros gains et les grosses pertes.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5h13M5.5 9h7M7.5 13.5h3"/></svg></span><h3>Tous tes marchés</h3><p>Memecoins, forex, crypto, actions : filtre le calendrier par marché en un clic.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="8" width="11" height="7.5" rx="2"/><path d="M6 8V6a3 3 0 0 1 6 0v2"/></svg></span><h3>Tes données restent chez toi</h3><p>Rien n’est envoyé en ligne. Exporte en JSON ou en CSV pour sauvegarder.</p></div>
+  </section>
+</main>
+
 <div class="wrap">
 
   <section class="panel" aria-label="Calendrier de PnL">
     <div class="head">
       <div class="l">
-        <h1>PnL Calendar</h1>
+        <h1><a href="#accueil">PnL Calendar</a></h1>
         <div class="pills" id="pills" role="group" aria-label="Filtrer par marché"></div>
       </div>
       <div class="r">
@@ -338,6 +420,23 @@ var t0=new Date();
 S.sel=ymd(t0.getFullYear(),t0.getMonth(),t0.getDate());
 $("fdate").value=S.sel;
 render();
+})();
+</script>
+<script>
+(function(){
+var V=[null,null,null,null,12.5,null,null,85,-40,150,-20,310,null,null,-60,120,45,-95,220,null,null,70,-30,0,180,-55,null,null,95,-120,260,40,null,null,null];
+var D=["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"],h=D.map(function(x){return'<div class="dow">'+x+'</div>'}).join(""),mx=0,tot=0,best=-1,i;
+V.forEach(function(v,k){if(v!==null){tot+=v;mx=Math.max(mx,Math.abs(v));if(v>0&&(best<0||v>V[best]))best=k}});
+function f(n){return(n>0?"+":n<0?"-":"")+"$"+Math.abs(n).toLocaleString("fr-FR",{maximumFractionDigits:0})}
+V.forEach(function(v,k){
+  if(v===null){h+='<div class="blank" style="min-height:52px"></div>';return}
+  var c="cell"+(v>0?(k===best?" k":" g"):v<0?" l":"");
+  h+='<div class="'+c+'" style="--i:'+(Math.abs(v)/mx).toFixed(2)+'"><span class="d">'+(k+1)+'</span>'+(v===0?"0$":f(v))+'</div>';
+});
+document.getElementById("pvGrid").innerHTML=h;
+var t=document.getElementById("pvTot");t.textContent=f(tot);t.className=tot>0?"gn":"ls";
+function route(){document.body.classList.toggle("app",location.hash==="#app");window.scrollTo(0,0)}
+window.addEventListener("hashchange",route);route();
 })();
 </script>
 </body>
