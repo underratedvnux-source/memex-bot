@@ -491,44 +491,16 @@ html:not(.is-app)::before{background-position:calc(50% + var(--px)) var(--py)}
 @media(prefers-reduced-motion:no-preference){body::before{translate:calc(var(--px)*-1.6) calc(var(--py)*-1.6)}}
 </style>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='2' y='4' width='18' height='16' rx='4.5' fill='%233ccf6c'/%3E%3Cpath d='M7 2.2v3.6M15 2.2v3.6' stroke='%233ccf6c' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M6.2 15.2l3.3-3.4 2.4 2.4 4-4.4' stroke='%23050506' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
+<style>
+/* rubans sur tout le fond */
+.silk{position:fixed;inset:0;width:100%;height:100%;
+  -webkit-mask-image:linear-gradient(180deg,#000 75%,transparent 100%);mask-image:linear-gradient(180deg,#000 75%,transparent 100%);
+  -webkit-mask-composite:source-over;mask-composite:add}
+@media(max-width:700px){.silk{width:100%;opacity:.5}}
+</style>
 </head>
 <body>
-<div class="silk" aria-hidden="true"><svg viewBox="0 0 640 940" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
-<stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".1" stop-color="#fff" stop-opacity=".9"/>
-<stop offset=".45" stop-color="#c9ccd1" stop-opacity=".6"/><stop offset=".7" stop-color="#fff" stop-opacity=".75"/>
-<stop offset="1" stop-color="#fff" stop-opacity="0"/>
-</linearGradient>
-<filter id="b18" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="18"/></filter>
-<filter id="b5" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation="5"/></filter>
-<filter id="b1" x="-50%" y="-10%" width="200%" height="120%"><feGaussianBlur stdDeviation=".8"/></filter>
-<path id="r1" d="M60 -40 C120 180 215 300 135 520 S35 780 105 980"/>
-<path id="r2" d="M190 -40 C250 170 340 320 255 550 S165 800 220 980"/>
-<path id="r3" d="M-50 90 C10 290 95 410 15 640 S-30 830 25 980"/>
-<path id="r4" d="M320 -40 C360 150 430 290 365 470 S300 700 355 980"/>
-</defs>
-<g fill="none" stroke-linecap="round"><g opacity="0.9">
-<use href="#r3" stroke="url(#sg)" stroke-width="74" opacity=".13" filter="url(#b18)"/>
-<use href="#r3" stroke="url(#sg)" stroke-width="22" opacity=".34" filter="url(#b5)"/>
-<use href="#r3" stroke="url(#sg)" stroke-width="2.6" opacity=".95" filter="url(#b1)"/>
-<use href="#r3" stroke="url(#sg)" stroke-width="1.2" opacity=".6" transform="translate(16 0)" filter="url(#b1)"/>
-</g><g opacity="1">
-<use href="#r1" stroke="url(#sg)" stroke-width="74" opacity=".13" filter="url(#b18)"/>
-<use href="#r1" stroke="url(#sg)" stroke-width="22" opacity=".34" filter="url(#b5)"/>
-<use href="#r1" stroke="url(#sg)" stroke-width="2.6" opacity=".95" filter="url(#b1)"/>
-<use href="#r1" stroke="url(#sg)" stroke-width="1.2" opacity=".6" transform="translate(16 0)" filter="url(#b1)"/>
-</g><g opacity="0.9">
-<use href="#r2" stroke="url(#sg)" stroke-width="74" opacity=".13" filter="url(#b18)"/>
-<use href="#r2" stroke="url(#sg)" stroke-width="22" opacity=".34" filter="url(#b5)"/>
-<use href="#r2" stroke="url(#sg)" stroke-width="2.6" opacity=".95" filter="url(#b1)"/>
-<use href="#r2" stroke="url(#sg)" stroke-width="1.2" opacity=".6" transform="translate(16 0)" filter="url(#b1)"/>
-</g><g opacity="0.5">
-<use href="#r4" stroke="url(#sg)" stroke-width="74" opacity=".13" filter="url(#b18)"/>
-<use href="#r4" stroke="url(#sg)" stroke-width="22" opacity=".34" filter="url(#b5)"/>
-<use href="#r4" stroke="url(#sg)" stroke-width="2.6" opacity=".95" filter="url(#b1)"/>
-<use href="#r4" stroke="url(#sg)" stroke-width="1.2" opacity=".6" transform="translate(16 0)" filter="url(#b1)"/>
-</g></g></svg></div>
+<canvas class="silk" id="silkc" aria-hidden="true"></canvas>
 <header class="gh"><div class="gh-in">
   <a class="brand" href="#accueil"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="2" y="4" width="18" height="16" rx="4.5" fill="#3ccf6c"/><path d="M7 2.2v3.6M15 2.2v3.6" stroke="#3ccf6c" stroke-width="2" stroke-linecap="round"/><path d="M6.2 15.2l3.3-3.4 2.4 2.4 4-4.4" stroke="#050506" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Green Day</a>
   <div class="gh-tag" data-i18n="tag">Ton PnL, jour par jour. Simple et local.</div>
@@ -1055,35 +1027,49 @@ window.addEventListener("hashchange",route);route();
 <div class="spot" id="spot" aria-hidden="true"></div>
 <script>
 (function(){
-if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
-var root=document.documentElement,spot=document.getElementById("spot");
-var silk=document.querySelector(".silk"),defs=["r1","r2","r3","r4"].map(function(id){return document.getElementById(id)});
-// rubans : points de contrôle de base (C explicites)
-function parse(d){var n=d.match(/-?\d+(\.\d+)?/g).map(Number),pts=[[n[0],n[1]],[n[2],n[3]],[n[4],n[5]],[n[6],n[7]]];
-  var rx=2*n[6]-n[4],ry=2*n[7]-n[5];pts.push([rx,ry],[n[8],n[9]],[n[10],n[11]]);return pts}
-var rib=defs.map(function(el){var b=parse(el.getAttribute("d"));
-  return{el:el,base:b,off:b.map(function(){return{x:0,y:0,vx:0,vy:0}})}});
-function build(r){var q=r.base.map(function(b,i){return[b[0]+r.off[i].x,b[1]+r.off[i].y]});
-  r.el.setAttribute("d","M"+q[0]+" C"+q[1]+" "+q[2]+" "+q[3]+" C"+q[4]+" "+q[5]+" "+q[6])}
+var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+var root=document.documentElement,spot=document.getElementById("spot"),cv=document.getElementById("silkc"),cx=cv.getContext("2d");
+var BASE=[[-0.2, -40, 50.8, 180, 131.5, 300, 63.5, 520, -21.5, 780, 38.0, 980], [135.8, -40, 188.6, 180, 272.2, 300, 201.8, 520, 113.8, 780, 175.4, 980], [271.9, -40, 326.4, 180, 412.9, 300, 340.1, 520, 249.1, 780, 312.8, 980], [407.9, -40, 464.3, 180, 553.6, 300, 478.4, 520, 384.4, 780, 450.2, 980], [544.0, -40, 602.1, 180, 694.3, 300, 616.7, 520, 519.7, 780, 587.6, 980], [680.0, -40, 740.0, 180, 835.0, 300, 755.0, 520, 655.0, 780, 725.0, 980], [816.0, -40, 877.9, 180, 975.7, 300, 893.3, 520, 790.3, 780, 862.4, 980], [952.1, -40, 1015.7, 180, 1116.4, 300, 1031.6, 520, 925.6, 780, 999.8, 980], [1088.2, -40, 1153.5, 180, 1257.1, 300, 1169.9, 520, 1060.9, 780, 1137.2, 980], [1224.2, -40, 1291.4, 180, 1397.8, 300, 1308.2, 520, 1196.2, 780, 1274.6, 980], [1360.2, -40, 1429.2, 180, 1538.5, 300, 1446.5, 520, 1331.5, 780, 1412.0, 980], [1496.3, -40, 1567.1, 180, 1679.2, 300, 1584.8, 520, 1466.8, 780, 1549.4, 980]],OP=[0.5, 0.8, 0.9, 1, 0.9, 0.8, 0.9, 1, 0.9, 0.8, 0.7, 0.5];
+var rib=BASE.map(function(n,r){var pts=[[n[0],n[1]],[n[2],n[3]],[n[4],n[5]],[n[6],n[7]],[2*n[6]-n[4],2*n[7]-n[5]],[n[8],n[9]],[n[10],n[11]]];
+  return{op:OP[r],base:pts,off:pts.map(function(){return{x:0,y:0,vx:0,vy:0}})}});
+var W,H,dpr,k,dirty=true;
+function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);k=Math.max(W/1600,H/940);dirty=true}
+addEventListener("resize",size);size();
+var LAY=[[60,.035,0],[34,.06,0],[16,.11,0],[6,.22,0],[2.4,.95,0],[1.2,.6,16]];
+function draw(){
+  cx.clearRect(0,0,W,H);
+  var g=cx.createLinearGradient(0,0,0,940*k);
+  g.addColorStop(0,"rgba(255,255,255,0)");g.addColorStop(.1,"rgba(255,255,255,.9)");g.addColorStop(.45,"rgba(201,204,209,.6)");g.addColorStop(.7,"rgba(255,255,255,.75)");g.addColorStop(1,"rgba(255,255,255,0)");
+  cx.strokeStyle=g;cx.lineCap="round";
+  rib.forEach(function(r){
+    var q=r.base.map(function(b,i){return[(b[0]+r.off[i].x)*k,(b[1]+r.off[i].y)*k]});
+    LAY.forEach(function(L){
+      cx.globalAlpha=L[1]*r.op;cx.lineWidth=L[0]*k;
+      var dx=L[2]*k;cx.beginPath();cx.moveTo(q[0][0]+dx,q[0][1]);
+      cx.bezierCurveTo(q[1][0]+dx,q[1][1],q[2][0]+dx,q[2][1],q[3][0]+dx,q[3][1]);
+      cx.bezierCurveTo(q[4][0]+dx,q[4][1],q[5][0]+dx,q[5][1],q[6][0]+dx,q[6][1]);cx.stroke();
+    });
+  });
+  cx.globalAlpha=1;
+}
+if(reduce){draw();addEventListener("resize",draw);return}
 var m={x:0,y:0,sx:0,sy:0,on:false,kick:0};
 addEventListener("pointermove",function(e){m.x=e.clientX;m.y=e.clientY;if(!m.on){m.sx=m.x;m.sy=m.y;m.on=true;spot.classList.add("on")}},{passive:true});
 document.addEventListener("pointerleave",function(){m.on=false;spot.classList.remove("on")});
 addEventListener("pointerdown",function(){m.kick=1},{passive:true});
 function frame(){
   m.sx+=(m.x-m.sx)*.12;m.sy+=(m.y-m.sy)*.12;
-  var nx=m.sx/innerWidth-.5,ny=m.sy/innerHeight-.5;
+  var nx=m.sx/W-.5,ny=m.sy/H-.5;
   root.style.setProperty("--px",(nx*26).toFixed(2)+"px");root.style.setProperty("--py",(ny*18).toFixed(2)+"px");
   spot.style.setProperty("--sx",m.sx+"px");spot.style.setProperty("--sy",m.sy+"px");
-  // position du curseur en coordonnées SVG
-  var r=silk.getBoundingClientRect(),k=Math.max(r.width/640,r.height/940)||1,cx=(m.sx-r.left)/k,cy=(m.sy-r.top)/k;
-  var R=230,str=m.on?1:0,kick=m.kick;m.kick*=.9;
-  rib.forEach(function(rb){
-    rb.base.forEach(function(b,i){
-      var o=rb.off[i],dx=b[0]-cx,dy=b[1]-cy,d=Math.hypot(dx,dy)||1,tx=0,ty=0;
-      if(str&&d<R*1.6){var f=Math.exp(-d*d/(2*R*R*.45));tx=dx/d*70*f*(1+kick*1.2);ty=dy/d*34*f*(1+kick*1.2)}
-      o.vx+=(tx-o.x)*.07;o.vy+=(ty-o.y)*.07;o.vx*=.84;o.vy*=.84;o.x+=o.vx;o.y+=o.vy;
-    });build(rb);
-  });
+  var cxs=m.sx/k,cys=m.sy/k,R=230,kick=m.kick;m.kick*=.9;var moving=dirty;
+  rib.forEach(function(rb){rb.base.forEach(function(b,i){
+    var o=rb.off[i],dx=b[0]-cxs,dy=b[1]-cys,d=Math.hypot(dx,dy)||1,tx=0,ty=0;
+    if(m.on&&d<R*1.6){var f=Math.exp(-d*d/(2*R*R*.45));tx=dx/d*70*f*(1+kick*1.2);ty=dy/d*34*f*(1+kick*1.2)}
+    o.vx+=(tx-o.x)*.07;o.vy+=(ty-o.y)*.07;o.vx*=.84;o.vy*=.84;o.x+=o.vx;o.y+=o.vy;
+    if(Math.abs(o.vx)+Math.abs(o.vy)>.02||Math.abs(tx-o.x)+Math.abs(ty-o.y)>.05)moving=true;
+  })});
+  if(moving){draw();dirty=false}
   requestAnimationFrame(frame);
 }
 requestAnimationFrame(frame);
