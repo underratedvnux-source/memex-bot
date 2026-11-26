@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PnL Calendar</title>
+<title>Green Day</title>
 <meta name="description" content="Calendrier de PnL pour tes trades memecoins, forex, crypto et actions.">
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -482,9 +482,15 @@ body.app .gh-tag{visibility:hidden}
 }
 </style>
 <style>
-/* ---- fond interactif (canvas) ---- */
-#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block}
+/* ---- fond noir & blanc réactif au curseur ---- */
+:root{--px:0px;--py:0px}
+.spot{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(360px 360px at var(--sx,50%) var(--sy,30%),rgba(255,255,255,.07),transparent 70%);opacity:0;transition:opacity .4s}
+.spot.on{opacity:1}
+html:not(.is-app)::before{background-position:calc(50% + var(--px)) var(--py)}
+@media(prefers-reduced-motion:no-preference){body::before{translate:calc(var(--px)*-1.6) calc(var(--py)*-1.6)}}
 </style>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Crect x='2' y='4' width='18' height='16' rx='4.5' fill='%233ccf6c'/%3E%3Cpath d='M7 2.2v3.6M15 2.2v3.6' stroke='%233ccf6c' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M6.2 15.2l3.3-3.4 2.4 2.4 4-4.4' stroke='%23050506' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E">
 </head>
 <body>
 <div class="silk" aria-hidden="true"><svg viewBox="0 0 640 940" preserveAspectRatio="xMinYMin slice" xmlns="http://www.w3.org/2000/svg">
@@ -524,7 +530,7 @@ body.app .gh-tag{visibility:hidden}
 <use href="#r4" stroke="url(#sg)" stroke-width="1.2" opacity=".6" transform="translate(16 0)" filter="url(#b1)"/>
 </g></g></svg></div>
 <header class="gh"><div class="gh-in">
-  <a class="brand" href="#accueil"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13l5-5 3 3 6-6M11.5 5H16v4.5"/></svg>PnL Calendar</a>
+  <a class="brand" href="#accueil"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true"><rect x="2" y="4" width="18" height="16" rx="4.5" fill="#3ccf6c"/><path d="M7 2.2v3.6M15 2.2v3.6" stroke="#3ccf6c" stroke-width="2" stroke-linecap="round"/><path d="M6.2 15.2l3.3-3.4 2.4 2.4 4-4.4" stroke="#050506" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Green Day</a>
   <div class="gh-tag" data-i18n="tag">Ton PnL, jour par jour. Simple et local.</div>
   <div class="gh-r">
     <a class="btn p gh-open" href="#app" data-i18n="open">Ouvrir le calendrier</a>
@@ -683,7 +689,7 @@ function t(k,p){var s=(D[L]&&D[L][k])||D.fr[k]||k;if(p)for(var x in p)s=s.replac
 function each(sel,fn){Array.prototype.forEach.call(document.querySelectorAll(sel),fn)}
 function apply(){
   document.documentElement.lang=L;
-  document.title="PnL Calendar";
+  document.title="Green Day";
   var md=document.querySelector('meta[name="description"]');if(md)md.setAttribute("content",t("meta_desc"));
   each("[data-i18n]",function(e){e.textContent=t(e.getAttribute("data-i18n"))});
   each("[data-i18n-html]",function(e){e.innerHTML=t(e.getAttribute("data-i18n-html"))});
@@ -1046,61 +1052,41 @@ var sp=document.getElementById("seePv");if(sp)sp.addEventListener("click",functi
 window.addEventListener("hashchange",route);route();
 })();
 </script>
-<canvas id="fx" aria-hidden="true"></canvas>
+<div class="spot" id="spot" aria-hidden="true"></div>
 <script>
 (function(){
-var cv=document.getElementById("fx"),cx=cv.getContext("2d");
-var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
-var W,H,dpr,pts=[],GAP=34,R=170;
-var m={x:-9999,y:-9999,tx:-9999,ty:-9999,on:false},waves=[];
-function resize(){
-  dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;
-  cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
-  pts=[];var gap=W<700?28:GAP,c=Math.ceil(W/gap)+1,r=Math.ceil(H/gap)+1;
-  for(var j=0;j<r;j++)for(var i=0;i<c;i++)pts.push({ox:i*gap,oy:j*gap,x:i*gap,y:j*gap,vx:0,vy:0});
-}
-addEventListener("resize",resize);resize();
-addEventListener("pointermove",function(e){m.tx=e.clientX;m.ty=e.clientY;if(!m.on){m.x=m.tx;m.y=m.ty;m.on=true}},{passive:true});
-document.addEventListener("pointerleave",function(){m.on=false;m.tx=m.ty=-9999});
-addEventListener("pointerdown",function(e){waves.push({x:e.clientX,y:e.clientY,t:0})},{passive:true});
+if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+var root=document.documentElement,spot=document.getElementById("spot");
+var silk=document.querySelector(".silk"),defs=["r1","r2","r3","r4"].map(function(id){return document.getElementById(id)});
+// rubans : points de contrôle de base (C explicites)
+function parse(d){var n=d.match(/-?\d+(\.\d+)?/g).map(Number),pts=[[n[0],n[1]],[n[2],n[3]],[n[4],n[5]],[n[6],n[7]]];
+  var rx=2*n[6]-n[4],ry=2*n[7]-n[5];pts.push([rx,ry],[n[8],n[9]],[n[10],n[11]]);return pts}
+var rib=defs.map(function(el){var b=parse(el.getAttribute("d"));
+  return{el:el,base:b,off:b.map(function(){return{x:0,y:0,vx:0,vy:0}})}});
+function build(r){var q=r.base.map(function(b,i){return[b[0]+r.off[i].x,b[1]+r.off[i].y]});
+  r.el.setAttribute("d","M"+q[0]+" C"+q[1]+" "+q[2]+" "+q[3]+" C"+q[4]+" "+q[5]+" "+q[6])}
+var m={x:0,y:0,sx:0,sy:0,on:false,kick:0};
+addEventListener("pointermove",function(e){m.x=e.clientX;m.y=e.clientY;if(!m.on){m.sx=m.x;m.sy=m.y;m.on=true;spot.classList.add("on")}},{passive:true});
+document.addEventListener("pointerleave",function(){m.on=false;spot.classList.remove("on")});
+addEventListener("pointerdown",function(){m.kick=1},{passive:true});
 function frame(){
-  cx.clearRect(0,0,W,H);
-  m.x+=(m.tx-m.x)*.18;m.y+=(m.ty-m.y)*.18;
-  // halo vert qui suit la souris
-  if(m.on){
-    var g=cx.createRadialGradient(m.x,m.y,0,m.x,m.y,R*1.7);
-    g.addColorStop(0,"rgba(60,207,108,.10)");g.addColorStop(1,"rgba(60,207,108,0)");
-    cx.fillStyle=g;cx.fillRect(m.x-R*2,m.y-R*2,R*4,R*4);
-  }
-  for(var k=waves.length-1;k>=0;k--){waves[k].t+=1;if(waves[k].t>90)waves.splice(k,1)}
-  for(var i=0;i<pts.length;i++){
-    var p=pts[i],dx=p.x-m.x,dy=p.y-m.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-    if(d<R){var f=(1-d/R);f=f*f*2.2;p.vx+=dx/d*f;p.vy+=dy/d*f}
-    for(var k=0;k<waves.length;k++){
-      var w=waves[k],wx=p.ox-w.x,wy=p.oy-w.y,wd=Math.sqrt(wx*wx+wy*wy)||1,rr=w.t*9;
-      var diff=Math.abs(wd-rr);
-      if(diff<46){var a=(1-diff/46)*(1-w.t/90)*5;p.vx+=wx/wd*a;p.vy+=wy/wd*a}
-    }
-    p.vx+=(p.ox-p.x)*.06;p.vy+=(p.oy-p.y)*.06;
-    p.vx*=.82;p.vy*=.82;p.x+=p.vx;p.y+=p.vy;
-    var near=m.on?Math.max(0,1-Math.hypot(p.ox-m.x,p.oy-m.y)/(R*1.5)):0;
-    var disp=Math.min(1,Math.hypot(p.x-p.ox,p.y-p.oy)/22);
-    var t=Math.max(near,disp);
-    cx.beginPath();cx.arc(p.x,p.y,1+t*1.8,0,6.2832);
-    cx.fillStyle=t>.02?"rgba("+(255-Math.round(195*t))+","+(255-Math.round(48*t))+","+(255-Math.round(147*t))+","+(.14+t*.7)+")":"rgba(255,255,255,.14)";
-    cx.fill();
-  }
-  // ondes visibles
-  for(var k=0;k<waves.length;k++){
-    var w=waves[k];cx.beginPath();cx.arc(w.x,w.y,w.t*9,0,6.2832);
-    cx.strokeStyle="rgba(60,207,108,"+(.28*(1-w.t/90))+")";cx.lineWidth=1.2;cx.stroke();
-  }
+  m.sx+=(m.x-m.sx)*.12;m.sy+=(m.y-m.sy)*.12;
+  var nx=m.sx/innerWidth-.5,ny=m.sy/innerHeight-.5;
+  root.style.setProperty("--px",(nx*26).toFixed(2)+"px");root.style.setProperty("--py",(ny*18).toFixed(2)+"px");
+  spot.style.setProperty("--sx",m.sx+"px");spot.style.setProperty("--sy",m.sy+"px");
+  // position du curseur en coordonnées SVG
+  var r=silk.getBoundingClientRect(),k=Math.max(r.width/640,r.height/940)||1,cx=(m.sx-r.left)/k,cy=(m.sy-r.top)/k;
+  var R=230,str=m.on?1:0,kick=m.kick;m.kick*=.9;
+  rib.forEach(function(rb){
+    rb.base.forEach(function(b,i){
+      var o=rb.off[i],dx=b[0]-cx,dy=b[1]-cy,d=Math.hypot(dx,dy)||1,tx=0,ty=0;
+      if(str&&d<R*1.6){var f=Math.exp(-d*d/(2*R*R*.45));tx=dx/d*70*f*(1+kick*1.2);ty=dy/d*34*f*(1+kick*1.2)}
+      o.vx+=(tx-o.x)*.07;o.vy+=(ty-o.y)*.07;o.vx*=.84;o.vy*=.84;o.x+=o.vx;o.y+=o.vy;
+    });build(rb);
+  });
   requestAnimationFrame(frame);
 }
-if(reduce){ // version statique, sans animation
-  cx.fillStyle="rgba(255,255,255,.12)";
-  pts.forEach(function(p){cx.beginPath();cx.arc(p.ox,p.oy,1,0,6.2832);cx.fill()});
-}else requestAnimationFrame(frame);
+requestAnimationFrame(frame);
 })();
 </script>
 </body>
