@@ -833,7 +833,6 @@ body.app .gh-nav .gh-prev,body.app .gh-nav .gh-open{display:none}
   .wrap .tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
   .wrap .tools .sp{display:none}
   .wrap .tools .btn{width:100%;height:clamp(30px,5.4vh,52px)}
-  .wrap .tools #wipe{grid-column:1/-1}
 }
 @media(min-width:981px) and (min-height:861px){
   .wrap>section:nth-of-type(2) form{gap:14px 10px}
@@ -872,6 +871,16 @@ body.app .gh-nav .gh-prev,body.app .gh-nav .gh-open{display:none}
   @container (max-height:150px){ .wrap>section:nth-of-type(2) .list li.wk{padding:6px 10px;gap:3px} .wk-foot,.wk-day small,.wk-top em{display:none} .wk-top strong{font-size:16px} }
   @container (max-height:75px){ .wk-bars{display:none} .list li.wk{justify-content:center} }
 }
+
+/* ---- image du mois ---- */
+.btn.card-go{background:#ededed;color:#0c0d0f;border-color:#ededed}
+.btn.card-go:hover{background:#fff;color:#0c0d0f}
+.card-ov{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;padding:16px}
+.card-dlg{width:min(900px,100%,calc((100vh - 150px) * 1.5));min-width:min(320px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#0d0e10;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:12px}
+.card-dlg canvas{display:block;width:100%;height:auto;border-radius:10px}
+.card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.card-actions span{flex:1}
+.wrap .tools #wipe{grid-column:1/-1}
 </style>
 </head>
 <body>
@@ -994,14 +1003,12 @@ body.app .gh-nav .gh-prev,body.app .gh-nav .gh-open{display:none}
       <label for="cur" style="color:var(--mut);font-size:13px" data-i18n="cur">Devise</label>
       <select id="cur"><option>$</option><option>€</option><option>£</option></select>
       <span class="sp"></span>
-      <button class="btn" id="exJson" type="button" data-i18n="exjson">Exporter JSON</button>
-      <button class="btn" id="exCsv" type="button" data-i18n="excsv">Exporter CSV</button>
-      <button class="btn" id="imJson" type="button" data-i18n="imjson">Importer JSON</button>
-      <button class="btn" id="demo" type="button" data-i18n="demo">Charger une démo</button>
+      <button class="btn card-go" id="cardOpen" type="button" data-i18n="card_open">Image du mois</button>
+      <button class="btn" id="cardBg" type="button" data-i18n="card_bg">Changer le fond</button>
       <button class="btn" id="wipe" type="button" data-i18n="wipe">Tout effacer</button>
-      <input type="file" id="file" accept=".json,application/json" hidden>
+      <input type="file" id="cardFile" hidden>
     </div>
-    <p class="hint" data-i18n="hint">Tes trades sont enregistrés uniquement dans ce navigateur. Pense à exporter pour sauvegarder.</p>
+    <p class="hint" data-i18n="hint">Tes trades sont enregistrés uniquement dans ce navigateur.</p>
   </section>
 </div>
 
@@ -1025,12 +1032,13 @@ fr:{
  today_l:"Revenir à aujourd’hui", today_t:"Aujourd’hui", best_l:"Aller au meilleur jour du mois", best_t:"Meilleur jour",
  f_date:"Date", f_market:"Marché", f_note:"Note", f_pnl:"PnL (ex : -25 ou 140,5)", note_ph:"Setup, erreur, leçon…",
  add:"Ajouter le trade", cur:"Devise", exjson:"Exporter JSON", excsv:"Exporter CSV", imjson:"Importer JSON", demo:"Charger une démo", wipe:"Tout effacer",
- hint:"Tes trades sont enregistrés uniquement dans ce navigateur. Pense à exporter pour sauvegarder.",
+ hint:"Tes trades sont enregistrés uniquement dans ce navigateur.",
  m_all:"Tous", m_memecoin:"Memecoins", m_forex:"Forex", m_crypto:"Crypto", m_actions:"Actions", m_autre:"Autre",
  total:"PnL total du mois :", trade1:"trade", tradeN:"trades", sub_win:" · {p} % de trades gagnants",
  sub_none:"Aucun trade ce mois-ci. Clique sur un jour pour en ajouter un.",
  pick_day:"Choisis un jour", noname:"Sans nom", del:"Supprimer", del_l:"Supprimer ce trade",
  day_empty:"Aucun trade ce jour-là. Ajoute-le ci-dessous.", wk_title:"Ta semaine", wk_trade1:"trade", wk_tradeN:"trades", wk_none:"aucun ce jour-là",
+ card_open:"Image du mois", card_bg:"Changer le fond", card_reset:"Fond par défaut", card_dl:"Télécharger (PNG)", card_close:"Fermer", card_title:"Image du mois", card_none:"Aucun trade ce mois-ci. Ajoute un trade pour générer l'image.", card_net_err:"Ce format doit être converti, et le convertisseur n'a pas pu se charger. Vérifie ta connexion internet puis réessaie.", card_bad:"Ton navigateur ne sait pas lire ce fichier. Convertis-le en JPG ou en PNG, ou fais-en une capture d'écran.", card_nosave:"Ce fond est appliqué, mais il n'a pas pu être enregistré pour ta prochaine visite.", card_net:"PnL net", card_win:"Taux de réussite", card_best:"Meilleur jour",
  err_pnl:"Le PnL doit être un nombre, par exemple -25 ou 140,5.", imported:"{n} trades importés.", err_json:"Fichier JSON non reconnu.",
  confirm_wipe:"Supprimer tous les trades de ce navigateur ? C’est définitif.", csv_head:"date,marche,symbole,pnl,note"
 },
@@ -1050,12 +1058,13 @@ en:{
  today_l:"Back to today", today_t:"Today", best_l:"Go to the best day of the month", best_t:"Best day",
  f_date:"Date", f_market:"Market", f_note:"Note", f_pnl:"PnL (e.g. -25 or 140.5)", note_ph:"Setup, mistake, lesson…",
  add:"Add trade", cur:"Currency", exjson:"Export JSON", excsv:"Export CSV", imjson:"Import JSON", demo:"Load demo data", wipe:"Clear all",
- hint:"Your trades are saved only in this browser. Remember to export to back them up.",
+ hint:"Your trades are saved only in this browser.",
  m_all:"All", m_memecoin:"Memecoins", m_forex:"Forex", m_crypto:"Crypto", m_actions:"Stocks", m_autre:"Other",
  total:"Total PnL this month:", trade1:"trade", tradeN:"trades", sub_win:" · {p}% winning trades",
  sub_none:"No trades this month. Click a day to add one.",
  pick_day:"Pick a day", noname:"Untitled", del:"Delete", del_l:"Delete this trade",
  day_empty:"No trades on this day. Add one below.", wk_title:"Your week", wk_trade1:"trade", wk_tradeN:"trades", wk_none:"none on this day",
+ card_open:"Monthly image", card_bg:"Change background", card_reset:"Default background", card_dl:"Download (PNG)", card_close:"Close", card_title:"Monthly image", card_none:"No trades this month. Add a trade to generate the image.", card_net_err:"This format needs converting, and the converter couldn't load. Check your internet connection and try again.", card_bad:"Your browser can't read this file. Convert it to JPG or PNG, or take a screenshot of it.", card_nosave:"Background applied, but it could not be saved for your next visit.", card_net:"Net PnL", card_win:"Win rate", card_best:"Best day",
  err_pnl:"PnL must be a number, for example -25 or 140.5.", imported:"{n} trades imported.", err_json:"Unrecognized JSON file.",
  confirm_wipe:"Delete all trades from this browser? This cannot be undone.", csv_head:"date,market,symbol,pnl,note"
 }};
@@ -1354,20 +1363,6 @@ function renderDay(){
 
 function pickDay(k,focus){S.sel=k;$("fdate").value=k;render();if(focus)$("fpnl").focus()}
 function dl(name,type,txt){var a=document.createElement("a"),u=URL.createObjectURL(new Blob([txt],{type:type}));a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},500)}
-function q(v){return'"'+String(v==null?"":v).replace(/"/g,'""')+'"'}
-
-function rng(s){return function(){s|=0;s=s+0x6D2B79F5|0;var t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-function demo(y,m,seed){
-  var R=rng(seed),out=[],n=new Date(y,m+1,0).getDate(),me=["BONK","WIF","POPCAT","PEPE"],fx=["EUR/USD","GBP/JPY","XAU/USD"];
-  for(var d=1;d<=n;d++){
-    var w=new Date(y,m,d).getDay();if(w===0||w===6||R()<0.3)continue;
-    for(var i=0,c=1+Math.floor(R()*2);i<c;i++){
-      var meme=R()<0.55,win=R()<0.45,mag=meme?10+R()*120:5+R()*60;
-      out.push({id:uid(),date:ymd(y,m,d),market:meme?"memecoin":"forex",symbol:meme?me[Math.floor(R()*me.length)]:fx[Math.floor(R()*fx.length)],pnl:Math.round((win?mag:-mag*0.8)*100)/100,note:""});
-    }
-  }
-  return out;
-}
 
 $("prev").onclick=function(){S.m--;if(S.m<0){S.m=11;S.y--}render()};
 $("next").onclick=function(){S.m++;if(S.m>11){S.m=0;S.y++}render()};
@@ -1382,36 +1377,202 @@ $("list").onclick=function(e){
   var id=b.getAttribute("data-x");
   S.trades=S.trades.filter(function(t){return t.id!==id});save();render();
 };
-$("form").onsubmit=function(e){
+/* accepte "25", "-12,5", "$30", "30 €", "1,234.50", "1 234,50", "−25" */
+function parsePnl(v){
+  var t=String(v).replace(/[\s$€£]/g,"").replace(/[−–—]/g,"-");
+  if(t.indexOf(",")>-1&&t.indexOf(".")>-1)t=t.lastIndexOf(",")>t.lastIndexOf(".")?t.replace(/\./g,"").replace(",","."):t.replace(/,/g,"");
+  else if(/^[+-]?[1-9]\d{0,2}(,\d{3}){2,}$/.test(t)||(loc()==="en-US"&&/^[+-]?[1-9]\d{0,2},\d{3}$/.test(t)))t=t.replace(/,/g,"");
+  else t=t.replace(",",".");
+  return /^[+-]?(\d+(\.\d*)?|\.\d+)$/.test(t)?Number(t):NaN;
+}
+function addTrade(e){
   e.preventDefault();
-  var p=parseFloat(String($("fpnl").value).replace(/\s/g,"").replace(",","."));
+  var p=parsePnl($("fpnl").value);
   if(!isFinite(p)){UI.alert(tr("err_pnl"),function(){$("fpnl").focus()});return}
-  var date=$("fdate").value;if(!date)return;
+  var date=$("fdate").value||S.sel||ymd(new Date().getFullYear(),new Date().getMonth(),new Date().getDate());
+  $("fdate").value=date;
+  /* un filtre sur un autre marché masquerait le trade ajouté : on réaffiche tout */
+  if(S.filter!=="all"&&S.filter!==$("fmarket").value)S.filter="all";
   S.trades.push({id:uid(),date:date,market:$("fmarket").value,symbol:"",pnl:p,note:$("fnote").value.trim()});
   save();
   var pr=date.split("-");S.y=+pr[0];S.m=+pr[1]-1;S.sel=date;
   $("fpnl").value="";$("fnote").value="";
   render();$("fpnl").focus();
-};
-$("exJson").onclick=function(){dl("pnl-calendar.json","application/json",JSON.stringify({trades:S.trades,currency:S.cur},null,2))};
-$("exCsv").onclick=function(){
-  var rows=[tr("csv_head")].concat(S.trades.slice().sort(function(a,b){return a.date<b.date?-1:1}).map(function(t){return[t.date,t.market,q(t.symbol),t.pnl,q(t.note)].join(",")}));
-  dl("pnl-calendar.csv","text/csv",rows.join("\n"));
-};
-$("imJson").onclick=function(){$("file").click()};
-$("file").onchange=function(){
-  var f=this.files[0];if(!f)return;var rd=new FileReader();
-  rd.onload=function(){try{
-    var d=JSON.parse(rd.result),a=Array.isArray(d)?d:d.trades;if(!Array.isArray(a))throw 0;
-    var add=a.filter(ok).map(function(t){return{id:uid(),date:t.date,market:M[t.market]?t.market:"autre",symbol:String(t.symbol||""),pnl:Number(t.pnl),note:String(t.note||"")}});
-    S.trades=S.trades.concat(add);save();render();UI.alert(tr("imported",{n:add.length}));
-  }catch(err){UI.alert(tr("err_json"))}};
-  rd.readAsText(f);this.value="";
-};
-$("demo").onclick=function(){
-  var p=new Date(S.y,S.m-1,1);
-  S.trades=S.trades.concat(demo(p.getFullYear(),p.getMonth(),7),demo(S.y,S.m,11));save();render();
-};
+}
+/* le clic et la touche Entrée passent par la même fonction, même si l'envoi de formulaire est bloqué (aperçu intégré) */
+$("form").onsubmit=addTrade;
+$("form").querySelector('[type="submit"]').addEventListener("click",addTrade);
+$("form").addEventListener("keydown",function(e){if(e.key==="Enter"&&e.target.tagName==="INPUT")addTrade(e)});
+/* ---- image du mois (PNG 1980×1320) avec fond personnalisable ---- */
+var CW=1980,CH=1320,BGKEY="pnl-card-bg",bgImg=null,cardBox=null,cardCv=null;
+function loadImg(src,okf,ko){var im=new Image();im.onload=function(){okf(im)};im.onerror=ko||function(){};im.src=src}
+try{var saved=localStorage.getItem(BGKEY);if(saved)loadImg(saved,function(im){bgImg=im;if(cardBox)drawCard()})}catch(e){}
+
+function stats(){
+  var L=visible().filter(inMonth),map=monthMap(),tot=0,wins=0,best=null;
+  L.forEach(function(t){tot+=Number(t.pnl);if(Number(t.pnl)>0)wins++});
+  Object.keys(map).forEach(function(k){if(map[k].p>0&&(best===null||map[k].p>best))best=map[k].p});
+  return{n:L.length,tot:Math.round(tot*100)/100,win:L.length?Math.round(wins/L.length*100):0,best:best};
+}
+function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
+function font(c,w,px){c.font=w+" "+px+"px "+getComputedStyle(document.body).fontFamily}
+function fitText(c,txt,w,px,max){do{font(c,w,px);px-=4}while(c.measureText(txt).width>max&&px>20)}
+
+function drawCard(){
+  var c=cardCv.getContext("2d"),st=stats(),up=st.tot>0,dn=st.tot<0;
+  var col=up?"#3ccf6c":dn?"#f0444f":"#9a9aa2",g,i,j;
+  c.clearRect(0,0,CW,CH);c.textAlign="left";c.textBaseline="alphabetic";
+  if(bgImg){
+    var k=Math.max(CW/bgImg.width,CH/bgImg.height),w=bgImg.width*k,h=bgImg.height*k;
+    c.drawImage(bgImg,(CW-w)/2,(CH-h)/2,w,h);
+    /* voile à gauche pour garder le texte lisible */
+    g=c.createLinearGradient(0,0,CW,0);g.addColorStop(0,"rgba(0,0,0,.82)");g.addColorStop(.55,"rgba(0,0,0,.52)");g.addColorStop(1,"rgba(0,0,0,.12)");
+    c.fillStyle=g;c.fillRect(0,0,CW,CH);
+  }else{
+    c.fillStyle="#08090a";c.fillRect(0,0,CW,CH);
+    g=c.createRadialGradient(1560,420,0,1560,420,1100);
+    g.addColorStop(0,up?"rgba(60,207,108,.34)":dn?"rgba(240,68,79,.28)":"rgba(160,160,175,.22)");g.addColorStop(1,"rgba(0,0,0,0)");
+    c.fillStyle=g;c.fillRect(0,0,CW,CH);
+    /* motif : grille de jours inspirée du logo */
+    for(i=0;i<5;i++)for(j=0;j<5;j++){
+      var a=.05+((i*3+j*5)%7)*.07;
+      c.fillStyle=dn&&(i+j*2)%4===0?"rgba(240,68,79,"+a+")":"rgba(60,207,108,"+a+")";
+      rr(c,1300+i*112,330+j*112,94,94,20);c.fill();
+    }
+  }
+  var shades=["#14532d","#166534","#3ccf6c","#166534","#3ccf6c","#14532d","#22844a","#14532d","#166534"];
+  for(i=0;i<9;i++){c.fillStyle=shades[i];rr(c,160+(i%3)*30,160+Math.floor(i/3)*30,23,23,5);c.fill()}
+  c.fillStyle="#f4f4f5";font(c,700,66);c.fillText("Green Day",274,216);
+  var m=new Date(S.y,S.m,1).toLocaleDateString(loc(),{month:"short",year:"numeric"});
+  m=m.charAt(0).toUpperCase()+m.slice(1);
+  font(c,500,112);c.fillStyle="#fff";c.fillText(m,160,660);
+  c.fillStyle=col;c.fillRect(160,735,976,240);
+  var v=money(st.tot);c.fillStyle="#0c0d0f";c.textBaseline="middle";fitText(c,v,700,164,916);c.fillText(v,188,862);
+  c.textBaseline="alphabetic";
+  [[tr("card_win"),st.win+"%","#fff"],[tr("tradeN").replace(/^./,function(x){return x.toUpperCase()}),String(st.n),"#fff"],[tr("card_best"),st.best===null?"—":money(st.best),st.best===null?"#fff":"#3ccf6c"]].forEach(function(o,n){
+    var x=160+n*394;
+    c.fillStyle="#d4d4d8";fitText(c,o[0],400,44,360);c.fillText(o[0],x,1084);
+    c.fillStyle=o[2];fitText(c,o[1],500,58,360);c.fillText(o[1],x,1160);
+  });
+  if(S.filter!=="all"){c.fillStyle="#b4b4bb";font(c,500,44);c.fillText(MN(S.filter),164,520)}
+}
+
+function closeCard(){if(cardBox){cardBox.remove();cardBox=null;document.removeEventListener("keydown",escCard);$("cardOpen").focus()}}
+function escCard(e){if(e.key==="Escape")closeCard()}
+function openCard(){
+  if(!stats().n){UI.alert(tr("card_none"));return}
+  cardBox=document.createElement("div");cardBox.className="card-ov";
+  cardBox.innerHTML='<div class="card-dlg" role="dialog" aria-modal="true" aria-label="'+tr("card_title")+'"><canvas width="'+CW+'" height="'+CH+'"></canvas><div class="card-actions"><button type="button" class="btn" data-a="bg">'+tr("card_bg")+'</button><button type="button" class="btn" data-a="reset">'+tr("card_reset")+'</button><span></span><button type="button" class="btn" data-a="close">'+tr("card_close")+'</button><button type="button" class="btn card-go" data-a="dl">'+tr("card_dl")+'</button></div></div>';
+  cardCv=cardBox.querySelector("canvas");
+  cardBox.addEventListener("click",function(e){
+    if(e.target===cardBox){closeCard();return}
+    var b=e.target.closest("[data-a]");if(!b)return;var a=b.getAttribute("data-a");
+    if(a==="close")closeCard();
+    else if(a==="bg")$("cardFile").click();
+    else if(a==="reset"){bgImg=null;try{localStorage.removeItem(BGKEY)}catch(x){}drawCard()}
+    else cardCv.toBlob(function(blob){dl("green-day-"+S.y+"-"+pad(S.m+1)+".png","image/png",blob)},"image/png");
+  });
+  cardBox.addEventListener("dragover",function(e){e.preventDefault()});
+  cardBox.addEventListener("drop",function(e){e.preventDefault();useFile(e.dataTransfer&&e.dataTransfer.files[0])});
+  document.addEventListener("keydown",escCard);
+  document.body.appendChild(cardBox);drawCard();cardBox.querySelector('[data-a="dl"]').focus();
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(cardBox)drawCard()});
+}
+$("cardOpen").onclick=openCard;
+$("cardBg").onclick=function(){$("cardFile").click()};
+/* accepte tout fichier que le navigateur sait lire : image, SVG, ou vidéo (une image en est extraite) */
+function readVideo(url,okf,ko){
+  var v=document.createElement("video"),done=false,timer=setTimeout(function(){end()},12000);
+  function end(frame){if(done)return;done=true;clearTimeout(timer);v.removeAttribute("src");v.load();if(frame)okf(frame,frame.width,frame.height);else ko()}
+  function grab(){
+    if(!v.videoWidth){end();return}
+    var c=document.createElement("canvas");c.width=v.videoWidth;c.height=v.videoHeight;
+    try{c.getContext("2d").drawImage(v,0,0);end(c)}catch(e){end()}
+  }
+  v.muted=true;v.playsInline=true;v.preload="auto";
+  v.onerror=function(){end()};
+  v.onloadeddata=function(){
+    var t=isFinite(v.duration)?Math.min(1,v.duration/2):0;
+    if(t>0){v.onseeked=grab;v.currentTime=t}else grab();
+  };
+  v.src=url;v.load();
+}
+/* HEIC (iPhone) et TIFF : convertis sur l'appareil ; le convertisseur n'est téléchargé qu'au besoin */
+var LIBS={heic:"https://cdn.jsdelivr.net/npm/heic-to@1.5.2/dist/iife/heic-to.js",pako:"https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js",utif:"https://unpkg.com/utif@3.1.0/UTIF.js"},libP={};
+function loadLib(src){
+  if(!libP[src])libP[src]=new Promise(function(okf,ko){
+    var el=document.createElement("script");el.src=src;el.onload=function(){okf()};
+    el.onerror=function(){delete libP[src];el.remove();ko(new Error("net"))};document.head.appendChild(el);
+  });
+  return libP[src];
+}
+/* reconnaît le format d'après le contenu, même si l'extension est fausse ou absente */
+function sniff(f){
+  return f.slice(0,32).arrayBuffer().then(function(buf){
+    var h=String.fromCharCode.apply(null,new Uint8Array(buf));
+    if(/^(II\*\x00|MM\x00\*)/.test(h))return"tiff";
+    if(h.slice(4,8)==="ftyp"&&/hei[cxms]|hev[cx]|mif1|msf1/.test(h.slice(8)))return"heic";
+    return"";
+  });
+}
+function convert(f,kind,ready,fail){
+  var job;
+  document.body.style.cursor="progress";
+  if(kind==="heic")job=loadLib(LIBS.heic).then(function(){return window.HeicTo({blob:f,type:"image/jpeg",quality:.9})}).then(function(jpg){
+    return new Promise(function(okf,ko){var u=URL.createObjectURL(jpg);loadImg(u,function(im){URL.revokeObjectURL(u);okf([im,im.naturalWidth,im.naturalHeight])},function(){URL.revokeObjectURL(u);ko(new Error("read"))})});
+  });
+  else job=loadLib(LIBS.pako).then(function(){return loadLib(LIBS.utif)}).then(function(){return f.arrayBuffer()}).then(function(buf){
+    var pages=window.UTIF.decode(buf),area=function(p){return(p.t256?p.t256[0]:0)*(p.t257?p.t257[0]:0)};
+    var page=pages.slice().sort(function(a,b){return area(b)-area(a)})[0];
+    window.UTIF.decodeImage(buf,page);
+    var px=window.UTIF.toRGBA8(page),c=document.createElement("canvas");c.width=page.width;c.height=page.height;
+    c.getContext("2d").putImageData(new ImageData(new Uint8ClampedArray(px.buffer,px.byteOffset,px.byteLength),page.width,page.height),0,0);
+    return[c,c.width,c.height];
+  });
+  job.then(function(r){document.body.style.cursor="";ready(r[0],r[1],r[2])}).catch(function(err){
+    document.body.style.cursor="";fail(err&&err.message==="net"?"card_net_err":"card_bad");
+  });
+}
+function useFile(f){
+  if(!f)return;
+  var url=URL.createObjectURL(f);
+  function fail(key){
+    URL.revokeObjectURL(url);
+    /* détails affichés pour pouvoir identifier la cause */
+    var ext=(String(f.name).match(/\.[^.]+$/)||["?"])[0];
+    var info=ext+" · "+(f.type||"?")+" · "+(f.size<1048576?Math.ceil(f.size/1024)+" KB":(f.size/1048576).toFixed(1)+" MB");
+    UI.alert(tr(typeof key==="string"?key:"card_bad")+" ["+info+"]");
+  }
+  function ready(src,sw,sh){
+    /* un SVG peut ne pas avoir de taille : on lui donne celle de la carte */
+    if(!sw||!sh){sw=CW;sh=CH}
+    /* image redimensionnée avant enregistrement dans le navigateur */
+    var k=Math.max(CW/sw,CH/sh);if(!/svg/i.test(f.type))k=Math.min(1,k);
+    var t=document.createElement("canvas"),data;
+    t.width=Math.max(1,Math.round(sw*k));t.height=Math.max(1,Math.round(sh*k));
+    try{
+      var x=t.getContext("2d");x.fillStyle="#000";x.fillRect(0,0,t.width,t.height);x.drawImage(src,0,0,t.width,t.height);
+      data=t.toDataURL("image/jpeg",.86);
+    }catch(e){fail();return}
+    URL.revokeObjectURL(url);
+    var stored=true;try{localStorage.setItem(BGKEY,data)}catch(e){stored=false;try{localStorage.removeItem(BGKEY)}catch(x2){}}
+    loadImg(data,function(small){
+      bgImg=small;
+      if(cardBox)drawCard();else if(stats().n)openCard();
+      if(!stored)UI.alert(tr("card_nosave"));
+    });
+  }
+  function asImage(ko){loadImg(url,function(im){ready(im,im.naturalWidth,im.naturalHeight)},ko)}
+  if(/^video\//.test(f.type)||/\.(mp4|m4v|mov|webm|ogv|mkv|avi)$/i.test(f.name))readVideo(url,ready,function(){asImage(fail)});
+  else asImage(function(){
+    sniff(f).then(function(kind){
+      if(!kind&&/\.(heic|heif)$/i.test(f.name))kind="heic";
+      if(!kind&&/\.tiff?$/i.test(f.name))kind="tiff";
+      if(kind)convert(f,kind,ready,fail);else readVideo(url,ready,fail);
+    }).catch(function(){fail()});
+  });
+}
+$("cardFile").onchange=function(){var f=this.files[0];this.value="";useFile(f)};
 $("wipe").onclick=function(){if(S.trades.length)UI.confirm(tr("confirm_wipe"),function(){S.trades=[];save();render()})};
 
 document.addEventListener("langchange",function(){render()});
