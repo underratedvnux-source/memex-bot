@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calendrier PnL gratuit pour traders – Green Day</title>
-<meta name="description" content="Green Day : calendrier PnL gratuit et sans inscription. Note tes trades (memecoins, forex, crypto, actions) et suis tes gains et pertes jour après jour.">
+<title>Free PnL Calendar for Traders – Green Day</title>
+<meta name="description" content="Green Day: a free PnL calendar, no sign-up. Log your trades (memecoins, forex, crypto, stocks) and track your gains and losses day by day.">
 <meta name="theme-color" content="#000000">
 <style>
 /* ---- refonte accueil : le calendrier est le héros ---- */
@@ -534,7 +534,7 @@ html{scroll-padding-top:80px}
 
 /* fix 3: tout dimensionné d'après la hauteur de la fenêtre (placé après les règles de base via spécificité) */
 @media(min-width:901px){
-  .explain .stage .st-grid .sc{aspect-ratio:auto;height:clamp(22px,calc((100vh - 450px)/4),84px);min-height:0}
+  .explain .stage .st-grid .sc{aspect-ratio:auto;height:clamp(22px,calc((100vh - 450px)/5),84px);min-height:0}
   .explain .stage .st-grid .sc .d{top:3px}
 }
 @media(min-width:901px) and (max-height:760px){
@@ -554,19 +554,6 @@ html{scroll-padding-top:80px}
   .explain .steps em{display:none}
 }
 
-/* animation étape 3 : arrivée douce des PnL, sans rebond */
-.stage .sc{overflow:hidden;--ring:rgba(60,207,108,.5);--glow:rgba(60,207,108,.28)}
-.stage .sc.l{--ring:rgba(248,113,113,.45);--glow:rgba(248,113,113,.26)}
-.stage .sc .v{position:relative;z-index:2;display:inline-block;font-variant-numeric:tabular-nums}
-.stage .sc::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;z-index:1}
-.stage .sc.pop{animation:cin .7s cubic-bezier(.16,1,.3,1)}
-.stage .sc.pop::after{animation:cglow 1.1s ease-out;animation-delay:inherit}
-@keyframes cin{0%{transform:translateY(9px) scale(.95)}100%{transform:none}}
-@keyframes cglow{0%{opacity:1;box-shadow:inset 0 0 0 1px var(--ring),inset 0 0 22px var(--glow)}100%{opacity:0;box-shadow:inset 0 0 0 1px transparent,inset 0 0 0 transparent}}
-.stage .sc.k{background:linear-gradient(135deg,rgba(229,185,74,.34),rgba(229,185,74,.18));transition:background .8s,border-color .8s,box-shadow .8s;box-shadow:0 0 22px -6px rgba(229,185,74,.55)}
-.stage .sc.k::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;background:linear-gradient(115deg,transparent 35%,rgba(255,240,190,.5) 50%,transparent 65%);background-size:260% 100%;background-position:130% 0;opacity:0}
-.stage .sc.shine::before{animation:sheen 1.3s ease-out .05s both}
-@keyframes sheen{0%{opacity:1;background-position:130% 0}100%{opacity:1;background-position:-30% 0}}
 
 /* cartes pédagogiques du bas */
 main section.feat{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
@@ -679,43 +666,13 @@ body.app .gh-nav .gh-prev,body.app .gh-nav .gh-open{display:none}
 .explain.paused .steps .on .prog{animation-play-state:paused}
 @keyframes prog{to{width:100%}}
 
-.stage{position:relative;border-radius:22px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,#0e0e10,#070708);box-shadow:0 60px 120px -50px rgba(60,207,108,.45),0 0 0 1px rgba(255,255,255,.04);overflow:hidden}
-.st-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}
-.st-bar .dots{display:flex;gap:6px}
-.st-bar .dots i{width:10px;height:10px;border-radius:50%;background:#2a2a2e}
-.st-name{flex:1;text-align:center;font-size:12.5px;color:var(--mut);display:flex;justify-content:center;align-items:center;gap:8px}
-.st-name::before{content:"";width:12px;height:12px;border-radius:4px;background:var(--gain)}
-.pp{all:unset;cursor:pointer;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:var(--mut);font-size:11px}
-.pp:hover{background:var(--cell);color:var(--text)}
-.pp:focus-visible{outline:2px solid #fff}
+.stage{position:relative;border-radius:22px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(180deg,#0e0e10,#070708);box-shadow:0 50px 100px -50px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.03);overflow:hidden}
 .st-body{position:relative;padding:20px 20px 22px}
 .st-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;color:var(--mut);font-size:13px}
 .st-top strong{font-size:clamp(24px,3.4vw,34px);font-weight:600;letter-spacing:-.02em;color:var(--text);transition:color .4s}
-.stage[data-s="1"] .st-top strong,.stage[data-s="2"] .st-top strong{color:var(--gain)}
 .st-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;transition:filter .4s,opacity .4s}
-.stage[data-s="0"] .st-grid{filter:blur(1.5px);opacity:.45}
 .sc{position:relative;aspect-ratio:1.25;min-height:36px;border-radius:7px;border:1px solid var(--line);background:#0b0b0c;display:flex;align-items:flex-end;padding:5px 6px;font-size:clamp(9px,1.1vw,12px);font-weight:600;transition:background .5s,border-color .5s,transform .3s}
 .sc .d{position:absolute;top:4px;left:6px;font-size:10px;font-weight:500;color:#5e5e64}
-.sc.w{opacity:.35}
-.sc.g{background:rgba(60,207,108,calc(.12 + var(--i)*.55));border-color:rgba(60,207,108,.5);color:#eafff1}
-.sc.l{background:rgba(248,113,113,calc(.12 + var(--i)*.5));border-color:rgba(248,113,113,.5);color:#fff0f0}
-.sc.k{background:rgba(229,185,74,.28);border-color:var(--gold);color:#fff6dc}
-.sc.g .d,.sc.l .d,.sc.k .d{color:inherit;opacity:.75}
-.sc.pop{animation:cpop .6s cubic-bezier(.2,.9,.2,1.3)}
-@keyframes cpop{0%{transform:scale(.6)}60%{transform:scale(1.18);box-shadow:0 0 0 6px rgba(60,207,108,.25)}100%{transform:none}}
-.trade{position:absolute;left:50%;top:50%;width:min(78%,300px);transform:translate(-50%,-46%) scale(.94);opacity:0;visibility:hidden;transition:.45s;padding:18px;border-radius:16px;background:#121214;border:1px solid rgba(255,255,255,.14);box-shadow:0 30px 70px -20px #000}
-.stage[data-s="0"] .trade{opacity:1;visibility:visible;transform:translate(-50%,-50%)}
-.trade h4{margin:0 0 14px;font-family:var(--disp);font-size:16px}
-.trade .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px;color:var(--mut)}
-.chip{padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--text);font-size:12px}
-.field{min-width:92px;padding:6px 10px;border-radius:8px;border:1px solid rgba(60,207,108,.5);background:#0a0a0b;color:var(--gain);font-weight:600;text-align:right}
-.type{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0}
-.stage[data-s="0"] .type{animation:typ 1s steps(6) .5s forwards}
-@keyframes typ{to{width:6.2ch}}
-.addbtn{display:block;width:100%;margin-top:6px;padding:10px;border-radius:999px;background:linear-gradient(180deg,#fff,#d8d8dc);color:#0a0a0b;font-weight:600;font-size:13px;text-align:center}
-.stage[data-s="0"] .addbtn{animation:press .45s 2.4s both}
-@keyframes press{50%{transform:scale(.94);filter:brightness(.8)}}
-.stage[data-s="1"] .st-top::after{content:"";}
 .ex-cta{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap}
 .ex-note{margin:18px 0 0;font-size:13px;color:var(--mut)}
 @media(max-width:900px){
@@ -724,7 +681,7 @@ body.app .gh-nav .gh-prev,body.app .gh-nav .gh-open{display:none}
   .steps .on{transform:none}
   .flow .ar{display:none}
 }
-@media(prefers-reduced-motion:reduce){.eyebrow i,.steps .on .prog,.stage[data-s] .type,.stage[data-s] .addbtn,.sc.pop{animation:none!important}.stage[data-s="0"] .type{width:6.2ch}}
+@media(prefers-reduced-motion:reduce){.eyebrow i,.steps .on .prog{animation:none!important}}
 </style>
 <style>
 /* ---- hero gauche : un titre, une phrase, une action ---- */
@@ -882,94 +839,164 @@ body.app .gh-nav .gh-prev,body.app .gh-nav .gh-open{display:none}
 .card-actions span{flex:1}
 .wrap .tools #wipe{grid-column:1/-1}
 </style>
+
+<style>
+/* ---- démo « See how it works » v2 : sobre, pilotée par une timeline ---- */
+.stage .st-body{min-height:236px}
+.stage .st-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;align-items:stretch;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden}
+.stage .ks{background:#0b0b0d;padding:9px 12px;display:flex;flex-direction:column;gap:5px;min-width:0}
+.stage .ks .kl{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage .ks b{font-size:clamp(14px,1.9vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);transition:color .5s ease}
+.stage .ks b.up{color:var(--gain)}.stage .ks b.dn{color:var(--loss)}
+.stage .st-grid{filter:none;opacity:1}
+.stage .st-dow{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin:12px 0 6px}
+.stage .st-dow span{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);padding-left:6px}
+.stage .sc{overflow:hidden;background:#0b0b0c;transition:border-color .45s ease}
+.stage .sc::before{content:"";position:absolute;inset:0;background:var(--c,transparent);opacity:0;transition:opacity .45s ease;pointer-events:none;z-index:0}
+.stage .sc.up{--c:rgb(60,207,108)}.stage .sc.dn{--c:rgb(248,113,113)}
+.stage .sc.on::before{opacity:var(--a,.3);transition-duration:1.1s;transition-timing-function:cubic-bezier(.4,0,.2,1)}
+.stage .sc.on{transition-duration:1.1s}
+.stage .sc{border-radius:10px;border-color:rgba(255,255,255,.07)}
+.stage .sc.on.up{border-color:color-mix(in srgb,var(--gain) 28%,rgba(255,255,255,.06));color:var(--gain)}
+.stage .sc.on.dn{border-color:color-mix(in srgb,var(--loss) 28%,rgba(255,255,255,.06));color:var(--loss)}
+.stage .sc.sel:not(.on){border-color:rgba(255,255,255,.34)}
+.stage .sc.best{--c:rgb(229,185,74)}
+.stage .sc.best.on{border-color:color-mix(in srgb,var(--gold) 60%,transparent);color:var(--gold);transition-duration:1s}
+.stage .sc.best.on::before{opacity:.12}
+.stage .sc .d{z-index:2;transition:color .6s ease,opacity .6s ease}
+.stage .sc.on .d{color:inherit;opacity:.85}
+.stage .sc .v{position:relative;z-index:2;display:inline-block;opacity:0;transform:translateY(3px);transition:opacity .35s ease,transform .5s cubic-bezier(.22,.61,.36,1)}
+.stage .sc.on .v{opacity:1;transform:none;transition-delay:.3s}
+.stage .scrim{position:absolute;inset:0;background:rgba(7,7,8,.62);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s .45s;z-index:3}
+.stage.m .scrim{opacity:1;visibility:visible;transition-delay:0s}
+.stage .trade{position:absolute;left:50%;top:50%;width:min(88%,330px);padding:16px 16px 14px;border-radius:14px;background:#121214;border:1px solid rgba(255,255,255,.12);box-shadow:0 24px 60px -24px #000;z-index:4;opacity:0;visibility:hidden;transform:translate(-50%,-47%);transition:opacity .38s ease,transform .45s cubic-bezier(.22,.61,.36,1),visibility 0s .45s}
+.stage.m .trade{opacity:1;visibility:visible;transform:translate(-50%,-50%);transition-delay:0s}
+.stage .trade.out{transition-duration:.3s,.3s,0s;transition-delay:0s,0s,.3s;transform:translate(-50%,-49%)}
+.stage .th{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.stage .th h4{margin:0;font-family:var(--disp);font-size:15px;font-weight:600}
+.stage .trade .chip{font-size:11.5px;color:var(--mut)}
+.stage .trade .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px;font-size:12.5px;color:var(--mut)}
+.stage .fld{display:flex;align-items:center;justify-content:space-between;width:62%;min-width:0;height:32px;padding:0 10px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#0a0a0b;color:var(--text);font-size:13px;font-weight:500;white-space:nowrap;transition:border-color .25s ease,background-color .25s ease}
+.stage .fld.f{border-color:rgba(255,255,255,.34)}
+.stage .fld .tx{overflow:hidden;text-overflow:ellipsis;transition:opacity .3s ease}
+.stage .fld .tx.hid{opacity:0}
+.stage .fld svg{flex:none;margin-left:6px;color:var(--mut)}
+.stage .fld.pn .tx{color:var(--gain);font-weight:600}
+.stage .caret{display:none;width:1px;height:14px;background:var(--text);margin-left:1px;flex:none}
+.stage .fld.f .caret{display:block;animation:blink 1.05s steps(1) infinite}
+.stage .fld.f.sel2 .caret{display:none}
+.stage .fld .tx:empty+.caret{margin-left:0}
+@keyframes blink{50%{opacity:0}}
+.stage .addbtn{display:block;width:100%;margin-top:12px;padding:10px;border-radius:999px;background:#ededed;color:#0a0a0b;font-weight:600;font-size:13px;text-align:center;transition:background-color .18s ease,transform .14s ease}
+.stage .addbtn.hv{background:#fff}
+.stage .addbtn.pr{background:#cfcfd3;transform:scale(.985)}
+.stage .sc .v{white-space:nowrap}
+@media(max-width:480px){
+  .stage .st-grid{gap:4px}
+  .stage .sc{padding:3px 4px}
+  .stage .sc .v{font-size:8.5px;letter-spacing:-.01em}
+  .stage .sc .d{top:3px;left:4px;font-size:8px}
+  .stage .st-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stage .ks{padding:8px 12px}
+  .stage .fld{width:58%}
+}
+@media(prefers-reduced-motion:reduce){.stage *,.stage *::before{transition:none!important;animation:none!important}}
+</style>
 </head>
 <body>
 <canvas class="silk" id="silkc" aria-hidden="true"></canvas>
 <header class="gh"><div class="gh-in">
   <a class="brand" href="#accueil"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="0" y="0" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.16"/><rect x="8.8" y="0" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.28"/><rect x="17.6" y="0" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="1"/><rect x="0" y="8.8" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.16"/><rect x="8.8" y="8.8" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.62"/><rect x="17.6" y="8.8" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.3"/><rect x="0" y="17.6" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.38"/><rect x="8.8" y="17.6" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.18"/><rect x="17.6" y="17.6" width="6.4" height="6.4" rx="1.8" fill="#3ccf6c" fill-opacity="0.16"/></svg>Green Day</a>
   <nav class="gh-nav" aria-label="Navigation">
-    <a class="btn gh-home" href="#accueil" data-i18n="home">Accueil</a>
-    <button class="btn gh-prev" id="seePv2" type="button" data-i18n="see_demo">Voir comment ça marche</button>
+    <a class="btn gh-home" href="#accueil" data-i18n="home">Home</a>
+    <button class="btn gh-prev" id="seePv2" type="button" data-i18n="see_demo">See how it works</button>
   </nav>
   <div class="gh-r">
-    <div class="pills lang" id="lang" role="group" data-i18n-aria="lang_label" aria-label="Langue"><button type="button" class="pill" data-l="fr" aria-pressed="true">FR</button><button type="button" class="pill" data-l="en" aria-pressed="false">EN</button></div>
-    <a class="btn p gh-open" href="#app"><span data-i18n="open">Ouvrir le calendrier</span><i aria-hidden="true">→</i></a>
+    <div class="pills lang" id="lang" role="group" data-i18n-aria="lang_label" aria-label="Language"><button type="button" class="pill" data-l="en" aria-pressed="true">EN</button><button type="button" class="pill" data-l="fr" aria-pressed="false">FR</button></div>
+    <a class="btn p gh-open" href="#app"><span data-i18n="open">Open the calendar</span><i aria-hidden="true">→</i></a>
   </div>
 </div></header>
 <main id="home">
   <section class="hero2">
     <div class="hero-box">
-      <h1 data-i18n-html="h_title">Calendrier PnL gratuit<br>pour <em>traders.</em></h1>
-      <p class="lead" data-i18n="h_p">Note tes trades et vois ton mois passer au vert ou au rouge.</p>
-      <div class="cta"><a class="btn p" href="#app" data-i18n="open_free">Ouvrir le calendrier gratuit</a><button class="btn ghost" id="seePv" type="button" data-i18n="see_demo">Voir comment ça marche</button></div>
+      <h1 data-i18n-html="h_title">Free PnL calendar<br>for <em>traders.</em></h1>
+      <p class="lead" data-i18n="h_p">Log your trades and watch your month turn green or red.</p>
+      <div class="cta"><a class="btn p" href="#app" data-i18n="open_free">Open the free calendar</a><button class="btn ghost" id="seePv" type="button" data-i18n="see_demo">See how it works</button></div>
     </div>
     <section class="pvwrap" id="pvSection">
-    <div class="panel pv" data-i18n-aria="pv_label" aria-label="Aperçu du calendrier">
-      <div class="tt"><span data-i18n="pv_month">Juin 2026</span><strong id="pvTot"></strong></div>
+    <div class="panel pv" data-i18n-aria="pv_label" aria-label="Calendar preview">
+      <div class="tt"><span data-i18n="pv_month">June 2026</span><strong id="pvTot"></strong></div>
       <div class="grid" id="pvGrid"></div>
     </div>
   </section>
   </section>
   <section class="explain" id="explain" aria-labelledby="exH">
     <div class="ex-head">
-      <span class="kick" data-i18n="ex_kick">En 15 secondes</span>
-      <h2 id="exH" data-i18n="ex_h">C’est quoi Green Day ?</h2>
-      <p data-i18n="ex_sub">Un carnet de trading visuel : tu inscris ce que tu gagnes ou perds, et ton calendrier devient un tableau de bord vert (gains) et rouge (pertes). Idéal pour repérer tes bonnes et mauvaises séries.</p>
+      <span class="kick" data-i18n="ex_kick">In 15 seconds</span>
+      <h2 id="exH" data-i18n="ex_h">What is Green Day?</h2>
+      <p data-i18n="ex_sub">A visual trading journal: you log what you win or lose, and your calendar becomes a dashboard — green for gains, red for losses. Perfect to spot your good and bad streaks.</p>
     </div>
     <div class="ex-grid">
       <ol class="steps" id="exSteps">
-        <li><button type="button" data-n="0" class="on"><span class="num">1</span><span><b data-i18n="s1_h">Tu notes ton trade</b><em data-i18n="s1_p">Marché, note, résultat en $ ou €. 10 secondes, aucun compte à créer.</em></span><i class="prog"></i></button></li>
-        <li><button type="button" data-n="1"><span class="num">2</span><span><b data-i18n="s2_h">Le jour se colore</b><em data-i18n="s2_p">Vert si tu gagnes, rouge si tu perds. Plus le montant est gros, plus la couleur est forte.</em></span><i class="prog"></i></button></li>
-        <li><button type="button" data-n="2"><span class="num">3</span><span><b data-i18n="s3_h">Tu vois ton mois d’un coup d’œil</b><em data-i18n="s3_p">PnL total, taux de réussite, meilleur jour : tout se met à jour tout seul.</em></span><i class="prog"></i></button></li>
+        <li><button type="button" data-n="0" class="on"><span class="num">1</span><span><b data-i18n="s1_h">Log your trade</b><em data-i18n="s1_p">Market, note, result in $ or €. 10 seconds, no account to create.</em></span><i class="prog"></i></button></li>
+        <li><button type="button" data-n="1"><span class="num">2</span><span><b data-i18n="s2_h">The day turns color</b><em data-i18n="s2_p">Green if you win, red if you lose. The bigger the amount, the stronger the color.</em></span><i class="prog"></i></button></li>
+        <li><button type="button" data-n="2"><span class="num">3</span><span><b data-i18n="s3_h">See your month at a glance</b><em data-i18n="s3_p">Total PnL, win rate, best day: everything updates by itself.</em></span><i class="prog"></i></button></li>
       </ol>
-      <div class="stage" id="stage" data-s="0" role="img" data-i18n-aria="ex_aria" aria-label="Animation : on ajoute un trade, le jour se colore en vert, puis le mois entier apparaît.">
-        <div class="st-bar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="st-name">Green Day</span><button type="button" class="pp" id="exPP" data-i18n-aria="ex_pause" aria-label="Pause">❚❚</button></div>
+      <div class="stage" id="stage" data-s="0" role="img" data-i18n-aria="ex_aria" aria-label="Animation: a trade is added, the day turns green, then the whole month appears.">
         <div class="st-body">
-          <div class="st-top"><span data-i18n="pv_tt">PnL du mois</span><strong id="stTot">0</strong></div>
+          <div class="st-top st-stats" aria-hidden="true">
+            <div class="ks"><span class="kl" data-i18n="k_net">Net PnL</span><b id="sNet">0 €</b></div>
+            <div class="ks"><span class="kl" data-i18n="k_win">Win rate</span><b id="sWin">—</b></div>
+            <div class="ks"><span class="kl" data-i18n="k_trades">Trades</span><b id="sTr">0</b></div>
+            <div class="ks"><span class="kl" data-i18n="k_best">Best day</span><b id="sBest">—</b></div>
+          </div>
+          <div class="st-dow" id="stDow" aria-hidden="true"></div>
           <div class="st-grid" id="stGrid" aria-hidden="true"></div>
-          <div class="trade" aria-hidden="true">
-            <h4 data-i18n="st_new">Nouveau trade</h4>
-            <div class="row"><span data-i18n="f_market">Marché</span><span class="chip" data-i18n="m_memecoin">Memecoins</span></div>
-            <div class="row"><span data-i18n="f_pnl_s">PnL</span><span class="field"><span class="type" id="stType">+140 €</span></span></div>
-            <span class="addbtn" data-i18n="add">Ajouter le trade</span>
+          <div class="scrim" aria-hidden="true"></div>
+          <div class="trade" id="stTrade" aria-hidden="true">
+            <div class="th"><h4 data-i18n="st_new">New trade</h4><span class="chip" id="stDate"></span></div>
+            <div class="row"><span data-i18n="f_market">Market</span><span class="fld" id="fM"><span class="tx hid" data-i18n="m_memecoin">Memecoins</span><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3.8l3 3 3-3"/></svg></span></div>
+            <div class="row"><span data-i18n="f_pnl_s">PnL</span><span class="fld pn" id="fP"><span class="tx" id="stPnl"></span><i class="caret"></i></span></div>
+            <div class="row"><span data-i18n="f_note">Note</span><span class="fld" id="fN"><span class="tx" id="stNote"></span><i class="caret"></i></span></div>
+            <span class="addbtn" id="stAdd" data-i18n="add">Add trade</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="ex-cta"><a class="btn p" href="#app" data-i18n="open_free">Ouvrir le calendrier gratuit</a></div>
-    <p class="ex-note" data-i18n="ex_note">Gratuit · sans inscription · tes données restent dans ton navigateur.</p>
+    <div class="ex-cta"><a class="btn p" href="#app" data-i18n="open_free">Open the free calendar</a></div>
+    <p class="ex-note" data-i18n="ex_note">Free · no sign-up · your data stays in your browser.</p>
   </section>
   <section class="feat">
-    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13l4-4 3 3 6-7M12 5h4v4"/></svg></span><h3 data-i18n="f1_h"></h3><p data-i18n="f1_p"></p></div>
-    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="7"/><circle cx="9" cy="9" r="3.5"/><path d="M9 9h.01"/></svg></span><h3 data-i18n="f2_h"></h3><p data-i18n="f2_p"></p></div>
-    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 9a6 6 0 1 1-2-4.5M15 3v3h-3"/></svg></span><h3 data-i18n="f3_h"></h3><p data-i18n="f3_p"></p></div>
-    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2l2 5 5 .5-4 3.5 1.3 5L9 13l-4.300 3 1.300-5L2 7.500 7 7z"/></svg></span><h3 data-i18n="f4_h"></h3><p data-i18n="f4_p"></p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 13l4-4 3 3 6-7M12 5h4v4"/></svg></span><h3 data-i18n="f1_h">Small green days build big months.</h3><p data-i18n="f1_p">Show up, log it, repeat.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="7"/><circle cx="9" cy="9" r="3.5"/><path d="M9 9h.01"/></svg></span><h3 data-i18n="f2_h">Discipline beats luck.</h3><p data-i18n="f2_p">Stick to your plan, trade after trade.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 9a6 6 0 1 1-2-4.5M15 3v3h-3"/></svg></span><h3 data-i18n="f3_h">A red day is a lesson.</h3><p data-i18n="f3_p">Log it, learn it, come back sharper.</p></div>
+    <div><span class="ico"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 2l2 5 5 .5-4 3.5 1.3 5L9 13l-4.300 3 1.300-5L2 7.500 7 7z"/></svg></span><h3 data-i18n="f4_h">Be better than yesterday.</h3><p data-i18n="f4_p">Every logged trade makes you sharper.</p></div>
   </section>
 </main>
 
 <div class="wrap">
 
-  <section class="panel" data-i18n-aria="cal_label" aria-label="Calendrier de PnL">
+  <section class="panel" data-i18n-aria="cal_label" aria-label="PnL calendar">
     <div class="head">
       <div class="l">
         <div class="nav">
-          <button class="ib" id="prev" type="button" data-i18n-aria="prev" aria-label="Mois précédent">‹</button>
+          <button class="ib" id="prev" type="button" data-i18n-aria="prev" aria-label="Previous month">‹</button>
           <h2 id="title"></h2>
-          <button class="ib" id="next" type="button" data-i18n-aria="next" aria-label="Mois suivant">›</button>
+          <button class="ib" id="next" type="button" data-i18n-aria="next" aria-label="Next month">›</button>
         </div>
-        <button class="ib boxed" id="today" type="button" data-i18n-aria="today_l" data-i18n-title="today_t" aria-label="Revenir à aujourd’hui" data-tip="Aujourd’hui"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="10.5" rx="2"/><path d="M2 6.5h12M5.5 1.8v2.4M10.5 1.8v2.4"/><circle cx="8" cy="10" r="1" fill="currentColor"/></svg></button>
-        <button class="ib boxed" id="best" type="button" data-i18n-aria="best_l" data-i18n-title="best_t" aria-label="Aller au meilleur jour du mois" data-tip="Meilleur jour"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.2l1.8 3.7 4 .6-2.9 2.8.7 4L8 11.4 4.4 13.3l.7-4L2.2 6.5l4-.6z"/></svg></button>
+        <button class="ib boxed" id="today" type="button" data-i18n-aria="today_l" data-i18n-title="today_t" aria-label="Back to today" data-tip="Today"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="10.5" rx="2"/><path d="M2 6.5h12M5.5 1.8v2.4M10.5 1.8v2.4"/><circle cx="8" cy="10" r="1" fill="currentColor"/></svg></button>
+        <button class="ib boxed" id="best" type="button" data-i18n-aria="best_l" data-i18n-title="best_t" aria-label="Go to the best day of the month" data-tip="Best day"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.2l1.8 3.7 4 .6-2.9 2.8.7 4L8 11.4 4.4 13.3l.7-4L2.2 6.5l4-.6z"/></svg></button>
       </div>
       <div class="r">
-        <div class="pills" id="pills" role="group" data-i18n-aria="filter_label" aria-label="Filtrer par marché"></div>
+        <div class="pills" id="pills" role="group" data-i18n-aria="filter_label" aria-label="Filter by market"></div>
       </div>
     </div>
 
     <div class="kpis">
-      <div class="kpi"><span class="k" data-i18n="k_net">PnL net</span><b id="kNet"></b></div>
-      <div class="kpi"><span class="k" data-i18n="k_win">Taux de réussite</span><b id="kWin"></b></div>
+      <div class="kpi"><span class="k" data-i18n="k_net">Net PnL</span><b id="kNet"></b></div>
+      <div class="kpi"><span class="k" data-i18n="k_win">Win rate</span><b id="kWin"></b></div>
       <div class="kpi"><span class="k" data-i18n="k_trades">Trades</span><b id="kTr"></b></div>
-      <div class="kpi"><span class="k" data-i18n="k_best">Meilleur jour</span><b id="kBest"></b></div>
+      <div class="kpi"><span class="k" data-i18n="k_best">Best day</span><b id="kBest"></b></div>
     </div>
     <div class="bar" id="bar"></div>
     <div class="bl"><span class="a" id="bl"></span><span class="b" id="br"></span></div>
@@ -983,32 +1010,32 @@ body.app .gh-nav .gh-prev,body.app .gh-nav .gh-open{display:none}
     <ul class="list" id="list"></ul>
     <form id="form" autocomplete="off" novalidate>
       <label><span data-i18n="f_date">Date</span><input type="hidden" id="fdate"></label>
-      <label><span data-i18n="f_market">Marché</span>
+      <label><span data-i18n="f_market">Market</span>
         <select id="fmarket">
           <option value="memecoin" data-i18n="m_memecoin">Memecoins</option>
           <option value="forex" data-i18n="m_forex">Forex</option>
           <option value="crypto" data-i18n="m_crypto">Crypto</option>
-          <option value="actions" data-i18n="m_actions">Actions</option>
-          <option value="autre" data-i18n="m_autre">Autre</option>
+          <option value="actions" data-i18n="m_actions">Stocks</option>
+          <option value="autre" data-i18n="m_autre">Other</option>
         </select>
       </label>
-      <label><span data-i18n="f_note">Note</span><input type="text" id="fnote" maxlength="160" spellcheck="false" data-i18n-ph="note_ph" placeholder="Setup, erreur, leçon…"></label>
-      <label><span data-i18n="f_pnl">PnL (ex : -25 ou 140,5)</span><input type="text" inputmode="decimal" id="fpnl" placeholder="-25" required></label>
-      <div class="full w"><button class="btn p" type="submit" data-i18n="add">Ajouter le trade</button></div>
+      <label><span data-i18n="f_note">Note</span><input type="text" id="fnote" maxlength="160" spellcheck="false" data-i18n-ph="note_ph" placeholder="Setup, mistake, lesson…"></label>
+      <label><span data-i18n="f_pnl">PnL (e.g. -25 or 140.5)</span><input type="text" inputmode="decimal" id="fpnl" placeholder="-25" required></label>
+      <div class="full w"><button class="btn p" type="submit" data-i18n="add">Add trade</button></div>
     </form>
   </section>
 
   <section class="panel">
     <div class="tools">
-      <label for="cur" style="color:var(--mut);font-size:13px" data-i18n="cur">Devise</label>
+      <label for="cur" style="color:var(--mut);font-size:13px" data-i18n="cur">Currency</label>
       <select id="cur"><option>$</option><option>€</option><option>£</option></select>
       <span class="sp"></span>
-      <button class="btn card-go" id="cardOpen" type="button" data-i18n="card_open">PnL du mois</button>
-      <button class="btn" id="cardBg" type="button" data-i18n="card_bg">Changer le fond</button>
-      <button class="btn" id="wipe" type="button" data-i18n="wipe">Tout effacer</button>
+      <button class="btn card-go" id="cardOpen" type="button" data-i18n="card_open">Monthly PnL</button>
+      <button class="btn" id="cardBg" type="button" data-i18n="card_bg">Change background</button>
+      <button class="btn" id="wipe" type="button" data-i18n="wipe">Clear all</button>
       <input type="file" id="cardFile" hidden>
     </div>
-    <p class="hint" data-i18n="hint">Tes trades sont enregistrés uniquement dans ce navigateur.</p>
+    <p class="hint" data-i18n="hint">Your trades are saved only in this browser.</p>
   </section>
 </div>
 
@@ -1068,10 +1095,9 @@ en:{
  err_pnl:"PnL must be a number, for example -25 or 140.5.", imported:"{n} trades imported.", err_json:"Unrecognized JSON file.",
  confirm_wipe:"Delete all trades from this browser? This cannot be undone.", csv_head:"date,market,symbol,pnl,note"
 }};
-var KEY="pnl-lang",L="fr";
-function guess(){return /^fr/i.test(navigator.language||"")?"fr":"en"}
-try{var s=localStorage.getItem(KEY);L=(s==="fr"||s==="en")?s:guess()}catch(e){L=guess()}
-function t(k,p){var s=(D[L]&&D[L][k])||D.fr[k]||k;if(p)for(var x in p)s=s.replace("{"+x+"}",p[x]);return s}
+var KEY="pnl-lang",L="en"; /* anglais par défaut pour tout nouveau visiteur, quelle que soit la langue du navigateur */
+try{var s=localStorage.getItem(KEY);if(s==="fr"||s==="en")L=s}catch(e){}
+function t(k,p){var s=(D[L]&&D[L][k])||D.en[k]||k;if(p)for(var x in p)s=s.replace("{"+x+"}",p[x]);return s}
 function each(sel,fn){Array.prototype.forEach.call(document.querySelectorAll(sel),fn)}
 function apply(){
   document.documentElement.lang=L;
@@ -1586,7 +1612,7 @@ render();
 </script>
 <script>
 (function(){
-function isFr(){return (document.documentElement.lang||"fr")!=="en"}
+function isFr(){return document.documentElement.lang==="fr"}
 function loc(){return isFr()?"fr-FR":"en-US"}
 var DOWS={fr:["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"],en:["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]};
 var V=[85,-40,150,-20,310,35,-25,120,-60,45,-95,220,60,-15,70,-30,40,180,-55,90,-35,95,-120,260,40,-45,75,130,-70,110]; /* juin 2026 : le 1er est un lundi */
@@ -1658,55 +1684,114 @@ requestAnimationFrame(frame);
 <script>
 (function(){
 var st=document.getElementById("stage");if(!st)return;
-var sec=document.getElementById("explain"),grid=document.getElementById("stGrid"),tot=document.getElementById("stTot"),pp=document.getElementById("exPP"),typ=document.getElementById("stType");
+var sec=document.getElementById("explain"),grid=document.getElementById("stGrid");
 var btns=[].slice.call(document.querySelectorAll("#exSteps button"));
 var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
-var V=[30,85,-40,120,60,25,-20,210,-65,140,95,-30,55,-15,45,180,-90,75,260,40,-25,130,-55,95,310,70,65,-35],NEW=9,DURS=[3000,2600,4000],BEST=V.indexOf(Math.max.apply(null,V));
-var cells=V.map(function(v,i){var c=document.createElement("div");c.className="sc"+(v===null?" w":"");c.innerHTML='<span class="d">'+(i+1)+'</span><span class="v"></span>';grid.appendChild(c);return c});
-function cur(){return document.documentElement.lang==="en"?"$":"€"}
-function fmt(n){var s=Math.abs(Math.round(n)).toLocaleString(document.documentElement.lang==="en"?"en-US":"fr-FR");return(n>0?"+":n<0?"−":"")+s+" "+cur()}
-function paint(i,on,delay){var c=cells[i],v=V[i];if(v===null)return;
-  c.style.transitionDelay=on?delay+"ms":"0ms";
-  if(on){c.classList.remove("g","l","k");c.style.setProperty("--i",Math.min(1,Math.abs(v)/300));c.classList.add(v>0?"g":"l");c.querySelector(".v").textContent=fmt(v);
-    if(delay>=0){c.classList.remove("pop");void c.offsetWidth;c.style.animationDelay=delay+"ms";c.classList.add("pop")}}
-  else{c.classList.remove("g","l","k","pop");c.querySelector(".v").textContent=""}}
-var raf,timer,tm=[],n=0,playing=!reduce;
-function count(to,ms){cancelAnimationFrame(raf);var t0=performance.now(),from=0;
-  (function s(t){var p=Math.min(1,(t-t0)/ms),e=1-Math.pow(1-p,3);tot.textContent=fmt(from+(to-from)*e);if(p<1)raf=requestAnimationFrame(s)})(t0)}
-var sum=V.reduce(function(a,b){return a+(b||0)},0);
-function go(k){n=k;st.dataset.s=k;
+/* données d'exemple : un mois, quelques jours sans trade (dimanches) */
+var V=[85,-40,-20,150,45,-95,60,120,35,-25,-60,220,70,-15,-55,90,310,-30,-70,75,40,180,-120,260,-35,95,-45,40,130,110]; /* juin 2026 : gains et pertes mélangés, pas alignés par colonne (mêmes valeurs → mêmes totaux) */
+var T=V.map(function(v,i){return v===null?0:1+((i*7+2)%4)});
+var NEW=7,DURS=[5600,3400,7000],SNAP=[3300,1e9,1e9],ROW=7;
+var BEST=0;V.forEach(function(v,i){if(v!==null&&v>V[BEST])BEST=i});
+var cells=V.map(function(v,i){var c=document.createElement("div");c.className="sc";c.innerHTML='<span class="d">'+(i+1)+'</span><span class="v"></span>';grid.appendChild(c);return c});
+var $=function(id){return document.getElementById(id)};
+var kNet=$("sNet"),kWin=$("sWin"),kTr=$("sTr"),kBest=$("sBest"),trade=$("stTrade"),fP=$("fP"),fN=$("fN"),fM=$("fM"),tP=$("stPnl"),tN=$("stNote"),add=$("stAdd");
+function en(){return document.documentElement.lang==="en"}
+function cur(){return en()?"$":"€"}
+function dows(){$("stDow").innerHTML=(en()?["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]:["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"]).map(function(x){return"<span>"+x+"</span>"}).join("")}
+dows();document.addEventListener("langchange",dows);
+function fmt(n){var s=Math.abs(Math.round(n)).toLocaleString(en()?"en-US":"fr-FR"),sg=n>0?"+":n<0?"-":"";return en()?sg+"$"+s:sg+s+" €"}
+function pct(p){p=Math.round(p);return p+(en()?"%":" %")}
+/* ----- cases ----- */
+function fill(i){var c=cells[i],v=V[i];if(v===null)return;
+  c.classList.remove("up","dn");c.classList.add(v>0?"up":"dn","on");
+  c.style.setProperty("--a",(.04+Math.min(1,Math.abs(v)/310)*.11).toFixed(3));
+  c.querySelector(".v").textContent=fmt(v)}
+function clear(i){cells[i].classList.remove("on","best","sel")}
+/* ----- stats : transitions douces, une seule boucle ----- */
+var anims=[],raf2=0;
+function tw(el,to,ms,f){
+  if(reduce||ms<=0){el._cur=to;el.textContent=f(to);anims=anims.filter(function(a){return a.el!==el});return}
+  var from=el._cur==null?to:el._cur;anims=anims.filter(function(a){return a.el!==el});
+  anims.push({el:el,from:from,to:to,t0:performance.now(),ms:ms,f:f});if(!raf2)raf2=requestAnimationFrame(stepA)}
+function stepA(now){anims=anims.filter(function(a){var p=Math.min(1,(now-a.t0)/a.ms),e=1-Math.pow(1-p,3),v=a.from+(a.to-a.from)*e;a.el._cur=v;a.el.textContent=a.f(p>=1?a.to:v);return p<1});
+  raf2=anims.length?requestAnimationFrame(stepA):0}
+function stats(n,ms){var net=0,w=0,d=0,t=0,b=null;
+  for(var i=0;i<n;i++){var v=V[i];if(v===null)continue;net+=v;d++;t+=T[i];if(v>0)w++;if(b===null||v>b)b=v}
+  tw(kNet,net,ms,fmt);kNet.className=net>0?"up":net<0?"dn":"";
+  if(d){tw(kWin,Math.round(w/d*100),ms,pct)}else{kWin._cur=null;kWin.textContent="—"}
+  tw(kTr,t,ms,function(x){return String(Math.round(x))});
+  if(b!==null){tw(kBest,b,ms,fmt);kBest.className=b>0?"up":"dn"}else{kBest._cur=null;kBest.textContent="—";kBest.className=""}}
+/* ----- état de départ de chaque étape (transition douce depuis l'état courant) ----- */
+function base(k){
+  var n0=k===2?NEW+1:NEW;
+  cells.forEach(function(_,i){if(i<n0)fill(i);else clear(i)});
+  cells.forEach(function(c){c.classList.remove("best")});
+  cells[NEW].classList.toggle("sel",k===1);
+  stats(n0,reduce?0:600);
+  st.classList.remove("m");trade.classList.remove("out");
+  [fM,fP,fN].forEach(function(f){f.classList.remove("f")});
+  fM.querySelector(".tx").classList.add("hid");tP.textContent="";tN.textContent="";
+  add.classList.remove("hv","pr");
+  $("stDate").textContent=new Date(2026,5,NEW+1).toLocaleDateString(en()?"en-US":"fr-FR",{day:"numeric",month:"long"})}
+/* ----- timeline ----- */
+var evs=[],ei=0,clock=0,DUR=0,solo=false,playing=!reduce,n=0,looping=0,lastT=0,seq=0;
+function E(t,f){evs.push([t,f,seq++])}
+function typeTo(el,str,t0,gaps){var t=t0;for(var i=1;i<=str.length;i++){(function(j){E(t,function(){el.textContent=str.slice(0,j)})})(i);t+=gaps[(i-1)%gaps.length]}return t}
+function build(k){evs=[];seq=0;ei=0;
+  if(k===0){
+    E(250,function(){cells[NEW].classList.add("sel")});
+    E(600,function(){st.classList.add("m")});
+    E(1250,function(){fM.classList.add("f")});
+    E(1650,function(){fM.querySelector(".tx").classList.remove("hid")});
+    E(2050,function(){fM.classList.remove("f");fP.classList.add("f")});
+    var tt=typeTo(tP,"+120",2300,[170,130,150,190]);
+    E(tt,function(){tP.textContent="+120 "+cur()});
+    E(tt+500,function(){fP.classList.remove("f");fN.classList.add("f")});
+    typeTo(tN,"Breakout 1H",tt+750,[70,55,80,60,65,90,55,70,60,85,75]);
+    E(3300,function(){fN.classList.remove("f")});
+    E(3650,function(){add.classList.add("hv")});
+    E(4150,function(){add.classList.add("pr")});
+    E(4300,function(){add.classList.remove("pr")});
+    E(4450,function(){trade.classList.add("out");st.classList.remove("m")});
+  }else if(k===1){
+    E(400,function(){fill(NEW);stats(NEW+1,1100)});
+    E(1900,function(){cells[NEW].classList.remove("sel")});
+  }else{
+    var best=-1;
+    function row(r,from,t){var last=0;
+      for(var i=from;i<Math.min(V.length,(r+1)*ROW);i++){(function(i,d){last=d;E(t+d,function(){fill(i)})})(i,(i%ROW-(from%ROW))*115)}
+      E(t+last+300,function(){stats(Math.min(V.length,(r+1)*ROW),1000)});return t+last+300}
+    row(1,NEW+1,300);row(2,2*ROW,1800);row(3,3*ROW,3300);var e3=row(4,4*ROW,4800);
+    E(e3+700,function(){cells[BEST].classList.add("best")});
+  }
+  evs.sort(function(a,b){return a[0]-b[0]||a[2]-b[2]})}
+function frame(now){
+  var dt=Math.min(64,now-lastT);lastT=now;
+  if(!(playing||solo)){looping=0;return}
+  clock+=dt;
+  while(ei<evs.length&&evs[ei][0]<=clock){evs[ei][1]();ei++}
+  if(clock>=DUR){if(playing){go((n+1)%3);return}solo=false;looping=0;return}
+  looping=requestAnimationFrame(frame)}
+function kick(){if(!looping){lastT=performance.now();looping=requestAnimationFrame(frame)}}
+function go(k){
+  cancelAnimationFrame(looping);looping=0;
+  n=k;st.dataset.s=k;clock=0;DUR=DURS[k];
   btns.forEach(function(b,i){b.classList.toggle("on",i===k);b.setAttribute("aria-current",i===k?"step":"false")});
-  cells.forEach(function(_,i){
-    if(k===0)paint(i,false);
-    else if(k===1){paint(i,i===NEW,350)}
-    else paint(i,true,300+i*45)});
-
-  if(k===0){cancelAnimationFrame(raf);tot.textContent=fmt(0);typ.textContent="+140 "+cur()}
-  if(k===1){cancelAnimationFrame(raf);setTimeout(function(){if(+st.dataset.s===1)count(V[NEW],700)},350)}
-  if(k===2){cancelAnimationFrame(raf);tot.textContent=fmt(0);
-    cells.forEach(function(c){c.querySelector(".v").textContent="";c.classList.remove("shine")});
-    var t0=performance.now(),STEP=45,BASE=300,LIFE=560,END=BASE+(V.length-1)*STEP+LIFE,last=[],gold=false;
-    (function f(t){if(+st.dataset.s!==2)return;
-      var el=t-t0,acc=0;
-      for(var i=0;i<V.length;i++){var v=V[i],p=Math.max(0,Math.min(1,(el-BASE-i*STEP)/LIFE)),e=1-Math.pow(1-p,4),x=v*e;acc+=x;
-        var txt=(p<=0||Math.abs(x)<.5)?"":fmt(p>=1?v:x);
-        if(last[i]!==txt){cells[i].querySelector(".v").textContent=txt;last[i]=txt}}
-      tot.textContent=fmt(acc);
-      if(!gold&&el>END){gold=true;cells[BEST].classList.remove("g");cells[BEST].classList.add("k","shine")}
-      if(el<END+50)raf=requestAnimationFrame(f);else tot.textContent=fmt(sum)})(t0)}
-/* relance la barre de progression */
+  base(k);build(k);
+  /* barre de progression : redémarre avec la scène */
   var b=btns[k],p=b.querySelector(".prog");b.style.setProperty("--dur",(DURS[k]/1000)+"s");p.style.animation="none";void p.offsetWidth;p.style.animation="";
-  clearTimeout(timer);if(playing)timer=setTimeout(function(){go((n+1)%3)},DURS[k])}
+  if(reduce){ /* état final de l'étape, sans mouvement */
+    while(ei<evs.length&&evs[ei][0]<=SNAP[k]){evs[ei][1]();ei++}evs=[];ei=0;
+    if(playing)kick();return}
+  solo=!playing;kick()}
 function setPlay(v){playing=v;sec.classList.toggle("paused",!v);
-  pp.textContent=v?"❚❚":"▶";pp.setAttribute("aria-label",document.documentElement.lang==="en"?(v?"Pause":"Play"):(v?"Pause":"Lecture"));
-  clearTimeout(timer);if(v)timer=setTimeout(function(){go((n+1)%3)},DURS[n])}
+  
+  if(v)kick()}
 btns.forEach(function(b){b.addEventListener("click",function(){go(+b.dataset.n)})});
-pp.addEventListener("click",function(){setPlay(!playing)});
 /* ne tourne que lorsque la zone est visible */
 var vis=true;
 if("IntersectionObserver" in window)new IntersectionObserver(function(e){var v=e[0].isIntersecting;
   if(v&&!vis&&!reduce&&!sec.dataset.manual)setPlay(true);if(!v&&vis&&playing){setPlay(false)}vis=v},{threshold:.25}).observe(st);
-pp.addEventListener("click",function(){sec.dataset.manual="1"});
 document.addEventListener("langchange",function(){go(n)});
 if(reduce){setPlay(false);go(2)}else go(0);
 /* "Voir comment ça marche" : la démo entière (titre → bouton) tient dans la fenêtre */
