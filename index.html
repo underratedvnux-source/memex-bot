@@ -1065,7 +1065,7 @@ fr:{
  sub_none:"Aucun trade ce mois-ci. Clique sur un jour pour en ajouter un.",
  pick_day:"Choisis un jour", noname:"Sans nom", del:"Supprimer", del_l:"Supprimer ce trade",
  day_empty:"Aucun trade ce jour-là. Ajoute-le ci-dessous.", wk_title:"Ta semaine", wk_trade1:"trade", wk_tradeN:"trades", wk_none:"aucun ce jour-là",
- card_open:"PnL du mois", card_bg:"Changer le fond", card_reset:"Fond par défaut", card_dl:"Télécharger (PNG)", card_close:"Fermer", card_title:"PnL du mois", card_none:"Aucun trade ce mois-ci. Ajoute un trade pour générer l'image.", card_net_err:"Ce format doit être converti, et le convertisseur n'a pas pu se charger. Vérifie ta connexion internet puis réessaie.", card_bad:"Ton navigateur ne sait pas lire ce fichier. Convertis-le en JPG ou en PNG, ou fais-en une capture d'écran.", card_nosave:"Ce fond est appliqué, mais il n'a pas pu être enregistré pour ta prochaine visite.", card_net:"PnL net", card_win:"Taux de réussite", card_best:"Meilleur jour",
+ card_open:"PnL du mois", card_bg:"Changer le fond", card_reset:"Fond par défaut", card_dl:"Télécharger (PNG)", card_dlv:"Télécharger la vidéo", card_rec:"Enregistrement", card_novid:"Ton navigateur ne peut pas enregistrer la vidéo. Télécharge l'image (PNG) ou essaie avec Chrome ou Edge.", card_close:"Fermer", card_title:"PnL du mois", card_none:"Aucun trade ce mois-ci. Ajoute un trade pour générer l'image.", card_net_err:"Ce format doit être converti, et le convertisseur n'a pas pu se charger. Vérifie ta connexion internet puis réessaie.", card_bad:"Ton navigateur ne sait pas lire ce fichier. Convertis-le en JPG ou en PNG, ou fais-en une capture d'écran.", card_nosave:"Ce fond est appliqué, mais il n'a pas pu être enregistré pour ta prochaine visite.", card_net:"PnL net", card_win:"Taux de réussite", card_best:"Meilleur jour",
  err_pnl:"Le PnL doit être un nombre, par exemple -25 ou 140,5.", imported:"{n} trades importés.", err_json:"Fichier JSON non reconnu.",
  confirm_wipe:"Supprimer tous les trades de ce navigateur ? C’est définitif.", csv_head:"date,marche,symbole,pnl,note"
 },
@@ -1091,7 +1091,7 @@ en:{
  sub_none:"No trades this month. Click a day to add one.",
  pick_day:"Pick a day", noname:"Untitled", del:"Delete", del_l:"Delete this trade",
  day_empty:"No trades on this day. Add one below.", wk_title:"Your week", wk_trade1:"trade", wk_tradeN:"trades", wk_none:"none on this day",
- card_open:"Monthly PnL", card_bg:"Change background", card_reset:"Default background", card_dl:"Download (PNG)", card_close:"Close", card_title:"Monthly PnL", card_none:"No trades this month. Add a trade to generate the image.", card_net_err:"This format needs converting, and the converter couldn't load. Check your internet connection and try again.", card_bad:"Your browser can't read this file. Convert it to JPG or PNG, or take a screenshot of it.", card_nosave:"Background applied, but it could not be saved for your next visit.", card_net:"Net PnL", card_win:"Win rate", card_best:"Best day",
+ card_open:"Monthly PnL", card_bg:"Change background", card_reset:"Default background", card_dl:"Download (PNG)", card_dlv:"Download video", card_rec:"Recording", card_novid:"Your browser can't record the video. Download the image (PNG) or try Chrome or Edge.", card_close:"Close", card_title:"Monthly PnL", card_none:"No trades this month. Add a trade to generate the image.", card_net_err:"This format needs converting, and the converter couldn't load. Check your internet connection and try again.", card_bad:"Your browser can't read this file. Convert it to JPG or PNG, or take a screenshot of it.", card_nosave:"Background applied, but it could not be saved for your next visit.", card_net:"Net PnL", card_win:"Win rate", card_best:"Best day",
  err_pnl:"PnL must be a number, for example -25 or 140.5.", imported:"{n} trades imported.", err_json:"Unrecognized JSON file.",
  confirm_wipe:"Delete all trades from this browser? This cannot be undone.", csv_head:"date,market,symbol,pnl,note"
 }};
@@ -1444,13 +1444,16 @@ function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);
 function font(c,w,px){c.font=w+" "+px+"px "+getComputedStyle(document.body).fontFamily}
 function fitText(c,txt,w,px,max){do{font(c,w,px);px-=4}while(c.measureText(txt).width>max&&px>20)}
 
-function drawCard(){
-  var c=cardCv.getContext("2d"),st=stats(),up=st.tot>0,dn=st.tot<0;
-  var col=up?"#3ccf6c":dn?"#f0444f":"#9a9aa2",g,i,j;
+var fgCv=null,curSt=null,bgVid=null,bgVidUrl=null,vidRaf=0,VDB="green-day-bg",VKEY="video";
+function vidReady(){return !!(bgVid&&bgVid.readyState>=2&&bgVid.videoWidth>0)}
+/* fond : image ou image courante de la vidéo + voile */
+function drawBg(c,st){
+  var up=st.tot>0,dn=st.tot<0,g,i,j;
   c.clearRect(0,0,CW,CH);c.textAlign="left";c.textBaseline="alphabetic";
-  if(bgImg){
-    var k=Math.max(CW/bgImg.width,CH/bgImg.height),w=bgImg.width*k,h=bgImg.height*k;
-    c.drawImage(bgImg,(CW-w)/2,(CH-h)/2,w,h);
+  var src=vidReady()?bgVid:bgImg;
+  if(src){
+    var sw=src.videoWidth||src.width,sh=src.videoHeight||src.height,k=Math.max(CW/sw,CH/sh),w=sw*k,h=sh*k;
+    c.drawImage(src,(CW-w)/2,(CH-h)/2,w,h);
     /* voile à gauche pour garder le texte lisible */
     g=c.createLinearGradient(0,0,CW,0);g.addColorStop(0,"rgba(0,0,0,.82)");g.addColorStop(.55,"rgba(0,0,0,.52)");g.addColorStop(1,"rgba(0,0,0,.12)");
     c.fillStyle=g;c.fillRect(0,0,CW,CH);
@@ -1466,6 +1469,11 @@ function drawCard(){
       rr(c,1300+i*112,330+j*112,94,94,20);c.fill();
     }
   }
+}
+/* premier plan : logo, mois, chiffres (dessiné une seule fois, puis réutilisé à chaque image de la vidéo) */
+function drawFg(c,st){
+  var up=st.tot>0,dn=st.tot<0,col=up?"#3ccf6c":dn?"#f0444f":"#9a9aa2",i;
+  c.textAlign="left";c.textBaseline="alphabetic";
   var shades=["#14532d","#166534","#3ccf6c","#166534","#3ccf6c","#14532d","#22844a","#14532d","#166534"];
   for(i=0;i<9;i++){c.fillStyle=shades[i];rr(c,160+(i%3)*30,160+Math.floor(i/3)*30,23,23,5);c.fill()}
   c.fillStyle="#f4f4f5";font(c,700,66);c.fillText("Green Day",274,216);
@@ -1483,25 +1491,67 @@ function drawCard(){
   if(S.filter!=="all"){c.fillStyle="#b4b4bb";font(c,500,44);c.fillText(MN(S.filter),164,520)}
 }
 
-function closeCard(){if(cardBox){cardBox.remove();cardBox=null;document.removeEventListener("keydown",escCard);$("cardOpen").focus()}}
+function paint(){if(!cardCv||!fgCv||!curSt)return;var c=cardCv.getContext("2d");drawBg(c,curSt);c.drawImage(fgCv,0,0)}
+function drawCard(){
+  curSt=stats();if(!fgCv)fgCv=document.createElement("canvas");fgCv.width=CW;fgCv.height=CH;
+  drawFg(fgCv.getContext("2d"),curSt);paint()}
+/* ---- fond vidéo ---- */
+function idb(op,val){return new Promise(function(ok){try{
+  var r=indexedDB.open(VDB,1);r.onupgradeneeded=function(){r.result.createObjectStore("kv")};r.onerror=function(){ok(op==="put"?false:null)};
+  r.onsuccess=function(){try{var db=r.result,t=db.transaction("kv",op==="get"?"readonly":"readwrite"),o=t.objectStore("kv"),q=op==="get"?o.get(VKEY):op==="put"?o.put(val,VKEY):o.delete(VKEY);
+    t.oncomplete=function(){db.close();ok(op==="get"?(q.result||null):true)};t.onerror=t.onabort=function(){db.close();ok(op==="put"?false:null)}}catch(e){ok(op==="put"?false:null)}}
+}catch(e){ok(op==="put"?false:null)}})}
+function stopVid(){cancelAnimationFrame(vidRaf);vidRaf=0;if(bgVid)bgVid.pause()}
+function startVid(){
+  stopVid();if(!bgVid||!cardBox)return;
+  var pr=bgVid.play();if(pr&&pr.catch)pr.catch(function(){});
+  var last=0;(function tick(t){if(!cardBox||!bgVid){vidRaf=0;return}if(t-last>=33){last=t;paint()}vidRaf=requestAnimationFrame(tick)})(0)}
+function dropVideo(){stopVid();if(bgVid){bgVid.removeAttribute("src");bgVid.load();bgVid=null}if(bgVidUrl){URL.revokeObjectURL(bgVidUrl);bgVidUrl=null}}
+function clearVideo(){dropVideo();idb("del")}
+function setVideo(blob,done){
+  var url=URL.createObjectURL(blob),v=document.createElement("video");
+  v.muted=true;v.loop=true;v.playsInline=true;v.preload="auto";
+  v.onloadeddata=function(){if(!v.videoWidth){URL.revokeObjectURL(url);done(false);return}dropVideo();bgVid=v;bgVidUrl=url;done(true)};
+  v.onerror=function(){URL.revokeObjectURL(url);done(false)};
+  v.src=url;v.load()}
+function syncActions(){if(!cardBox)return;var b=cardBox.querySelector('[data-a="dlv"]');if(b)b.style.display=bgVid?"":"none"}
+/* enregistre une boucle de la vidéo (avec les chiffres par-dessus) */
+function recordVideo(btn){
+  var types=["video/mp4;codecs=avc1","video/webm;codecs=vp9","video/webm;codecs=vp8","video/webm"],mime="",i;
+  if(window.MediaRecorder&&cardCv.captureStream)for(i=0;i<types.length;i++)if(MediaRecorder.isTypeSupported(types[i])){mime=types[i];break}
+  if(!mime||!bgVid){UI.alert(tr("card_novid"));return}
+  var secs=isFinite(bgVid.duration)&&bgVid.duration>0?Math.min(bgVid.duration,15):8,label=btn.textContent,chunks=[],rec,left=Math.ceil(secs),tk,type=mime.split(";")[0];
+  try{rec=new MediaRecorder(cardCv.captureStream(30),{mimeType:mime,videoBitsPerSecond:8000000})}catch(e){UI.alert(tr("card_novid"));return}
+  rec.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data)};
+  rec.onstop=function(){clearInterval(tk);btn.disabled=false;btn.textContent=label;
+    if(chunks.length)dl("green-day-"+S.y+"-"+pad(S.m+1)+"."+(type==="video/mp4"?"mp4":"webm"),type,new Blob(chunks,{type:type}))};
+  btn.disabled=true;btn.textContent=tr("card_rec")+" "+left+"s";
+  tk=setInterval(function(){left--;if(left>0)btn.textContent=tr("card_rec")+" "+left+"s"},1000);
+  bgVid.currentTime=0;startVid();rec.start();
+  setTimeout(function(){if(rec.state!=="inactive")rec.stop()},secs*1000)}
+/* le fond vidéo choisi lors d'une visite précédente */
+idb("get").then(function(b){if(b&&b.size)setVideo(b,function(ok){if(ok&&cardBox){drawCard();syncActions();startVid()}})});
+
+function closeCard(){if(cardBox){stopVid();cardBox.remove();cardBox=null;document.removeEventListener("keydown",escCard);$("cardOpen").focus()}}
 function escCard(e){if(e.key==="Escape")closeCard()}
 function openCard(){
   if(!stats().n){UI.alert(tr("card_none"));return}
   cardBox=document.createElement("div");cardBox.className="card-ov";
-  cardBox.innerHTML='<div class="card-dlg" role="dialog" aria-modal="true" aria-label="'+tr("card_title")+'"><canvas width="'+CW+'" height="'+CH+'"></canvas><div class="card-actions"><button type="button" class="btn" data-a="bg">'+tr("card_bg")+'</button><button type="button" class="btn" data-a="reset">'+tr("card_reset")+'</button><span></span><button type="button" class="btn" data-a="close">'+tr("card_close")+'</button><button type="button" class="btn card-go" data-a="dl">'+tr("card_dl")+'</button></div></div>';
+  cardBox.innerHTML='<div class="card-dlg" role="dialog" aria-modal="true" aria-label="'+tr("card_title")+'"><canvas width="'+CW+'" height="'+CH+'"></canvas><div class="card-actions"><button type="button" class="btn" data-a="bg">'+tr("card_bg")+'</button><button type="button" class="btn" data-a="reset">'+tr("card_reset")+'</button><span></span><button type="button" class="btn" data-a="close">'+tr("card_close")+'</button><button type="button" class="btn" data-a="dlv" style="display:none">'+tr("card_dlv")+'</button><button type="button" class="btn card-go" data-a="dl">'+tr("card_dl")+'</button></div></div>';
   cardCv=cardBox.querySelector("canvas");
   cardBox.addEventListener("click",function(e){
     if(e.target===cardBox){closeCard();return}
     var b=e.target.closest("[data-a]");if(!b)return;var a=b.getAttribute("data-a");
     if(a==="close")closeCard();
     else if(a==="bg")$("cardFile").click();
-    else if(a==="reset"){bgImg=null;try{localStorage.removeItem(BGKEY)}catch(x){}drawCard()}
+    else if(a==="reset"){clearVideo();bgImg=null;try{localStorage.removeItem(BGKEY)}catch(x){}drawCard();syncActions()}
+    else if(a==="dlv")recordVideo(b)
     else cardCv.toBlob(function(blob){dl("green-day-"+S.y+"-"+pad(S.m+1)+".png","image/png",blob)},"image/png");
   });
   cardBox.addEventListener("dragover",function(e){e.preventDefault()});
   cardBox.addEventListener("drop",function(e){e.preventDefault();useFile(e.dataTransfer&&e.dataTransfer.files[0])});
   document.addEventListener("keydown",escCard);
-  document.body.appendChild(cardBox);drawCard();cardBox.querySelector('[data-a="dl"]').focus();
+  document.body.appendChild(cardBox);drawCard();syncActions();startVid();cardBox.querySelector('[data-a="dl"]').focus();
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){if(cardBox)drawCard()});
 }
 $("cardOpen").onclick=openCard;
@@ -1583,13 +1633,19 @@ function useFile(f){
     URL.revokeObjectURL(url);
     var stored=true;try{localStorage.setItem(BGKEY,data)}catch(e){stored=false;try{localStorage.removeItem(BGKEY)}catch(x2){}}
     loadImg(data,function(small){
-      bgImg=small;
-      if(cardBox)drawCard();else if(stats().n)openCard();
+      clearVideo();bgImg=small;
+      if(cardBox){drawCard();syncActions()}else if(stats().n)openCard();
       if(!stored)UI.alert(tr("card_nosave"));
     });
   }
   function asImage(ko){loadImg(url,function(im){ready(im,im.naturalWidth,im.naturalHeight)},ko)}
-  if(/^video\//.test(f.type)||/\.(mp4|m4v|mov|webm|ogv|mkv|avi)$/i.test(f.name))readVideo(url,ready,function(){asImage(fail)});
+  if(/^video\//.test(f.type)||/\.(mp4|m4v|mov|webm|ogv|mkv|avi)$/i.test(f.name))
+    setVideo(f,function(ok){
+      if(!ok){readVideo(url,ready,function(){asImage(fail)});return}
+      URL.revokeObjectURL(url);bgImg=null;try{localStorage.removeItem(BGKEY)}catch(e){}
+      idb("put",f).then(function(saved){if(saved===false)UI.alert(tr("card_nosave"))});
+      if(cardBox){drawCard();syncActions();startVid()}else if(stats().n)openCard();
+    });
   else asImage(function(){
     sniff(f).then(function(kind){
       if(!kind&&/\.(heic|heif)$/i.test(f.name))kind="heic";
@@ -1833,6 +1889,16 @@ fit();
 </script>
 <script>
 (function(){var h=document.querySelector("header.gh");if(!h)return;function f(){h.classList.toggle("scrolled",window.pageYOffset>8)}f();addEventListener("scroll",f,{passive:true})})();
+/* "Accueil" / logo : retour en haut de la page d'accueil, depuis n'importe quelle section */
+(function(){
+  var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function goHome(e){
+    e.preventDefault();
+    if(location.hash==="#app"){location.hash="#accueil";return}
+    window.scrollTo({top:0,behavior:reduce?"auto":"smooth"});
+  }
+  document.querySelectorAll(".gh-home,header.gh .brand").forEach(function(a){a.addEventListener("click",goHome)});
+})();
 </script>
 </body>
 </html>
