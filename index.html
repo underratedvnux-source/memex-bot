@@ -1032,6 +1032,43 @@ P.apply(g,l,false);
 .au .au-me{margin:6px 0 20px;font-size:15px}
 .au .au-me b{color:var(--gain)}
 </style>
+<style>
+/* ---- amis ---- */
+#frM[hidden]{display:none}
+.au.fr{max-width:520px;max-height:90vh;overflow:auto}
+.au.fr h3{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin:22px 0 8px}
+.au .fr-p{margin:0 0 10px;font-size:13px;color:#b4b4b9}
+.fr-row{display:flex;gap:8px}
+.fr-row input{flex:1;min-width:0;min-height:40px;border-radius:10px;font-size:13px}
+.fr-row .btn{white-space:nowrap;border-radius:10px;min-height:40px}
+.au .au-err.ok{color:var(--gain)}
+.fr-ul{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.fr-ul li{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.fr-ul li:last-child{border-bottom:0}
+.fr-ul .fr-n{flex:1;min-width:0}
+.fr-ul .fr-n b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.fr-ul .fr-n small{color:var(--mut);font-size:12px}
+.fr-ul .fr-v{font-weight:600}
+.fr-ul .none{display:block;padding:16px 14px;color:var(--mut);font-size:13px}
+.fr-ul .btn{min-height:32px;padding:0 12px;border-radius:8px}
+.gn{color:var(--gain)}.ls{color:var(--loss)}
+.fr-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 14px}
+.fr-hd .btn{min-height:34px;border-radius:8px}
+.fr-mo{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 12px;font-weight:600;text-transform:capitalize}
+.fr-mo button{width:32px;height:32px;min-height:0;padding:0;border:1px solid var(--line);border-radius:8px;background:none;font-size:16px}
+.fr-mo button:hover{background:var(--cell)}
+.fr-sum{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:0 0 14px}
+.fr-sum div{background:var(--cell);border-radius:10px;padding:10px 12px}
+.fr-sum span{display:block;font-size:11px;color:var(--mut)}
+.fr-sum b{font-size:16px}
+.fr-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.fr-g .h{font-size:11px;color:var(--mut);text-align:center;padding-bottom:2px}
+.fr-g .c{min-height:54px;border-radius:8px;background:var(--cell);padding:4px 5px;font-size:10.5px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.fr-g .c i{font-style:normal;color:var(--mut);font-size:10px}
+.fr-g .c b{font-weight:600;font-size:11px;word-break:break-all}
+.fr-g .e{background:none}
+@media(max-width:520px){.fr-g .c{min-height:46px;padding:3px}.fr-g .c b{font-size:9.5px}.fr-row{flex-wrap:wrap}.fr-row .btn{width:100%}}
+</style>
 </head>
 <body>
 <canvas class="silk" id="silkc" aria-hidden="true"></canvas>
@@ -1040,6 +1077,7 @@ P.apply(g,l,false);
   <nav class="gh-nav" aria-label="Navigation">
     <a class="btn gh-home" href="#accueil" data-i18n="home">Home</a>
     <button class="btn gh-prev" id="seePv2" type="button" data-i18n="see_demo">See how it works</button>
+    <button class="btn gh-friends" id="friendsBtn" type="button" aria-haspopup="dialog" data-i18n="friends">Friends</button>
   </nav>
   <div class="gh-r">
     <div class="pills lang" id="lang" role="group" data-i18n-aria="lang_label" aria-label="Language"><button type="button" class="pill" data-l="en" aria-pressed="true">EN</button><button type="button" class="pill" data-l="fr" aria-pressed="false">FR</button></div>
@@ -1195,6 +1233,13 @@ fr:{
  meta_desc:"Calendrier de PnL pour tes trades memecoins, forex, crypto et actions.",
  lang_label:"Langue", k_net:"PnL net", k_win:"Taux de réussite", k_trades:"Trades", k_best:"Meilleur jour", pct:"{p} %", d_win1:"jour gagnant", d_winN:"jours gagnants", d_loss1:"jour perdant", d_lossN:"jours perdants", ok:"OK", cancel:"Annuler",
  open:"Ouvrir le calendrier", home:"Accueil",
+ friends:"Amis", fr_title:"Mes amis", fr_sub:"Partage ton PnL avec tes amis et regarde le leur.",
+ fr_share_h:"Mon lien à partager", fr_share_p:"Envoie ce lien à un ami : il pourra voir ton PnL jour par jour (montants et nombre de trades, rien d’autre).",
+ fr_copy_link:"Copier le lien", fr_copy_code:"Copier le code à la place", fr_copied:"Copié !", fr_add_h:"Ajouter un ami", fr_add_ph:"Colle le lien ou le code de ton ami", fr_add_btn:"Ajouter",
+ fr_list_h:"Tes amis", fr_empty:"Aucun ami pour l’instant. Colle le lien d’un ami ci-dessus.", fr_view:"Voir", fr_remove:"Retirer", fr_sure:"Confirmer ?", fr_back:"Retour",
+ fr_total:"PnL du mois", fr_days:"Jours tradés", fr_win:"Jours gagnants", fr_best:"Meilleur jour", fr_upd:"Mis à jour le", fr_prevm:"Mois précédent", fr_nextm:"Mois suivant",
+ fr_note:"Les données sont des copies envoyées par tes amis : pour les mettre à jour, redemande-leur un lien et recolle-le. Chacun doit ajouter l’autre pour que ce soit réciproque.",
+ fr_ok_add:"{n} ajouté(e) à tes amis.", fr_ok_upd:"Données de {n} mises à jour.", err_code:"Lien ou code invalide.", err_self:"C’est ton propre lien : envoie-le à un ami.", fr_invite:"Invitation reçue : clique sur Ajouter pour confirmer.",
  signin:"Se connecter", auth_t_in:"Connexion", auth_t_up:"Créer un compte", auth_sub_in:"Retrouve ton compte avec ton nom d’utilisateur.", auth_sub_up:"Choisis un nom d’utilisateur et un mot de passe.",
  auth_user:"Nom d’utilisateur", auth_pass:"Mot de passe", auth_pass2:"Confirmer le mot de passe", auth_go_in:"Se connecter", auth_go_up:"Créer mon compte",
  auth_switch_up:"Pas encore de compte ? Crée-en un", auth_switch_in:"Déjà un compte ? Connecte-toi", auth_close:"Fermer", auth_hello:"Connecté en tant que", auth_logout:"Se déconnecter",
@@ -1233,6 +1278,13 @@ en:{
  meta_desc:"PnL calendar for your memecoin, forex, crypto and stock trades.",
  lang_label:"Language", k_net:"Net PnL", k_win:"Win rate", k_trades:"Trades", k_best:"Best day", pct:"{p}%", d_win1:"winning day", d_winN:"winning days", d_loss1:"losing day", d_lossN:"losing days", ok:"OK", cancel:"Cancel",
  open:"Open the calendar", home:"Home",
+ friends:"Friends", fr_title:"My friends", fr_sub:"Share your PnL with friends and see theirs.",
+ fr_share_h:"My link to share", fr_share_p:"Send this link to a friend: they’ll see your PnL day by day (amounts and trade counts, nothing else).",
+ fr_copy_link:"Copy link", fr_copy_code:"Copy the code instead", fr_copied:"Copied!", fr_add_h:"Add a friend", fr_add_ph:"Paste your friend’s link or code", fr_add_btn:"Add",
+ fr_list_h:"Your friends", fr_empty:"No friends yet. Paste a friend’s link above.", fr_view:"View", fr_remove:"Remove", fr_sure:"Confirm?", fr_back:"Back",
+ fr_total:"Month PnL", fr_days:"Trading days", fr_win:"Winning days", fr_best:"Best day", fr_upd:"Updated", fr_prevm:"Previous month", fr_nextm:"Next month",
+ fr_note:"Data is a copy sent by your friends: to refresh it, ask them for a new link and paste it again. Each of you must add the other for it to be mutual.",
+ fr_ok_add:"{n} added to your friends.", fr_ok_upd:"{n}’s data updated.", err_code:"Invalid link or code.", err_self:"That’s your own link: send it to a friend.", fr_invite:"Invitation received: click Add to confirm.",
  signin:"Sign in", auth_t_in:"Sign in", auth_t_up:"Create an account", auth_sub_in:"Welcome back. Enter your username and password.", auth_sub_up:"Pick a username and a password.",
  auth_user:"Username", auth_pass:"Password", auth_pass2:"Confirm password", auth_go_in:"Sign in", auth_go_up:"Create my account",
  auth_switch_up:"No account yet? Create one", auth_switch_in:"Already have an account? Sign in", auth_close:"Close", auth_hello:"Signed in as", auth_logout:"Sign out",
@@ -2270,6 +2322,7 @@ addEventListener("scroll",function(){if(open)place()},{passive:true});
     <div id="auIn" hidden>
       <h2><span data-i18n="auth_hello">Signed in as</span></h2>
       <p class="au-me"><b id="auMe"></b></p>
+      <button class="btn p au-go" id="auFr" type="button" data-i18n="friends" style="margin-bottom:10px">Friends</button>
       <button class="btn au-go" id="auOutBtn" type="button" data-i18n="auth_logout">Sign out</button>
     </div>
   </div>
@@ -2322,12 +2375,12 @@ document.getElementById("auX").addEventListener("click",closeM);
 m.addEventListener("mousedown",function(e){if(e.target===m)closeM()});
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden){e.preventDefault();closeM()}});
 sw.addEventListener("click",function(){setErr("");ip.value="";ip2.value="";setMode(mode==="in"?"up":"in")});
-document.getElementById("auOutBtn").addEventListener("click",function(){setSession("");renderBtn();closeM()});
+document.getElementById("auOutBtn").addEventListener("click",function(){setSession("");renderBtn();closeM();document.dispatchEvent(new Event("authchange"))});
 fo.addEventListener("submit",function(e){
   e.preventDefault();setErr("");
   var name=iu.value.trim(),key=name.toLowerCase(),pw=ip.value,users=load();
   function fail(k){setErr(k);go.disabled=false}
-  function ok(u){setSession(u.name);renderBtn();go.disabled=false;closeM()}
+  function ok(u){setSession(u.name);renderBtn();go.disabled=false;closeM();document.dispatchEvent(new Event("authchange"))}
   if(mode==="up"){
     if(!/^[A-Za-z0-9_.-]{3,20}$/.test(name))return setErr("err_user");
     if(pw.length<8)return setErr("err_pass");
@@ -2349,7 +2402,188 @@ fo.addEventListener("submit",function(e){
   }
 });
 document.addEventListener("langchange",function(){renderBtn();if(!m.hidden&&!out.hidden)setMode(mode)});
+window.GD={user:function(){var n=session(),u=load()[n.toLowerCase()];return u?u.name:""},openAuth:openM};
 renderBtn();
+})();
+</script>
+<div class="md" id="frM" role="dialog" aria-modal="true" aria-labelledby="frT" hidden>
+  <div class="au fr">
+    <button class="au-x" id="frX" type="button" data-i18n-aria="auth_close" aria-label="Close">×</button>
+    <div id="frList">
+      <h2 id="frT" data-i18n="fr_title">My friends</h2>
+      <p class="au-sub" data-i18n="fr_sub">Share your PnL with friends and see theirs.</p>
+      <h3 data-i18n="fr_share_h">My link to share</h3>
+      <p class="fr-p" data-i18n="fr_share_p">Send this link to a friend.</p>
+      <div class="fr-row"><input id="frLink" type="text" readonly aria-label="Link"><button class="btn p" id="frCopyL" type="button" data-i18n="fr_copy_link">Copy link</button></div>
+      <button class="au-sw" id="frCopyC" type="button" data-i18n="fr_copy_code" style="margin:8px 0 0">Copy the code instead</button>
+      <h3 data-i18n="fr_add_h">Add a friend</h3>
+      <div class="fr-row"><input id="frIn" type="text" autocomplete="off" spellcheck="false" data-i18n-ph="fr_add_ph" placeholder="Paste your friend’s link or code"><button class="btn p" id="frAdd" type="button" data-i18n="fr_add_btn">Add</button></div>
+      <p class="au-err" id="frSt" role="status" style="margin-top:8px"></p>
+      <h3 data-i18n="fr_list_h">Your friends</h3>
+      <ul class="fr-ul" id="frUl"></ul>
+      <p class="au-hint" data-i18n="fr_note">Data is a copy sent by your friends.</p>
+    </div>
+    <div id="frView" hidden>
+      <div class="fr-hd"><button class="btn" id="frBack" type="button" data-i18n="fr_back">Back</button></div>
+      <h2 id="fvN"></h2>
+      <p class="au-sub" id="fvU"></p>
+      <div class="fr-mo"><button id="fvP" type="button" data-i18n-aria="fr_prevm" aria-label="Previous month">‹</button><span id="fvM"></span><button id="fvX" type="button" data-i18n-aria="fr_nextm" aria-label="Next month">›</button></div>
+      <div class="fr-sum" id="fvS"></div>
+      <div class="fr-g" id="fvG"></div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+var KEY="pnl-calendar-v1",CUR=["$","€","£"];
+function $(i){return document.getElementById(i)}
+function tr(k,p){var s=T.t(k);if(p)for(var x in p)s=s.replace("{"+x+"}",p[x]);return s}
+function pad(n){return String(n).padStart(2,"0")}
+function user(){return window.GD?GD.user():""}
+function fk(){return "gd-friends:"+user().toLowerCase()}
+function loadF(){try{var a=JSON.parse(localStorage.getItem(fk()));return Array.isArray(a)?a:[]}catch(e){return []}}
+function saveF(a){try{localStorage.setItem(fk(),JSON.stringify(a));return true}catch(e){return false}}
+function b64e(s){return btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function b64d(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return decodeURIComponent(escape(atob(s)))}
+function localize(root){
+  root.querySelectorAll("[data-i18n]").forEach(function(e){e.textContent=tr(e.getAttribute("data-i18n"))});
+  root.querySelectorAll("[data-i18n-ph]").forEach(function(e){e.setAttribute("placeholder",tr(e.getAttribute("data-i18n-ph")))});
+  root.querySelectorAll("[data-i18n-aria]").forEach(function(e){e.setAttribute("aria-label",tr(e.getAttribute("data-i18n-aria")))});
+}
+/* mon code : uniquement le net par jour et le nombre de trades, 180 derniers jours */
+function myCode(){
+  var d={},c=new Date();c.setDate(c.getDate()-180);
+  var cs=c.getFullYear()+"-"+pad(c.getMonth()+1)+"-"+pad(c.getDate()),cur="$",tr0=[];
+  try{var r=JSON.parse(localStorage.getItem(KEY));if(r){if(Array.isArray(r.trades))tr0=r.trades;if(CUR.indexOf(r.currency)>-1)cur=r.currency}}catch(e){}
+  tr0.forEach(function(t){
+    if(t&&/^\d{4}-\d{2}-\d{2}$/.test(t.date||"")&&t.date>=cs&&isFinite(Number(t.pnl))){var o=d[t.date]||(d[t.date]=[0,0]);o[0]+=Number(t.pnl);o[1]++}
+  });
+  Object.keys(d).forEach(function(k){d[k][0]=Math.round(d[k][0]*100)/100});
+  return "GD1."+b64e(JSON.stringify({v:1,u:user(),c:cur,d:d}));
+}
+function parseCode(inp){
+  try{
+    var s=String(inp||"").trim(),i=s.indexOf("friend=");if(i>-1)s=s.slice(i+7);
+    s=s.split(/[\s&]/)[0];if(s.indexOf("GD1.")!==0)return null;
+    var o=JSON.parse(b64d(s.slice(4))),days={},n=0;
+    if(!o||o.v!==1||!/^[A-Za-z0-9_.-]{3,20}$/.test(o.u||"")||CUR.indexOf(o.c)<0||!o.d||typeof o.d!=="object")return null;
+    for(var k in o.d){
+      var v=o.d[k];if(++n>400)return null;
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||!Array.isArray(v)||v.length!==2||!isFinite(v[0])||!isFinite(v[1]))return null;
+      days[k]=[Number(v[0]),Math.max(0,Math.floor(Number(v[1])))];
+    }
+    return {name:o.u,cur:o.c,days:days,at:Date.now()};
+  }catch(e){return null}
+}
+function fmt(n,cur,dec){
+  if(n===0)return "0"+cur;
+  return (n>0?"+":"-")+cur+Math.abs(n).toLocaleString(T.loc(),{minimumFractionDigits:dec?2:0,maximumFractionDigits:dec?2:0});
+}
+function cl(n){return n>0?"gn":n<0?"ls":""}
+function monthStats(f,y,mo){
+  var pre=y+"-"+pad(mo+1)+"-",tot=0,days=0,win=0,best=null,map={};
+  Object.keys(f.days).forEach(function(k){
+    if(k.indexOf(pre)!==0)return;
+    var p=f.days[k][0];map[parseInt(k.slice(8),10)]=f.days[k];tot+=p;days++;if(p>0)win++;if(best===null||p>best)best=p;
+  });
+  return {tot:tot,days:days,win:win,best:best,map:map};
+}
+
+var m=$("frM"),st=$("frSt"),ul=$("frUl"),prev=null,vf=null,vy=0,vm=0,rmTimer=null,pending=false;
+function setSt(msg,ok){st.textContent=msg||"";st.className="au-err"+(ok?" ok":"")}
+function renderList(){
+  var link=location.origin&&location.origin!=="null"?location.origin+location.pathname+"#friend="+myCode():myCode();
+  $("frLink").value=link;
+  var a=loadF(),now=new Date();ul.innerHTML="";
+  if(!a.length){var li=document.createElement("li"),sp=document.createElement("span");sp.className="none";sp.textContent=tr("fr_empty");li.appendChild(sp);ul.appendChild(li);return}
+  a.forEach(function(f,i){
+    var s=monthStats(f,now.getFullYear(),now.getMonth()),li=document.createElement("li"),n=document.createElement("div"),b=document.createElement("b"),sm=document.createElement("small"),v=document.createElement("span"),bv=document.createElement("button"),br=document.createElement("button");
+    n.className="fr-n";b.textContent=f.name;sm.textContent=tr("fr_upd")+" "+new Date(f.at).toLocaleDateString(T.loc());n.appendChild(b);n.appendChild(sm);
+    v.className="fr-v "+cl(s.tot);v.textContent=fmt(s.tot,f.cur,false);
+    bv.className="btn";bv.type="button";bv.textContent=tr("fr_view");bv.onclick=function(){openView(f)};
+    br.className="btn";br.type="button";br.textContent=tr("fr_remove");
+    br.onclick=function(){
+      if(br.getAttribute("data-s")!=="1"){br.setAttribute("data-s","1");br.textContent=tr("fr_sure");clearTimeout(rmTimer);rmTimer=setTimeout(function(){br.removeAttribute("data-s");br.textContent=tr("fr_remove")},3000);return}
+      var all=loadF();all.splice(i,1);saveF(all);renderList();
+    };
+    li.appendChild(n);li.appendChild(v);li.appendChild(bv);li.appendChild(br);ul.appendChild(li);
+  });
+}
+function renderView(){
+  var f=vf,s=monthStats(f,vy,vm),g=$("fvG"),first=(new Date(vy,vm,1).getDay()+6)%7,dim=new Date(vy,vm+1,0).getDate(),mx=0;
+  $("fvN").textContent=f.name;$("fvU").textContent=tr("fr_upd")+" "+new Date(f.at).toLocaleDateString(T.loc());
+  $("fvM").textContent=new Date(vy,vm,1).toLocaleDateString(T.loc(),{month:"long",year:"numeric"});
+  Object.keys(s.map).forEach(function(k){mx=Math.max(mx,Math.abs(s.map[k][0]))});
+  var sum=$("fvS");sum.innerHTML="";
+  [[tr("fr_total"),fmt(s.tot,f.cur,true),cl(s.tot)],[tr("fr_best"),s.best===null?"—":fmt(s.best,f.cur,true),cl(s.best||0)],[tr("fr_days"),String(s.days),""],[tr("fr_win"),s.days?Math.round(100*s.win/s.days)+" %":"—",""]].forEach(function(r){
+    var d=document.createElement("div"),l=document.createElement("span"),b=document.createElement("b");l.textContent=r[0];b.textContent=r[1];b.className=r[2];d.appendChild(l);d.appendChild(b);sum.appendChild(d);
+  });
+  g.innerHTML="";
+  T.dow().forEach(function(x){var h=document.createElement("div");h.className="h";h.textContent=x;g.appendChild(h)});
+  for(var i=0;i<first;i++){var e=document.createElement("div");e.className="c e";g.appendChild(e)}
+  for(var d=1;d<=dim;d++){
+    var c=document.createElement("div"),n=document.createElement("i"),o=s.map[d];c.className="c";n.textContent=d;c.appendChild(n);
+    if(o){
+      var b=document.createElement("b"),a=.16+.5*(mx?Math.min(1,Math.abs(o[0])/mx):0);
+      b.textContent=fmt(o[0],f.cur,false);
+      c.style.background=o[0]>0?"rgba(60,207,108,"+a+")":o[0]<0?"rgba(248,113,113,"+a+")":"var(--cell-h)";
+      c.title=o[1]+" trade"+(o[1]>1?"s":"");c.appendChild(b);
+    }
+    g.appendChild(c);
+  }
+}
+function openView(f){
+  vf=f;var n=new Date();vy=n.getFullYear();vm=n.getMonth();
+  $("frList").hidden=true;$("frView").hidden=false;renderView();$("frBack").focus();
+}
+function openM(code){
+  if(!user()){pending=code||true;GD.openAuth();return}
+  prev=document.activeElement;$("frView").hidden=true;$("frList").hidden=false;setSt("");
+  $("frIn").value=typeof code==="string"?code:"";
+  renderList();m.hidden=false;
+  if(typeof code==="string"){setSt(tr("fr_invite"),true);$("frAdd").focus()}else setTimeout(function(){$("frCopyL").focus()},0);
+}
+function closeM(){m.hidden=true;if(prev&&prev.focus)prev.focus()}
+function copy(text,btn){
+  function done(){var o=btn.textContent;btn.textContent=tr("fr_copied");setTimeout(function(){btn.textContent=o},1500)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fb)}else fb();
+  function fb(){var t=document.createElement("textarea");t.value=text;t.style.position="fixed";t.style.opacity="0";document.body.appendChild(t);t.select();try{document.execCommand("copy");done()}catch(e){}t.remove()}
+}
+$("friendsBtn").addEventListener("click",function(){openM()});
+$("auFr").addEventListener("click",function(){$("auX").click();openM()});
+$("frX").addEventListener("click",closeM);
+m.addEventListener("mousedown",function(e){if(e.target===m)closeM()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden){e.preventDefault();if(!$("frView").hidden){$("frView").hidden=true;$("frList").hidden=false}else closeM()}});
+$("frBack").addEventListener("click",function(){$("frView").hidden=true;$("frList").hidden=false;renderList()});
+$("fvP").addEventListener("click",function(){vm--;if(vm<0){vm=11;vy--}renderView()});
+$("fvX").addEventListener("click",function(){vm++;if(vm>11){vm=0;vy++}renderView()});
+$("frLink").addEventListener("focus",function(){this.select()});
+$("frCopyL").addEventListener("click",function(){copy($("frLink").value,this)});
+$("frCopyC").addEventListener("click",function(){copy(myCode(),this)});
+function add(){
+  var f=parseCode($("frIn").value);
+  if(!f)return setSt(tr("err_code"));
+  if(f.name.toLowerCase()===user().toLowerCase())return setSt(tr("err_self"));
+  var a=loadF(),i=-1;a.forEach(function(x,j){if(x.name.toLowerCase()===f.name.toLowerCase())i=j});
+  if(i>-1)a[i]=f;else a.push(f);
+  if(!saveF(a))return setSt(tr("err_store"));
+  $("frIn").value="";renderList();setSt(tr(i>-1?"fr_ok_upd":"fr_ok_add",{n:f.name}),true);
+}
+$("frAdd").addEventListener("click",add);
+$("frIn").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();add()}});
+document.addEventListener("authchange",function(){
+  if(user()&&pending){var p=pending;pending=false;openM(typeof p==="string"?p:undefined)}
+  else if(!user()&&!m.hidden)closeM();
+});
+document.addEventListener("langchange",function(){localize(m);localize($("authM"));if(!m.hidden){renderList();if(!$("frView").hidden)renderView()}});
+localize(m);localize($("authM"));
+/* lien d'invitation : #friend=... */
+var h=location.hash;
+if(h.indexOf("#friend=")===0){
+  var code=h.slice(8);
+  try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
+  if(parseCode(code))setTimeout(function(){openM(code)},300);
+}
 })();
 </script>
 </body>
