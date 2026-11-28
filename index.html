@@ -1042,6 +1042,7 @@ P.apply(g,l,false);
 .fr-row input{flex:1;min-width:0;min-height:40px;border-radius:10px;font-size:13px}
 .fr-row .btn{white-space:nowrap;border-radius:10px;min-height:40px}
 .au .au-err.ok{color:var(--gain)}
+.au [hidden]{display:none!important}
 .fr-ul{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 .fr-ul li{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .fr-ul li:last-child{border-bottom:0}
@@ -1078,6 +1079,7 @@ P.apply(g,l,false);
     <a class="btn gh-home" href="#accueil" data-i18n="home">Home</a>
     <button class="btn gh-prev" id="seePv2" type="button" data-i18n="see_demo">See how it works</button>
     <button class="btn gh-friends" id="friendsBtn" type="button" aria-haspopup="dialog" data-i18n="friends">Friends</button>
+    <button class="btn" id="walletsBtn" type="button" aria-haspopup="dialog">Wallets</button>
   </nav>
   <div class="gh-r">
     <div class="pills lang" id="lang" role="group" data-i18n-aria="lang_label" aria-label="Language"><button type="button" class="pill" data-l="en" aria-pressed="true">EN</button><button type="button" class="pill" data-l="fr" aria-pressed="false">FR</button></div>
@@ -1240,12 +1242,12 @@ fr:{
  fr_total:"PnL du mois", fr_days:"Jours tradés", fr_win:"Jours gagnants", fr_best:"Meilleur jour", fr_upd:"Mis à jour le", fr_prevm:"Mois précédent", fr_nextm:"Mois suivant",
  fr_note:"Les données sont des copies envoyées par tes amis : pour les mettre à jour, redemande-leur un lien et recolle-le. Chacun doit ajouter l’autre pour que ce soit réciproque.",
  fr_ok_add:"{n} ajouté(e) à tes amis.", fr_ok_upd:"Données de {n} mises à jour.", err_code:"Lien ou code invalide.", err_self:"C’est ton propre lien : envoie-le à un ami.", fr_invite:"Invitation reçue : clique sur Ajouter pour confirmer.",
- signin:"Se connecter", auth_t_in:"Connexion", auth_t_up:"Créer un compte", auth_sub_in:"Retrouve ton compte avec ton nom d’utilisateur.", auth_sub_up:"Choisis un nom d’utilisateur et un mot de passe.",
+ signin:"Se connecter", auth_t_in:"Connexion", auth_t_up:"Créer un compte", auth_sub_in:"Retrouve ton compte avec ton e-mail et ton mot de passe.", auth_sub_up:"Renseigne ton e-mail, choisis un pseudo et un mot de passe.",
  auth_user:"Nom d’utilisateur", auth_pass:"Mot de passe", auth_pass2:"Confirmer le mot de passe", auth_go_in:"Se connecter", auth_go_up:"Créer mon compte",
  auth_switch_up:"Pas encore de compte ? Crée-en un", auth_switch_in:"Déjà un compte ? Connecte-toi", auth_close:"Fermer", auth_hello:"Connecté en tant que", auth_logout:"Se déconnecter",
- auth_hint:"Le compte est enregistré uniquement dans ce navigateur.", err_user:"Le nom d’utilisateur doit faire 3 à 20 caractères : lettres, chiffres, point, tiret ou underscore.",
+ auth_hint:"Ton compte et tes trades sont synchronisés sur tous tes appareils.", err_user:"Le nom d’utilisateur doit faire 3 à 20 caractères : lettres, chiffres, point, tiret ou underscore.",
  err_pass:"Le mot de passe doit faire au moins 8 caractères.", err_match:"Les deux mots de passe ne correspondent pas.", err_exists:"Ce nom d’utilisateur est déjà pris.",
- err_bad:"Nom d’utilisateur ou mot de passe incorrect.", err_crypto:"Ton navigateur ne permet pas de créer un compte ici (connexion sécurisée requise).", err_store:"Impossible d’enregistrer le compte dans ce navigateur.",
+ err_bad:"Nom d’utilisateur ou mot de passe incorrect.", err_crypto:"Ton navigateur ne permet pas de créer un compte ici (connexion sécurisée requise).", err_store:"Impossible d’enregistrer le compte dans ce navigateur.", auth_email:"E-mail", auth_pseudo:"Pseudo (visible par tes amis)", auth_fg:"Mot de passe oublié ?", auth_back:"Retour à la connexion", auth_t_fg:"Mot de passe oublié", auth_sub_fg:"Entre ton e-mail : on t’envoie un lien pour choisir un nouveau mot de passe.", auth_go_fg:"Envoyer le lien", auth_t_rec:"Nouveau mot de passe", auth_sub_rec:"Choisis ton nouveau mot de passe.", auth_go_rec:"Enregistrer", msg_sent:"Si un compte existe avec cet e-mail, un lien vient d’être envoyé. Pense à vérifier les spams.", msg_confirm:"Presque fini : clique sur le lien reçu par e-mail pour confirmer ton compte, puis connecte-toi.", err_email:"Adresse e-mail invalide.", err_unconf:"Confirme d’abord ton compte avec le lien reçu par e-mail.", err_rate:"Trop de tentatives ou d’e-mails envoyés. Réessaie dans quelques minutes.", err_net:"Connexion au serveur impossible. Vérifie ta connexion internet puis réessaie.", err_confirm:"Compte créé mais non confirmé : désactive la confirmation par e-mail dans Supabase (Authentication → Providers → Email).", err_config:"Supabase n’est pas encore configuré dans ce site (SUPABASE_URL et SUPABASE_KEY).", err_domain:"Supabase refuse l’adresse interne générée : change EMAIL_DOMAIN dans le code.",
  h_title:"Calendrier PnL gratuit<br>pour <em>traders.</em>", tag:"Ton PnL, jour par jour. Simple et local.", see_pv:"Voir l’aperçu", badge:"100 % gratuit · Sans inscription", open_free:"Ouvrir le calendrier gratuit", st1b:"0 €", st1:"gratuit", st2:"compte à créer", st3:"marchés", st4b:"10 s", st4:"par trade", t1:"Gratuit", t2:"Sans compte ni abonnement", t3:"Données stockées dans ton navigateur",
  h_p:"Note tes trades et vois ton mois passer au vert ou au rouge.",
  pv_label:"Aperçu du calendrier", pv_tt:"Exemple : PnL du mois", pv_month:"Juin 2026", pv_note:"Aperçu avec des données d’exemple.",
@@ -1285,12 +1287,12 @@ en:{
  fr_total:"Month PnL", fr_days:"Trading days", fr_win:"Winning days", fr_best:"Best day", fr_upd:"Updated", fr_prevm:"Previous month", fr_nextm:"Next month",
  fr_note:"Data is a copy sent by your friends: to refresh it, ask them for a new link and paste it again. Each of you must add the other for it to be mutual.",
  fr_ok_add:"{n} added to your friends.", fr_ok_upd:"{n}’s data updated.", err_code:"Invalid link or code.", err_self:"That’s your own link: send it to a friend.", fr_invite:"Invitation received: click Add to confirm.",
- signin:"Sign in", auth_t_in:"Sign in", auth_t_up:"Create an account", auth_sub_in:"Welcome back. Enter your username and password.", auth_sub_up:"Pick a username and a password.",
+ signin:"Sign in", auth_t_in:"Sign in", auth_t_up:"Create an account", auth_sub_in:"Welcome back. Enter your email and password.", auth_sub_up:"Enter your email, pick a username and a password.",
  auth_user:"Username", auth_pass:"Password", auth_pass2:"Confirm password", auth_go_in:"Sign in", auth_go_up:"Create my account",
  auth_switch_up:"No account yet? Create one", auth_switch_in:"Already have an account? Sign in", auth_close:"Close", auth_hello:"Signed in as", auth_logout:"Sign out",
- auth_hint:"Your account is stored only in this browser.", err_user:"Username must be 3 to 20 characters: letters, digits, dot, dash or underscore.",
+ auth_hint:"Your account and trades sync across all your devices.", err_user:"Username must be 3 to 20 characters: letters, digits, dot, dash or underscore.",
  err_pass:"Password must be at least 8 characters.", err_match:"The two passwords don’t match.", err_exists:"That username is already taken.",
- err_bad:"Incorrect username or password.", err_crypto:"Your browser can’t create accounts here (a secure connection is required).", err_store:"Couldn’t save the account in this browser.",
+ err_bad:"Incorrect username or password.", err_crypto:"Your browser can’t create accounts here (a secure connection is required).", err_store:"Couldn’t save the account in this browser.", auth_email:"Email", auth_pseudo:"Username (shown to friends)", auth_fg:"Forgot password?", auth_back:"Back to sign in", auth_t_fg:"Forgot password", auth_sub_fg:"Enter your email and we’ll send you a link to choose a new password.", auth_go_fg:"Send the link", auth_t_rec:"New password", auth_sub_rec:"Choose your new password.", auth_go_rec:"Save", msg_sent:"If an account exists with this email, a link has just been sent. Check your spam folder too.", msg_confirm:"Almost done: click the link we emailed you to confirm your account, then sign in.", err_email:"Invalid email address.", err_unconf:"Please confirm your account first with the link sent by email.", err_rate:"Too many attempts or emails sent. Try again in a few minutes.", err_net:"Can’t reach the server. Check your internet connection and try again.", err_confirm:"Account created but not confirmed: turn off email confirmation in Supabase (Authentication → Providers → Email).", err_config:"Supabase isn’t configured on this site yet (SUPABASE_URL and SUPABASE_KEY).", err_domain:"Supabase rejected the generated internal address: change EMAIL_DOMAIN in the code.",
  h_title:"Free PnL calendar<br>for <em>traders.</em>", tag:"Your PnL, day by day. Simple and local.", see_pv:"See the preview", badge:"100% free · No sign-up", open_free:"Open the free calendar", st1b:"$0", st1:"free", st2:"account to create", st3:"markets", st4b:"10 s", st4:"per trade", t1:"Free", t2:"No account or subscription", t3:"Data stored in your browser",
  h_p:"Log your trades and watch your month turn green or red.",
  pv_label:"Calendar preview", pv_tt:"Example: monthly PnL", pv_month:"June 2026", pv_note:"Preview with sample data.",
@@ -2310,14 +2312,16 @@ addEventListener("scroll",function(){if(open)place()},{passive:true});
       <h2 id="auT"></h2>
       <p class="au-sub" id="auS"></p>
       <form id="auF" novalidate>
-        <label><span data-i18n="auth_user">Username</span><input id="auU" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="20" required></label>
-        <label><span data-i18n="auth_pass">Password</span><input id="auP" type="password" autocomplete="current-password" required></label>
+        <label id="auLE"><span data-i18n="auth_email">Email</span><input id="auEm" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="120" required></label>
+        <label id="auLU" hidden><span data-i18n="auth_pseudo">Username (shown to friends)</span><input id="auU" type="text" autocomplete="nickname" autocapitalize="none" spellcheck="false" maxlength="20"></label>
+        <label id="auLP"><span data-i18n="auth_pass">Password</span><input id="auP" type="password" autocomplete="current-password" required></label>
         <label id="auL2" hidden><span data-i18n="auth_pass2">Confirm password</span><input id="auP2" type="password" autocomplete="new-password"></label>
         <p class="au-err" id="auE" role="alert"></p>
         <button class="btn p au-go" id="auGo" type="submit"></button>
       </form>
+      <button class="au-sw" id="auFg" type="button" data-i18n="auth_fg">Forgot password?</button>
       <button class="au-sw" id="auSw" type="button"></button>
-      <p class="au-hint" data-i18n="auth_hint">Your account is stored only in this browser.</p>
+      <p class="au-hint" data-i18n="auth_hint">Your account and trades sync across all your devices.</p>
     </div>
     <div id="auIn" hidden>
       <h2><span data-i18n="auth_hello">Signed in as</span></h2>
@@ -2327,82 +2331,245 @@ addEventListener("scroll",function(){if(open)place()},{passive:true});
     </div>
   </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 (function(){
-var UK="gd-users",SK="gd-session";
-var m=document.getElementById("authM"),btn=document.getElementById("authBtn"),lbl=document.getElementById("authLbl"),
-    fo=document.getElementById("auF"),iu=document.getElementById("auU"),ip=document.getElementById("auP"),ip2=document.getElementById("auP2"),
-    l2=document.getElementById("auL2"),er=document.getElementById("auE"),go=document.getElementById("auGo"),sw=document.getElementById("auSw"),
-    tt=document.getElementById("auT"),ss=document.getElementById("auS"),out=document.getElementById("auOut"),inn=document.getElementById("auIn"),
-    me=document.getElementById("auMe"),prev=null,mode="in",errKey="";
+/* ===== CONFIGURATION SUPABASE ===== */
+var SUPABASE_URL="https://qgvuutitkwjpikzpluen.supabase.co";
+var SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFndnV1dGl0a3dqcGlrenBsdWVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTU4Njg4NTgsImV4cCI6MjExMTQ0NDg1OH0.wBSehR91UImU-Y1o7Z-XENN0Zn9LlIYxSJYki0VUatM";
+/* =================================== */
+
+var DK="pnl-calendar-v1",TS="gd-sync-ts",NAME_RE=/^[A-Za-z0-9_.-]{3,20}$/,EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+function $(i){return document.getElementById(i)}
+var m=$("authM"),btn=$("authBtn"),lbl=$("authLbl"),
+    fo=$("auF"),iem=$("auEm"),iu=$("auU"),ip=$("auP"),ip2=$("auP2"),
+    l2=$("auL2"),er=$("auE"),go=$("auGo"),sw=$("auSw"),fg=$("auFg"),
+    tt=$("auT"),ss=$("auS"),out=$("auOut"),inn=$("auIn"),
+    me=$("auMe"),prev=null,mode="in",errKey="",errOk=false;
+var sb=null,cur=null,dirty=false,pushT=null,lastPull=0;
+var rawSet=Storage.prototype.setItem;
+
+try{
+  if(window.supabase&&SUPABASE_URL.indexOf("VOTRE")<0)
+    sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+}catch(e){sb=null}
+
 function tr(k){return (window.T&&T.t)?T.t(k):k}
-function load(){try{return JSON.parse(localStorage.getItem(UK))||{}}catch(e){return {}}}
-function save(o){try{localStorage.setItem(UK,JSON.stringify(o));return true}catch(e){return false}}
-function session(){try{return localStorage.getItem(SK)||""}catch(e){return ""}}
-function setSession(n){try{if(n)localStorage.setItem(SK,n);else localStorage.removeItem(SK)}catch(e){}}
-function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("")}
-function unhex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
-function derive(pw,salt){
-  var c=window.crypto&&crypto.subtle;
-  if(!c)return Promise.reject(new Error("nocrypto"));
-  return c.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]).then(function(k){
-    return c.deriveBits({name:"PBKDF2",salt:unhex(salt),iterations:150000,hash:"SHA-256"},k,256);
-  }).then(hex);
+function redirect(){return /^https?:/.test(location.origin||"")?location.origin+location.pathname:undefined}
+function nameOf(u){
+  var md=u&&u.user_metadata;
+  if(md&&NAME_RE.test(md.username||""))return md.username;
+  var n=((u&&u.email)||"user").split("@")[0].replace(/[^A-Za-z0-9_.-]/g,"_").slice(0,20);
+  while(n.length<3)n+="_";
+  return n;
 }
-function setErr(k){errKey=k||"";er.textContent=k?tr(k):""}
+
+/* ---------- synchronisation des données (trades, devise, amis) ---------- */
+function fkey(){return "gd-friends:"+(cur?cur.name.toLowerCase():"")}
+function jget(k,def){try{var v=JSON.parse(localStorage.getItem(k));return v==null?def:v}catch(e){return def}}
+function setTs(n){try{rawSet.call(localStorage,TS,String(n))}catch(e){}}
+function readLocal(){
+  var r=jget(DK,{}),f=cur?jget(fkey(),[]):[];
+  return {
+    trades:Array.isArray(r.trades)?r.trades:[],
+    currency:["$","€","£"].indexOf(r.currency)>-1?r.currency:"$",
+    friends:Array.isArray(f)?f:[]
+  };
+}
+function writeLocal(d){
+  try{
+    rawSet.call(localStorage,DK,JSON.stringify({trades:d.trades,currency:d.currency}));
+    rawSet.call(localStorage,fkey(),JSON.stringify(d.friends));
+  }catch(e){}
+}
+function merge(a,b){
+  var seen={},trs=[],fm={};
+  a.trades.concat(b.trades).forEach(function(t){
+    var k=t&&t.id?t.id:JSON.stringify(t);
+    if(!seen[k]){seen[k]=1;trs.push(t)}
+  });
+  (a.friends||[]).concat(b.friends||[]).forEach(function(f){
+    if(!f||!f.name)return;
+    var k=f.name.toLowerCase();
+    if(!fm[k]||(f.at||0)>(fm[k].at||0))fm[k]=f;
+  });
+  return {trades:trs,currency:a.currency||b.currency,friends:Object.keys(fm).map(function(k){return fm[k]})};
+}
+function push(){
+  if(!sb||!cur)return Promise.resolve(false);
+  var d=readLocal(),ts=Number(localStorage.getItem(TS))||Date.now();
+  return sb.from("user_data").upsert({
+    user_id:cur.id,
+    data:{trades:d.trades,currency:d.currency,friends:d.friends,ts:ts},
+    updated_at:new Date().toISOString()
+  }).then(function(r){
+    if(r.error)return false;
+    dirty=false;return true;
+  },function(){return false});
+}
+function flush(){clearTimeout(pushT);return dirty?push():Promise.resolve(true)}
+function pull(){
+  if(!sb||!cur)return;
+  var id=cur.id;lastPull=Date.now();
+  sb.from("user_data").select("data").eq("user_id",id).maybeSingle().then(function(r){
+    if(r.error||!cur||cur.id!==id)return;
+    var rem=r.data&&r.data.data,loc=readLocal(),before=JSON.stringify(loc),lts=Number(localStorage.getItem(TS))||0;
+    function changed(){return JSON.stringify(readLocal())!==before}
+    if(!rem){
+      if(loc.trades.length||loc.friends.length){setTs(Date.now());dirty=true;push()}
+      return;
+    }
+    var rd={
+      trades:Array.isArray(rem.trades)?rem.trades:[],
+      currency:rem.currency,
+      friends:Array.isArray(rem.friends)?rem.friends:[]
+    },rts=Number(rem.ts)||0;
+    if(!lts){
+      /* premier lancement sur cet appareil : on fusionne ce qui existe en local avec le compte */
+      writeLocal(merge(rd,loc));setTs(Date.now());dirty=true;
+      push().then(function(){if(changed())location.reload()});
+    }else if(rts>lts){
+      writeLocal(rd);setTs(rts);
+      if(changed())location.reload();
+    }else if(lts>rts){
+      dirty=true;push();
+    }
+  },function(){});
+}
+/* chaque enregistrement local des trades / amis déclenche un envoi différé vers Supabase */
+Storage.prototype.setItem=function(k,v){
+  rawSet.call(this,k,v);
+  if(this===localStorage&&cur&&(k===DK||k===fkey())){
+    setTs(Date.now());dirty=true;
+    clearTimeout(pushT);pushT=setTimeout(push,1500);
+  }
+};
+document.addEventListener("visibilitychange",function(){
+  if(!document.hidden&&cur&&!dirty&&Date.now()-lastPull>20000&&!document.querySelector(".md:not([hidden])"))pull();
+});
+
+/* ---------- session ---------- */
+function applySession(s){
+  var u=s&&s.user,id=u?u.id:null;
+  if((cur&&cur.id)===id)return;
+  cur=u?{id:id,name:nameOf(u)}:null;
+  renderBtn();
+  document.dispatchEvent(new Event("authchange"));
+  if(cur)setTimeout(pull,0);
+}
+if(sb){
+  sb.auth.onAuthStateChange(function(ev,s){
+    applySession(s);
+    if(ev==="PASSWORD_RECOVERY")setTimeout(function(){openM("rec")},0);
+  });
+  sb.auth.getSession().then(function(r){applySession(r.data&&r.data.session)},function(){});
+}
+
+/* ---------- interface ---------- */
+function setErr(k,good){errKey=k||"";errOk=!!good;er.className="au-err"+(errOk?" ok":"");er.textContent=k?tr(k):""}
 function renderBtn(){
-  var n=session(),u=load()[n.toLowerCase()];
-  if(n&&u){lbl.removeAttribute("data-i18n");lbl.textContent=u.name;btn.classList.add("in")}
-  else{if(n)setSession("");lbl.setAttribute("data-i18n","signin");lbl.textContent=tr("signin");btn.classList.remove("in")}
+  if(cur){lbl.removeAttribute("data-i18n");lbl.textContent=cur.name;btn.classList.add("in")}
+  else{lbl.setAttribute("data-i18n","signin");lbl.textContent=tr("signin");btn.classList.remove("in")}
   btn.querySelector("i").style.display=btn.classList.contains("in")?"none":"";
 }
+/* modes : in (connexion), up (création), fg (mot de passe oublié), rec (nouveau mot de passe) */
 function setMode(x){
-  mode=x;var up=x==="up";
-  tt.textContent=tr(up?"auth_t_up":"auth_t_in");ss.textContent=tr(up?"auth_sub_up":"auth_sub_in");
-  go.textContent=tr(up?"auth_go_up":"auth_go_in");sw.textContent=tr(up?"auth_switch_in":"auth_switch_up");
-  l2.hidden=!up;ip.setAttribute("autocomplete",up?"new-password":"current-password");setErr(errKey);
+  mode=x;
+  var inM=x==="in",up=x==="up",fgM=x==="fg",rec=x==="rec";
+  $("auLE").hidden=rec;$("auLU").hidden=!up;$("auLP").hidden=fgM;l2.hidden=!(up||rec);
+  fg.hidden=!inM;sw.hidden=rec;
+  ip.setAttribute("autocomplete",inM?"current-password":"new-password");
+  tt.textContent=tr("auth_t_"+x);ss.textContent=tr("auth_sub_"+x);go.textContent=tr("auth_go_"+x);
+  sw.textContent=tr(inM?"auth_switch_up":up?"auth_switch_in":"auth_back");
+  setErr(errKey,errOk);
 }
-function openM(){
-  prev=document.activeElement;var n=session(),u=load()[n.toLowerCase()];
-  if(n&&u){out.hidden=true;inn.hidden=false;me.textContent=u.name}
-  else{out.hidden=false;inn.hidden=true;fo.reset();errKey="";setMode("in")}
+function openM(which){
+  prev=document.activeElement;
+  if(which==="rec"){out.hidden=false;inn.hidden=true;fo.reset();setErr("");setMode("rec");m.hidden=false;setTimeout(function(){ip.focus()},0);return}
+  if(cur){out.hidden=true;inn.hidden=false;me.textContent=cur.name}
+  else{out.hidden=false;inn.hidden=true;fo.reset();setErr("");setMode("in")}
   m.hidden=false;
-  setTimeout(function(){(n&&u?document.getElementById("auOutBtn"):iu).focus()},0);
+  setTimeout(function(){(cur?$("auOutBtn"):iem).focus()},0);
 }
 function closeM(){m.hidden=true;if(prev&&prev.focus)prev.focus()}
-btn.addEventListener("click",openM);
-document.getElementById("auX").addEventListener("click",closeM);
+btn.addEventListener("click",function(){openM()});
+$("auX").addEventListener("click",closeM);
 m.addEventListener("mousedown",function(e){if(e.target===m)closeM()});
 document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden){e.preventDefault();closeM()}});
 sw.addEventListener("click",function(){setErr("");ip.value="";ip2.value="";setMode(mode==="in"?"up":"in")});
-document.getElementById("auOutBtn").addEventListener("click",function(){setSession("");renderBtn();closeM();document.dispatchEvent(new Event("authchange"))});
+fg.addEventListener("click",function(){setErr("");ip.value="";setMode("fg")});
+
+/* déconnexion : on envoie les dernières modifs, puis on vide les données locales de ce compte
+   (pour qu'elles ne se mélangent pas avec le compte suivant sur le même navigateur) */
+$("auOutBtn").addEventListener("click",function(){
+  this.disabled=true;
+  var name=cur?cur.name.toLowerCase():"";
+  flush().then(function(good){
+    return (sb?sb.auth.signOut():Promise.resolve()).catch(function(){}).then(function(){
+      if(good){
+        try{localStorage.removeItem(DK);localStorage.removeItem("gd-friends:"+name);localStorage.removeItem(TS)}catch(e){}
+      }
+      location.reload();
+    });
+  });
+});
+
+function mapErr(e){
+  var s=String(e&&e.message||"").toLowerCase();
+  if(s.indexOf("not confirmed")>-1)return "err_unconf";
+  if(s.indexOf("invalid login")>-1)return "err_bad";
+  if(s.indexOf("already")>-1)return "err_exists";
+  if(s.indexOf("rate limit")>-1||s.indexOf("too many")>-1||s.indexOf("seconds")>-1)return "err_rate";
+  if(s.indexOf("password")>-1)return "err_pass";
+  if(s.indexOf("email")>-1&&s.indexOf("invalid")>-1)return "err_email";
+  return "err_net";
+}
 fo.addEventListener("submit",function(e){
   e.preventDefault();setErr("");
-  var name=iu.value.trim(),key=name.toLowerCase(),pw=ip.value,users=load();
+  if(!sb)return setErr("err_config");
+  var email=iem.value.trim().toLowerCase(),name=iu.value.trim(),pw=ip.value;
   function fail(k){setErr(k);go.disabled=false}
-  function ok(u){setSession(u.name);renderBtn();go.disabled=false;closeM();document.dispatchEvent(new Event("authchange"))}
-  if(mode==="up"){
-    if(!/^[A-Za-z0-9_.-]{3,20}$/.test(name))return setErr("err_user");
+  function done(s){go.disabled=false;applySession(s);closeM()}
+  if(mode==="rec"){
     if(pw.length<8)return setErr("err_pass");
     if(pw!==ip2.value)return setErr("err_match");
-    if(users[key])return setErr("err_exists");
     go.disabled=true;
-    var salt=hex(crypto.getRandomValues?crypto.getRandomValues(new Uint8Array(16)):new Uint8Array(16));
-    derive(pw,salt).then(function(h){
-      var u={name:name,salt:salt,hash:h};users[key]=u;
-      if(!save(users))return fail("err_store");
-      ok(u);
-    },function(){fail("err_crypto")});
+    return sb.auth.updateUser({password:pw}).then(function(r){
+      if(r.error)return fail(mapErr(r.error));
+      go.disabled=false;closeM();
+    },function(){fail("err_net")});
+  }
+  if(!EMAIL_RE.test(email))return setErr("err_email");
+  if(mode==="fg"){
+    go.disabled=true;
+    return sb.auth.resetPasswordForEmail(email,{redirectTo:redirect()}).then(function(r){
+      if(r.error)return fail(mapErr(r.error));
+      go.disabled=false;setErr("msg_sent",true);
+    },function(){fail("err_net")});
+  }
+  if(mode==="up"){
+    if(!NAME_RE.test(name))return setErr("err_user");
+    if(pw.length<8)return setErr("err_pass");
+    if(pw!==ip2.value)return setErr("err_match");
+    go.disabled=true;
+    sb.auth.signUp({email:email,password:pw,options:{data:{username:name},emailRedirectTo:redirect()}}).then(function(r){
+      if(r.error)return fail(mapErr(r.error));
+      var u=r.data&&r.data.user;
+      if(u&&u.identities&&u.identities.length===0)return fail("err_exists");
+      if(!r.data||!r.data.session){go.disabled=false;return setErr("msg_confirm",true)}
+      done(r.data.session);
+    },function(){fail("err_net")});
   }else{
-    var u=users[key];
-    if(!name||!pw)return setErr("err_bad");
+    if(!pw)return setErr("err_bad");
     go.disabled=true;
-    if(!u)return derive(pw,"00000000000000000000000000000000").then(function(){fail("err_bad")},function(){fail("err_crypto")});
-    derive(pw,u.salt).then(function(h){h===u.hash?ok(u):fail("err_bad")},function(){fail("err_crypto")});
+    sb.auth.signInWithPassword({email:email,password:pw}).then(function(r){
+      if(r.error)return fail(mapErr(r.error));
+      done(r.data&&r.data.session);
+    },function(){fail("err_net")});
   }
 });
 document.addEventListener("langchange",function(){renderBtn();if(!m.hidden&&!out.hidden)setMode(mode)});
-window.GD={user:function(){var n=session(),u=load()[n.toLowerCase()];return u?u.name:""},openAuth:openM};
+window.GD={user:function(){return cur?cur.name:""},openAuth:function(){openM()},sb:function(){return sb}};
 renderBtn();
 })();
 </script>
@@ -2584,6 +2751,89 @@ if(h.indexOf("#friend=")===0){
   try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
   if(parseCode(code))setTimeout(function(){openM(code)},300);
 }
+})();
+</script>
+
+<div class="md" id="wM" role="dialog" aria-modal="true" aria-labelledby="wT" hidden>
+  <div class="au fr">
+    <button class="au-x" id="wX" type="button" aria-label="Close">×</button>
+    <h2 id="wT"></h2>
+    <p class="au-sub" id="wS"></p>
+    <div class="fr-row" id="wProv" style="flex-wrap:wrap;margin-bottom:10px"></div>
+    <div class="fr-row"><input id="wIn" type="text" spellcheck="false" autocomplete="off" maxlength="60"><button class="btn" id="wAdd" type="button"></button></div>
+    <p class="au-hint" id="wMsg" style="min-height:18px"></p>
+    <ul class="list" id="wList"></ul>
+    <div class="fr-row" style="margin-top:12px"><button class="btn" id="wSync" type="button"></button><button class="btn p" id="wImp" type="button"></button></div>
+    <p class="au-hint" id="wSafe"></p>
+  </div>
+</div>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i)},m=$("wM"),W=[];
+function fr(){try{return localStorage.getItem("pnl-lang")==="fr"}catch(e){return false}}
+function T(f,e){return fr()?f:e}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function sb(){return window.GD&&GD.sb&&GD.sb()}
+function msg(t,ok){var e=$("wMsg");e.textContent=t||"";e.style.color=ok?"var(--gain)":"var(--loss,#f87171)"}
+function texts(){
+  $("wT").textContent=T("Mes wallets","My wallets");
+  $("wS").textContent=T("Relie tes wallets Solana : un bot calcule ton PNL jour par jour et le met dans ton calendrier.","Link your Solana wallets: a bot computes your PnL day by day and adds it to your calendar.");
+  $("wIn").placeholder=T("Adresse publique (Axiom, Terminal…)","Public address (Axiom, Terminal…)");
+  $("wAdd").textContent=T("Ajouter (lecture seule)","Add (read-only)");
+  $("wSync").textContent=T("Synchroniser","Sync now");
+  $("wImp").textContent=T("Importer dans le calendrier","Import into calendar");
+  $("wSafe").textContent=T("Green Day ne demande JAMAIS ta clé privée ni ta phrase secrète. Seule l’adresse publique est utilisée.","Green Day NEVER asks for your private key or seed phrase. Only the public address is used.");
+}
+function provs(){var w=window,l=[];
+  if(w.phantom&&w.phantom.solana&&w.phantom.solana.isPhantom)l.push(["Phantom",w.phantom.solana]);
+  if(w.solflare&&w.solflare.isSolflare)l.push(["Solflare",w.solflare]);
+  if(w.backpack&&w.backpack.solana)l.push(["Backpack",w.backpack.solana]);return l}
+function drawProv(){var h=$("wProv");h.innerHTML="";
+  provs().forEach(function(p){var b=document.createElement("button");b.className="btn";b.type="button";
+    b.textContent=T("Connecter ","Connect ")+p[0]+" ✓";b.onclick=function(){connect(p[1])};h.appendChild(b)});
+  if(!provs().length)h.innerHTML='<span class="au-hint" style="margin:0">'+T("Aucun wallet de navigateur détecté : ajoute l’adresse publique ci-dessous.","No browser wallet detected: add the public address below.")+"</span>"}
+function b64(u){var s="";for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s)}
+async function call(body){var r=await sb().functions.invoke("link-wallet",{body:body});if(r.error)throw r.error;return r.data}
+async function connect(p){
+  try{msg(T("Signature en cours…","Signing…"),true);
+    var n=(await call({action:"nonce"})).nonce,c=await p.connect(),pk=(c&&c.publicKey)||p.publicKey,addr=pk.toString();
+    var uid=(await sb().auth.getUser()).data.user.id;
+    var r=await p.signMessage(new TextEncoder().encode("Green Day wallet link\nuser:"+uid+"\nnonce:"+n),"utf8");
+    await call({action:"link",address:addr,signature:b64(r.signature||r)});
+    msg(T("Wallet vérifié ✓","Wallet verified ✓"),true);load()
+  }catch(e){msg(T("Connexion annulée ou refusée.","Connection cancelled or refused."))}}
+async function add(){var a=$("wIn").value.trim();if(!a)return;
+  try{await call({action:"link",address:a});$("wIn").value="";msg(T("Adresse ajoutée (non vérifiée).","Address added (unverified)."),true);load()}
+  catch(e){msg(T("Adresse invalide.","Invalid address."))}}
+async function load(){
+  var r=await sb().from("wallets").select("id,address,label,verified,last_sync").order("created_at");
+  W=r.data||[];var ul=$("wList");ul.innerHTML="";
+  if(!W.length)ul.innerHTML='<li class="au-hint">'+T("Aucun wallet relié.","No wallet linked.")+"</li>";
+  W.forEach(function(w){var li=document.createElement("li");
+    li.innerHTML="<span><b>"+esc(w.address.slice(0,4)+"…"+w.address.slice(-4))+"</b> · "+(w.verified?"✓ "+T("vérifié","verified"):T("lecture seule","read-only"))+"</span>";
+    var x=document.createElement("button");x.className="btn";x.type="button";x.textContent=T("Retirer","Remove");
+    x.onclick=async function(){await sb().from("wallets").delete().eq("id",w.id);load()};li.appendChild(x);ul.appendChild(li)})}
+async function sync(){msg(T("Calcul du PNL en cours…","Computing PnL…"),true);
+  try{var r=await sb().functions.invoke("sync-pnl");if(r.error)throw r.error;msg(T("PNL à jour.","PnL up to date."),true);load()}
+  catch(e){msg(T("Synchronisation impossible pour le moment.","Sync unavailable right now."))}}
+async function imp(){
+  var r=await sb().from("wallet_daily_pnl").select("wallet_id,day,pnl_usd");
+  if(r.error||!r.data||!r.data.length)return msg(T("Aucune donnée : lance d’abord la synchronisation.","No data yet: run the sync first."));
+  var K="pnl-calendar-v1",d={};try{d=JSON.parse(localStorage.getItem(K)||"{}")}catch(e){}
+  d.trades=(d.trades||[]).filter(function(t){return String(t.id).indexOf("w:")!==0});
+  var A={};W.forEach(function(w){A[w.id]=w.address});
+  r.data.forEach(function(x){var a=A[x.wallet_id]||"";
+    d.trades.push({id:"w:"+a.slice(0,6)+":"+x.day,date:x.day,market:"memecoin",symbol:"",pnl:Number(x.pnl_usd),note:"Wallet "+a.slice(0,4)+"…"+a.slice(-4)})});
+  d.currency=d.currency||"$";
+  try{localStorage.setItem(K,JSON.stringify(d));location.reload()}catch(e){msg(T("Import impossible.","Import failed."))}}
+function open(){if(!window.GD||!GD.user()){if(window.GD)GD.openAuth();return}
+  texts();drawProv();msg("");m.hidden=false;load()}
+$("walletsBtn").addEventListener("click",open);
+$("wX").onclick=function(){m.hidden=true};
+m.addEventListener("mousedown",function(e){if(e.target===m)m.hidden=true});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden)m.hidden=true});
+$("wAdd").onclick=add;$("wSync").onclick=sync;$("wImp").onclick=imp;
+$("wIn").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();add()}});
 })();
 </script>
 </body>
