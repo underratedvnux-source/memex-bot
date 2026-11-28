@@ -385,7 +385,6 @@ body{padding-top:0}
 .brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px;letter-spacing:-.01em;color:var(--text);text-decoration:none}
 .gh-r{display:flex;align-items:center;gap:10px}
 .gh-open{min-height:34px;padding:0 14px;display:inline-flex;align-items:center;text-decoration:none}
-body.app .gh-open{display:none}
 .lang{position:static;top:auto;right:auto;background:transparent}
 body.app .lang,body:not(.app) .lang{margin:0}
 #home{max-width:1200px;padding:0 16px 56px}
@@ -430,7 +429,6 @@ body.app .lang,body:not(.app) .lang{margin:0}
 body::before{animation-duration:45s}
 
 @media(max-width:700px){
-  .gh-open{display:none}
   .gh-in{height:52px}
   .wrap{padding-top:12px}
   .head .l,.head .r{width:100%}
@@ -1014,6 +1012,26 @@ P.apply(g,l,false);
 }
 @media(prefers-reduced-motion:reduce){.pc-sw,.pc-sw::after,.pc-chip{transition:none}}
 </style>
+<style>
+/* ---- connexion / création de compte ---- */
+#authM[hidden]{display:none}
+.au{background:#0d0d0d;border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:26px;width:100%;max-width:400px;box-shadow:0 30px 80px -20px #000;position:relative}
+.au h2{font-family:var(--disp);font-size:24px;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
+.au .au-sub{margin:0 0 18px;color:var(--mut);font-size:14px}
+.au .au-x{position:absolute;top:14px;right:14px;width:32px;height:32px;min-height:0;padding:0;border:0;border-radius:8px;background:none;color:var(--mut);font-size:20px;line-height:1}
+.au .au-x:hover{color:#fff;background:var(--cell)}
+.au form{display:flex;flex-direction:column;gap:12px}
+.au label{display:flex;flex-direction:column;gap:5px;font-size:12px;font-weight:500;color:var(--mut)}
+.au input{min-height:42px;border-radius:10px;font-size:15px}
+.au .au-err{min-height:18px;margin:0;font-size:13px;color:var(--loss)}
+.au .au-go{width:100%;min-height:44px;border-radius:999px;font-size:15px;margin-top:2px}
+.au .au-go[disabled]{opacity:.6;cursor:default}
+.au .au-sw{display:block;margin:14px auto 0;background:none;border:0;color:#c9c9ce;font-size:13px;text-decoration:underline;text-underline-offset:3px;padding:4px}
+.au .au-sw:hover{color:#fff}
+.au .au-hint{margin:14px 0 0;text-align:center;font-size:12px;color:#6f6f76}
+.au .au-me{margin:6px 0 20px;font-size:15px}
+.au .au-me b{color:var(--gain)}
+</style>
 </head>
 <body>
 <canvas class="silk" id="silkc" aria-hidden="true"></canvas>
@@ -1025,7 +1043,7 @@ P.apply(g,l,false);
   </nav>
   <div class="gh-r">
     <div class="pills lang" id="lang" role="group" data-i18n-aria="lang_label" aria-label="Language"><button type="button" class="pill" data-l="en" aria-pressed="true">EN</button><button type="button" class="pill" data-l="fr" aria-pressed="false">FR</button></div>
-    <a class="btn p gh-open" href="#app"><span data-i18n="open">Open the calendar</span><i aria-hidden="true">→</i></a>
+    <button class="btn p gh-open" id="authBtn" type="button" aria-haspopup="dialog"><span id="authLbl" data-i18n="signin">Sign in</span><i aria-hidden="true">→</i></button>
   </div>
 </div></header>
 <main id="home">
@@ -1177,6 +1195,12 @@ fr:{
  meta_desc:"Calendrier de PnL pour tes trades memecoins, forex, crypto et actions.",
  lang_label:"Langue", k_net:"PnL net", k_win:"Taux de réussite", k_trades:"Trades", k_best:"Meilleur jour", pct:"{p} %", d_win1:"jour gagnant", d_winN:"jours gagnants", d_loss1:"jour perdant", d_lossN:"jours perdants", ok:"OK", cancel:"Annuler",
  open:"Ouvrir le calendrier", home:"Accueil",
+ signin:"Se connecter", auth_t_in:"Connexion", auth_t_up:"Créer un compte", auth_sub_in:"Retrouve ton compte avec ton nom d’utilisateur.", auth_sub_up:"Choisis un nom d’utilisateur et un mot de passe.",
+ auth_user:"Nom d’utilisateur", auth_pass:"Mot de passe", auth_pass2:"Confirmer le mot de passe", auth_go_in:"Se connecter", auth_go_up:"Créer mon compte",
+ auth_switch_up:"Pas encore de compte ? Crée-en un", auth_switch_in:"Déjà un compte ? Connecte-toi", auth_close:"Fermer", auth_hello:"Connecté en tant que", auth_logout:"Se déconnecter",
+ auth_hint:"Le compte est enregistré uniquement dans ce navigateur.", err_user:"Le nom d’utilisateur doit faire 3 à 20 caractères : lettres, chiffres, point, tiret ou underscore.",
+ err_pass:"Le mot de passe doit faire au moins 8 caractères.", err_match:"Les deux mots de passe ne correspondent pas.", err_exists:"Ce nom d’utilisateur est déjà pris.",
+ err_bad:"Nom d’utilisateur ou mot de passe incorrect.", err_crypto:"Ton navigateur ne permet pas de créer un compte ici (connexion sécurisée requise).", err_store:"Impossible d’enregistrer le compte dans ce navigateur.",
  h_title:"Calendrier PnL gratuit<br>pour <em>traders.</em>", tag:"Ton PnL, jour par jour. Simple et local.", see_pv:"Voir l’aperçu", badge:"100 % gratuit · Sans inscription", open_free:"Ouvrir le calendrier gratuit", st1b:"0 €", st1:"gratuit", st2:"compte à créer", st3:"marchés", st4b:"10 s", st4:"par trade", t1:"Gratuit", t2:"Sans compte ni abonnement", t3:"Données stockées dans ton navigateur",
  h_p:"Note tes trades et vois ton mois passer au vert ou au rouge.",
  pv_label:"Aperçu du calendrier", pv_tt:"Exemple : PnL du mois", pv_month:"Juin 2026", pv_note:"Aperçu avec des données d’exemple.",
@@ -1209,6 +1233,12 @@ en:{
  meta_desc:"PnL calendar for your memecoin, forex, crypto and stock trades.",
  lang_label:"Language", k_net:"Net PnL", k_win:"Win rate", k_trades:"Trades", k_best:"Best day", pct:"{p}%", d_win1:"winning day", d_winN:"winning days", d_loss1:"losing day", d_lossN:"losing days", ok:"OK", cancel:"Cancel",
  open:"Open the calendar", home:"Home",
+ signin:"Sign in", auth_t_in:"Sign in", auth_t_up:"Create an account", auth_sub_in:"Welcome back. Enter your username and password.", auth_sub_up:"Pick a username and a password.",
+ auth_user:"Username", auth_pass:"Password", auth_pass2:"Confirm password", auth_go_in:"Sign in", auth_go_up:"Create my account",
+ auth_switch_up:"No account yet? Create one", auth_switch_in:"Already have an account? Sign in", auth_close:"Close", auth_hello:"Signed in as", auth_logout:"Sign out",
+ auth_hint:"Your account is stored only in this browser.", err_user:"Username must be 3 to 20 characters: letters, digits, dot, dash or underscore.",
+ err_pass:"Password must be at least 8 characters.", err_match:"The two passwords don’t match.", err_exists:"That username is already taken.",
+ err_bad:"Incorrect username or password.", err_crypto:"Your browser can’t create accounts here (a secure connection is required).", err_store:"Couldn’t save the account in this browser.",
  h_title:"Free PnL calendar<br>for <em>traders.</em>", tag:"Your PnL, day by day. Simple and local.", see_pv:"See the preview", badge:"100% free · No sign-up", open_free:"Open the free calendar", st1b:"$0", st1:"free", st2:"account to create", st3:"markets", st4b:"10 s", st4:"per trade", t1:"Free", t2:"No account or subscription", t3:"Data stored in your browser",
  h_p:"Log your trades and watch your month turn green or red.",
  pv_label:"Calendar preview", pv_tt:"Example: monthly PnL", pv_month:"June 2026", pv_note:"Preview with sample data.",
@@ -2219,6 +2249,107 @@ document.addEventListener("keydown",function(e){if(open&&e.key==="Escape")hide(t
 document.addEventListener("pointerdown",function(e){if(open&&!pop.contains(e.target)&&!btn.contains(e.target))hide(false)});
 addEventListener("resize",function(){if(open)place()});
 addEventListener("scroll",function(){if(open)place()},{passive:true});
+})();
+</script>
+<div class="md" id="authM" role="dialog" aria-modal="true" aria-labelledby="auT" hidden>
+  <div class="au">
+    <button class="au-x" id="auX" type="button" data-i18n-aria="auth_close" aria-label="Close">×</button>
+    <div id="auOut">
+      <h2 id="auT"></h2>
+      <p class="au-sub" id="auS"></p>
+      <form id="auF" novalidate>
+        <label><span data-i18n="auth_user">Username</span><input id="auU" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="20" required></label>
+        <label><span data-i18n="auth_pass">Password</span><input id="auP" type="password" autocomplete="current-password" required></label>
+        <label id="auL2" hidden><span data-i18n="auth_pass2">Confirm password</span><input id="auP2" type="password" autocomplete="new-password"></label>
+        <p class="au-err" id="auE" role="alert"></p>
+        <button class="btn p au-go" id="auGo" type="submit"></button>
+      </form>
+      <button class="au-sw" id="auSw" type="button"></button>
+      <p class="au-hint" data-i18n="auth_hint">Your account is stored only in this browser.</p>
+    </div>
+    <div id="auIn" hidden>
+      <h2><span data-i18n="auth_hello">Signed in as</span></h2>
+      <p class="au-me"><b id="auMe"></b></p>
+      <button class="btn au-go" id="auOutBtn" type="button" data-i18n="auth_logout">Sign out</button>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+var UK="gd-users",SK="gd-session";
+var m=document.getElementById("authM"),btn=document.getElementById("authBtn"),lbl=document.getElementById("authLbl"),
+    fo=document.getElementById("auF"),iu=document.getElementById("auU"),ip=document.getElementById("auP"),ip2=document.getElementById("auP2"),
+    l2=document.getElementById("auL2"),er=document.getElementById("auE"),go=document.getElementById("auGo"),sw=document.getElementById("auSw"),
+    tt=document.getElementById("auT"),ss=document.getElementById("auS"),out=document.getElementById("auOut"),inn=document.getElementById("auIn"),
+    me=document.getElementById("auMe"),prev=null,mode="in",errKey="";
+function tr(k){return (window.T&&T.t)?T.t(k):k}
+function load(){try{return JSON.parse(localStorage.getItem(UK))||{}}catch(e){return {}}}
+function save(o){try{localStorage.setItem(UK,JSON.stringify(o));return true}catch(e){return false}}
+function session(){try{return localStorage.getItem(SK)||""}catch(e){return ""}}
+function setSession(n){try{if(n)localStorage.setItem(SK,n);else localStorage.removeItem(SK)}catch(e){}}
+function hex(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("")}
+function unhex(h){var a=new Uint8Array(h.length/2);for(var i=0;i<a.length;i++)a[i]=parseInt(h.substr(i*2,2),16);return a}
+function derive(pw,salt){
+  var c=window.crypto&&crypto.subtle;
+  if(!c)return Promise.reject(new Error("nocrypto"));
+  return c.importKey("raw",new TextEncoder().encode(pw),"PBKDF2",false,["deriveBits"]).then(function(k){
+    return c.deriveBits({name:"PBKDF2",salt:unhex(salt),iterations:150000,hash:"SHA-256"},k,256);
+  }).then(hex);
+}
+function setErr(k){errKey=k||"";er.textContent=k?tr(k):""}
+function renderBtn(){
+  var n=session(),u=load()[n.toLowerCase()];
+  if(n&&u){lbl.removeAttribute("data-i18n");lbl.textContent=u.name;btn.classList.add("in")}
+  else{if(n)setSession("");lbl.setAttribute("data-i18n","signin");lbl.textContent=tr("signin");btn.classList.remove("in")}
+  btn.querySelector("i").style.display=btn.classList.contains("in")?"none":"";
+}
+function setMode(x){
+  mode=x;var up=x==="up";
+  tt.textContent=tr(up?"auth_t_up":"auth_t_in");ss.textContent=tr(up?"auth_sub_up":"auth_sub_in");
+  go.textContent=tr(up?"auth_go_up":"auth_go_in");sw.textContent=tr(up?"auth_switch_in":"auth_switch_up");
+  l2.hidden=!up;ip.setAttribute("autocomplete",up?"new-password":"current-password");setErr(errKey);
+}
+function openM(){
+  prev=document.activeElement;var n=session(),u=load()[n.toLowerCase()];
+  if(n&&u){out.hidden=true;inn.hidden=false;me.textContent=u.name}
+  else{out.hidden=false;inn.hidden=true;fo.reset();errKey="";setMode("in")}
+  m.hidden=false;
+  setTimeout(function(){(n&&u?document.getElementById("auOutBtn"):iu).focus()},0);
+}
+function closeM(){m.hidden=true;if(prev&&prev.focus)prev.focus()}
+btn.addEventListener("click",openM);
+document.getElementById("auX").addEventListener("click",closeM);
+m.addEventListener("mousedown",function(e){if(e.target===m)closeM()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden){e.preventDefault();closeM()}});
+sw.addEventListener("click",function(){setErr("");ip.value="";ip2.value="";setMode(mode==="in"?"up":"in")});
+document.getElementById("auOutBtn").addEventListener("click",function(){setSession("");renderBtn();closeM()});
+fo.addEventListener("submit",function(e){
+  e.preventDefault();setErr("");
+  var name=iu.value.trim(),key=name.toLowerCase(),pw=ip.value,users=load();
+  function fail(k){setErr(k);go.disabled=false}
+  function ok(u){setSession(u.name);renderBtn();go.disabled=false;closeM()}
+  if(mode==="up"){
+    if(!/^[A-Za-z0-9_.-]{3,20}$/.test(name))return setErr("err_user");
+    if(pw.length<8)return setErr("err_pass");
+    if(pw!==ip2.value)return setErr("err_match");
+    if(users[key])return setErr("err_exists");
+    go.disabled=true;
+    var salt=hex(crypto.getRandomValues?crypto.getRandomValues(new Uint8Array(16)):new Uint8Array(16));
+    derive(pw,salt).then(function(h){
+      var u={name:name,salt:salt,hash:h};users[key]=u;
+      if(!save(users))return fail("err_store");
+      ok(u);
+    },function(){fail("err_crypto")});
+  }else{
+    var u=users[key];
+    if(!name||!pw)return setErr("err_bad");
+    go.disabled=true;
+    if(!u)return derive(pw,"00000000000000000000000000000000").then(function(){fail("err_bad")},function(){fail("err_crypto")});
+    derive(pw,u.salt).then(function(h){h===u.hash?ok(u):fail("err_bad")},function(){fail("err_crypto")});
+  }
+});
+document.addEventListener("langchange",function(){renderBtn();if(!m.hidden&&!out.hidden)setMode(mode)});
+renderBtn();
 })();
 </script>
 </body>
